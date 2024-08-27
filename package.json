@@ -1,0 +1,27 @@
+{
+  "name": "relaxason",
+  "description": "Shop window for the relaxason website",
+  "private": true,
+  "packageManager": "yarn@4.2.2",
+  "devDependencies": {
+    "@types/react": "^18.3.4",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "prettier": "^3.3.3",
+    "rimraf": "^5.0.10",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.2"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "scripts": {
+    "build": "vite build",
+    "check": "echo '[check] Running compilation...'; tsc --noEmit && echo '[check] Compilation succedded without errors.' && exit 0 || echo '[check] Compilation failed, please check.' && exit 1",
+    "clean": "rimraf */(dist|lib|coverage|node_modules)",
+    "compile": "tsc",
+    "preview": "vite preview",
+    "start": "vite"
+  }
+}
