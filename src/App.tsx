@@ -1,24 +1,43 @@
 import { useState } from "react";
-import "./App.css";
+import Navbar from "./components/navbar/Navbar.tsx";
+import { Button, MantineProvider, MantineThemeOverride } from "@mantine/core";
+import "@mantine/core/styles.css";
+
+const theme: MantineThemeOverride = {
+  // Override any other properties from default theme
+  fontFamily: "Helvetica, sans serif",
+  colors: {
+    brand: [
+      "#F3F0FF",
+      "#E5DBFF",
+      "#D0BFFF",
+      "#B197FC",
+      "#9775FA",
+      "#845EF7",
+      "#7950F2",
+      "#7048E8",
+      "#6741D9",
+      "#5F3DC4",
+    ],
+  },
+  primaryColor: "grape",
+  primaryShade: { light: 6, dark: 8 },
+  spacing: {
+    xs: "1rem",
+    sm: "1.2rem",
+    md: "1.8rem",
+    lg: "2.2rem",
+    xl: "2.8rem",
+  },
+};
 
 const App = () => {
   const [count, setCount] = useState(0);
 
   return (
-    <>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <MantineProvider withGlobalClasses theme={theme}>
+      <Navbar />
+    </MantineProvider>
   );
 };
 
