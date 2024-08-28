@@ -1,5 +1,6 @@
 {
   "name": "relaxason",
+  "version": "0.0.1",
   "description": "Shop window for the relaxason website",
   "private": true,
   "packageManager": "yarn@4.2.2",
@@ -29,6 +30,7 @@
   },
   "scripts": {
     "build": "vite build",
+    "build:docker": "docker build --no-cache -t relaxason:$(node -p \"require('./package.json').version\") .",
     "check": "echo '[check] Running compilation...'; tsc --noEmit && echo '[check] Compilation succedded without errors.' && exit 0 || echo '[check] Compilation failed, please check.' && exit 1",
     "clean": "rimraf */(dist|lib|coverage|node_modules)",
     "compile": "tsc",
