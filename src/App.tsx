@@ -1,43 +1,26 @@
-import { useState } from "react";
+import { FunctionComponent } from "react";
 import Navbar from "./components/navbar/Navbar.tsx";
-import { Button, MantineProvider, MantineThemeOverride } from "@mantine/core";
 import "@mantine/core/styles.css";
+import "@mantine/carousel/styles.css";
+import { Outlet } from "react-router-dom";
+import { Container, Overlay } from "@mantine/core";
+import classes from "./styles/App.module.css";
 
-const theme: MantineThemeOverride = {
-  // Override any other properties from default theme
-  fontFamily: "Helvetica, sans serif",
-  colors: {
-    brand: [
-      "#F3F0FF",
-      "#E5DBFF",
-      "#D0BFFF",
-      "#B197FC",
-      "#9775FA",
-      "#845EF7",
-      "#7950F2",
-      "#7048E8",
-      "#6741D9",
-      "#5F3DC4",
-    ],
-  },
-  primaryColor: "grape",
-  primaryShade: { light: 6, dark: 8 },
-  spacing: {
-    xs: "1rem",
-    sm: "1.2rem",
-    md: "1.8rem",
-    lg: "2.2rem",
-    xl: "2.8rem",
-  },
-};
-
-const App = () => {
-  const [count, setCount] = useState(0);
-
+const App: FunctionComponent = () => {
   return (
-    <MantineProvider withGlobalClasses theme={theme}>
+    <>
       <Navbar />
-    </MantineProvider>
+      <div className={classes.hero}>
+        <Overlay
+          gradient="linear-gradient(180deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, .65) 40%)"
+          opacity={1}
+          zIndex={0}
+        />
+        <Container className={classes.container} size={"xl"}>
+          <Outlet />
+        </Container>
+      </div>
+    </>
   );
 };
 

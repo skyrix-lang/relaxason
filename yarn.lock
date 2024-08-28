@@ -512,6 +512,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mantine/carousel@npm:^7.12.1":
+  version: 7.12.1
+  resolution: "@mantine/carousel@npm:7.12.1"
+  peerDependencies:
+    "@mantine/core": 7.12.1
+    "@mantine/hooks": 7.12.1
+    embla-carousel-react: ">=7.0.0"
+    react: ^18.2.0
+    react-dom: ^18.2.0
+  checksum: 10c0/47242826f9c3782fd21149fe3efc31ec1a55f60e285f2d528669e2488df99df4f0d5402ce18ce2258f342e0523ae33a7e22aa313eb09c395ec54085080b34bc2
+  languageName: node
+  linkType: hard
+
 "@mantine/core@npm:^7.12.1":
   version: 7.12.1
   resolution: "@mantine/core@npm:7.12.1"
@@ -592,6 +605,13 @@ __metadata:
   version: 0.11.0
   resolution: "@pkgjs/parseargs@npm:0.11.0"
   checksum: 10c0/5bd7576bb1b38a47a7fc7b51ac9f38748e772beebc56200450c4a817d712232b8f1d3ef70532c80840243c657d491cf6a6be1e3a214cff907645819fdc34aadd
+  languageName: node
+  linkType: hard
+
+"@remix-run/router@npm:1.19.1":
+  version: 1.19.1
+  resolution: "@remix-run/router@npm:1.19.1"
+  checksum: 10c0/9101fc96646e5107b6b0ef248d4c93bd965590c37ac02d35bcc57d1902467db7fc6eeec0a1fb97d0ce5bc96fae58e75239555e44a983239a61badba18e82d3b8
   languageName: node
   linkType: hard
 
@@ -1080,6 +1100,43 @@ __metadata:
   version: 1.5.13
   resolution: "electron-to-chromium@npm:1.5.13"
   checksum: 10c0/1d88ac39447e1d718c4296f92fe89836df4688daf2d362d6c49108136795f05a56dd9c950f1c6715e0395fa037c3b5f5ea686c543fdc90e6d74a005877c45022
+  languageName: node
+  linkType: hard
+
+"embla-carousel-autoplay@npm:^8.2.0":
+  version: 8.2.0
+  resolution: "embla-carousel-autoplay@npm:8.2.0"
+  peerDependencies:
+    embla-carousel: 8.2.0
+  checksum: 10c0/ee92a9ca0a1303b2fef8e54e45404dd54c5163cc9627905341ab5bed5ac7812988cb5640394a50c1edd4d685bda76cb9e37013dd4940868eea522f02c5eb89d5
+  languageName: node
+  linkType: hard
+
+"embla-carousel-react@npm:^8.2.0":
+  version: 8.2.0
+  resolution: "embla-carousel-react@npm:8.2.0"
+  dependencies:
+    embla-carousel: "npm:8.2.0"
+    embla-carousel-reactive-utils: "npm:8.2.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.1 || ^18.0.0
+  checksum: 10c0/0ec9f1eab2f869a56c8f87fdafd0c3cbfcff8124fa68b72079ee6f912179b0f082e07144a07ffa1740344aac6afe6cc1fa084d1cc705bd4376ff605910b8b296
+  languageName: node
+  linkType: hard
+
+"embla-carousel-reactive-utils@npm:8.2.0":
+  version: 8.2.0
+  resolution: "embla-carousel-reactive-utils@npm:8.2.0"
+  peerDependencies:
+    embla-carousel: 8.2.0
+  checksum: 10c0/8b29914d557aed3f592af6c84722310f57fd722a97a88e9ecb5710fa015851d16fc66643202ce73ca4898bb07661ea017317320bd1547d0fe236868d35fc5e7d
+  languageName: node
+  linkType: hard
+
+"embla-carousel@npm:8.2.0":
+  version: 8.2.0
+  resolution: "embla-carousel@npm:8.2.0"
+  checksum: 10c0/17736c2042d21cd54e978b7382acffb6035cec6ec3899f000c953ba9335ed03499fb1fcdbaa7e1400c379bd296a5bbd7a4d27ddc5ccf1d738862cfdb2421259a
   languageName: node
   linkType: hard
 
@@ -1980,6 +2037,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-router-dom@npm:^6.26.1":
+  version: 6.26.1
+  resolution: "react-router-dom@npm:6.26.1"
+  dependencies:
+    "@remix-run/router": "npm:1.19.1"
+    react-router: "npm:6.26.1"
+  peerDependencies:
+    react: ">=16.8"
+    react-dom: ">=16.8"
+  checksum: 10c0/9d9d8ed54d1c95497c6fa35a6ab46992efeccf1cfc6f0f6089c6c9b040af3eae09568fbb80c690bae08051a955d92d7aa3a0e730f626eb69285114993d31d430
+  languageName: node
+  linkType: hard
+
+"react-router@npm:6.26.1":
+  version: 6.26.1
+  resolution: "react-router@npm:6.26.1"
+  dependencies:
+    "@remix-run/router": "npm:1.19.1"
+  peerDependencies:
+    react: ">=16.8"
+  checksum: 10c0/463078e740462b42bb5ba8004448f33fc9e63778f432a4ed55c57b93c5b519e25fb17913ee8435b0fda33c6b9f75df8ef6fcb2c3a4f8db84fb546d202e29aa51
+  languageName: node
+  linkType: hard
+
 "react-style-singleton@npm:^2.2.1":
   version: 2.2.1
   resolution: "react-style-singleton@npm:2.2.1"
@@ -2030,18 +2111,22 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "relaxason@workspace:."
   dependencies:
+    "@mantine/carousel": "npm:^7.12.1"
     "@mantine/core": "npm:^7.12.1"
     "@mantine/hooks": "npm:^7.12.1"
     "@tabler/icons-react": "npm:^3.14.0"
     "@types/react": "npm:^18.3.4"
     "@types/react-dom": "npm:^18.3.0"
     "@vitejs/plugin-react": "npm:^4.3.1"
+    embla-carousel-autoplay: "npm:^8.2.0"
+    embla-carousel-react: "npm:^8.2.0"
     postcss: "npm:^8.4.41"
     postcss-preset-mantine: "npm:^1.17.0"
     postcss-simple-vars: "npm:^7.0.1"
     prettier: "npm:^3.3.3"
     react: "npm:^18.3.1"
     react-dom: "npm:^18.3.1"
+    react-router-dom: "npm:^6.26.1"
     rimraf: "npm:^5.0.10"
     typescript: "npm:^5.5.4"
     vite: "npm:^5.4.2"

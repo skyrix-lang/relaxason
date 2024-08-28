@@ -17,8 +17,9 @@ const Navbar: FunctionComponent<INavbarProps> = ({}) => {
   const [opened, { toggle }] = useDisclosure(false);
 
   const links: ILink[] = [
-    { link: "/about/me", label: "Qui suis-je ?" },
-    { link: "/about/sonotherapie", label: "La sonothérapie, c'est quoi ?" },
+    { link: "/", label: "Accueil" },
+    { link: "/about#me", label: "Mon parcours" },
+    { link: "/about#sonotherapie", label: "La sonothérapie, c'est quoi ?" },
     {
       link: "/soins",
       label: "Soins proposés",
@@ -29,14 +30,9 @@ const Navbar: FunctionComponent<INavbarProps> = ({}) => {
           link: "/atelier-expansion-conscience",
           label: "Atelier d'expansion de conscience",
         },
-        {
-          link: "/autres",
-          label: "Autres",
-          links: [
-            { link: "/drainage", label: "Drainage de bien-être" },
-            { link: "/massage-suedois", label: "Massage suédois" },
-          ],
-        },
+        { link: "/drainage", label: "Drainage de bien-être" },
+        { link: "/massage-suedois", label: "Massage suédois" },
+        { link: "/tarifs", label: "Tarifs" },
       ],
     },
     { link: "/temoignages", label: "Témoignagnes" },
@@ -52,7 +48,6 @@ const Navbar: FunctionComponent<INavbarProps> = ({}) => {
         },
       ],
     },
-    { link: "/tarifs", label: "Tarifs" },
     { link: "/contact", label: "Me contacter" },
     { link: "/plan", label: "Plan d'accès" },
   ];

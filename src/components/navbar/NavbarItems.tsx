@@ -3,15 +3,22 @@ import { FunctionComponent } from "react";
 import { ILink } from "./Navbar.tsx";
 import classes from "../../styles/Navbar.module.css";
 import { IconChevronDown } from "@tabler/icons-react";
+import { Link } from "react-router-dom";
 
-interface NavbarButtonProps {
+interface INavbarButtonProps {
   links: ILink[];
 }
 
-const NavbarItems: FunctionComponent<NavbarButtonProps> = ({ links }) => {
+const NavbarItems: FunctionComponent<INavbarButtonProps> = ({ links }) => {
   return links.map((link) => {
     const menuItems = link.links?.map((item) => (
-      <Menu.Item key={item.link}>{item.label}</Menu.Item>
+      <Link
+        key={item.link}
+        to={item.link.includes("http") ? item.link : link.link + item.link}
+        style={{ textDecoration: "none" }}
+      >
+        <Menu.Item key={item.link}>{item.label}</Menu.Item>
+      </Link>
     ));
 
     if (menuItems) {
@@ -40,14 +47,9 @@ const NavbarItems: FunctionComponent<NavbarButtonProps> = ({ links }) => {
     }
 
     return (
-      <a
-        key={link.label}
-        href={link.link}
-        className={classes.link}
-        onClick={(event) => event.preventDefault()}
-      >
+      <Link key={link.link} to={link.link} className={classes.link}>
         {link.label}
-      </a>
+      </Link>
     );
   });
 };
