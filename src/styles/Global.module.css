@@ -1,0 +1,180 @@
+.aboutWrapper {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 2rem 1.5rem;
+	background-color: #F5FFFA; /* mintcream */
+}
+
+/* Section Titles with Underline */
+.sectionTitle {
+	position: relative;
+	display: inline-block;
+	margin-bottom: 1.5rem;
+	color: #1A9E8E; /* brand.7 */
+	font-weight: 600;
+}
+
+.titleUnderline {
+	position: absolute;
+	bottom: -0.5rem;
+	left: 0;
+	width: 60%;
+	height: 3px;
+	background: linear-gradient(90deg, #3DCFBC 0%, #5FD8C8 100%);
+	border-radius: 2px;
+}
+
+/* Fade In Animation for Sections */
+.fadeInSection {
+	opacity: 0;
+	transform: translateY(20px);
+	transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+	will-change: opacity, transform;
+}
+
+.fadeInSection.visible {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+/* Card Styles */
+.serviceCard {
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+	background-color: white;
+	border-radius: 8px;
+	overflow: hidden;
+	height: 100%;
+}
+
+.serviceCard:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 10px 20px rgba(0, 105, 92, 0.1);
+}
+
+/* Content Wrappers */
+.contentWrapper {
+	padding: 2rem 0;
+}
+
+.contentWrapperAlt {
+	padding: 2rem 0;
+	background-color: #E6F9F7; /* brand.0 */
+}
+
+/* Image Styles */
+.roundedImage {
+	border-radius: 12px;
+	overflow: hidden;
+}
+
+.fullWidthImage {
+	width: 100%;
+	height: auto;
+	object-fit: cover;
+}
+
+/* Quote/Testimonial Styles */
+.quote {
+	font-style: italic;
+	padding: 1.5rem;
+	border-left: 4px solid #3DCFBC; /* brand.5 */
+	background-color: #F8FDFC; /* secondaryBackground */
+	border-radius: 0 8px 8px 0;
+}
+
+/* Utility Classes */
+.textCenter {
+	text-align: center;
+}
+
+.flexCenter {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.flexBetween {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.flexColumn {
+	display: flex;
+	flex-direction: column;
+}
+
+/* Responsive Grid */
+.grid {
+	display: grid;
+	grid-template-columns: repeat(12, 1fr);
+	gap: 2rem;
+}
+
+/* Spacing Utilities */
+.mt1 { margin-top: 0.75rem; }
+.mt2 { margin-top: 1rem; }
+.mt3 { margin-top: 1.5rem; }
+.mt4 { margin-top: 2rem; }
+.mt5 { margin-top: 3rem; }
+
+.mb1 { margin-bottom: 0.75rem; }
+.mb2 { margin-bottom: 1rem; }
+.mb3 { margin-bottom: 1.5rem; }
+.mb4 { margin-bottom: 2rem; }
+.mb5 { margin-bottom: 3rem; }
+
+/* Specific Section Styles for Sonotherapy */
+.sonoSection {
+	scroll-margin-top: 100px;
+	padding: 3rem 0;
+	background-image: linear-gradient(180deg, #F5FFFA 0%, #E6F9F7 100%);
+	border-radius: 8px;
+}
+
+/* Button Styles */
+.ctaButton {
+	background: linear-gradient(135deg, #3DCFBC 0%, #2BB9A7 100%);
+	color: white;
+	padding: 0.75rem 1.5rem;
+	border-radius: 8px;
+	font-weight: 500;
+	transition: all 0.3s ease;
+	border: none;
+	cursor: pointer;
+	text-align: center;
+	display: inline-block;
+}
+
+.ctaButton:hover {
+	background: linear-gradient(135deg, #2BB9A7 0%, #1A9E8E 100%);
+	transform: translateY(-2px);
+	box-shadow: 0 6px 12px rgba(0, 105, 92, 0.15);
+}
+
+/* Media Queries */
+@media (max-width: 992px) {
+	.grid {
+		gap: 1.5rem;
+	}
+}
+
+@media (max-width: 768px) {
+	.aboutWrapper {
+		padding: 1.5rem 1rem;
+	}
+
+	.sonoSection {
+		padding: 2rem 0;
+	}
+}
+
+@media (max-width: 576px) {
+	.titleUnderline {
+		width: 80%;
+	}
+
+	.grid {
+		gap: 1rem;
+	}
+}
