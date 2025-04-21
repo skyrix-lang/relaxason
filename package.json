@@ -5,6 +5,9 @@
   "private": true,
   "packageManager": "yarn@4.9.1",
   "devDependencies": {
+    "@netlify/functions": "^3.1.2",
+    "@types/node": "^22.14.1",
+    "@types/nodemailer": "^6.4.17",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react": "^4.3.4",
@@ -13,7 +16,7 @@
     "postcss-simple-vars": "^7.0.1",
     "prettier": "^3.5.3",
     "rimraf": "^5.0.10",
-    "typescript": "^5.8.2",
+    "typescript": "^5.8.3",
     "vite": "^5.4.14",
     "vite-tsconfig-paths": "^5.1.4"
   },
@@ -22,12 +25,16 @@
     "@mantine/form": "^7.17.1",
     "@mantine/hooks": "^7.17.1",
     "@tabler/icons-react": "^3.30.0",
+    "nodemailer": "^6.10.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.30.0"
   },
   "scripts": {
     "build": "vite build",
+    "build:functions": "tsc -p tsconfig.functions.json",
+    "netlify:build": "yarn build && yarn build:functions",
+    "netlify:dev": "netlify dev --port 8888",
     "docker:build": "docker build --no-cache -t relaxason:$(node -p \"require('./package.json').version\") .",
     "check": "echo '[check] Running compilation...'; tsc --noEmit && echo '[check] Compilation succedded without errors.' && exit 0 || echo '[check] Compilation failed, please check.' && exit 1",
     "clean": "rimraf */(dist|lib|coverage|node_modules)",

@@ -158,7 +158,7 @@ const Home: FunctionComponent = () => {
             <Grid.Col
               span={{ base: 12, md: 6 }}
               pt={{ base: "xl", md: 0 }}
-              className={styles.hidden}
+              className={global.hidden}
             >
               <div
                 className={
@@ -201,6 +201,7 @@ const Home: FunctionComponent = () => {
 
         {/* Scroll down indicator */}
         <Button
+          className={global.hidden}
           variant="subtle"
           color="brand.7"
           style={{
@@ -238,7 +239,7 @@ const Home: FunctionComponent = () => {
           <Grid.Col
             span={{ base: 12, md: 6 }}
             order={{ base: 2, md: 1 }}
-            className={styles.hidden}
+            className={global.hidden}
           >
             <Image
               src={outils}

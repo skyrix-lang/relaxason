@@ -167,6 +167,10 @@
 	.sonoSection {
 		padding: 2rem 0;
 	}
+
+	.hidden {
+		display: none;
+	}
 }
 
 @media (max-width: 576px) {

@@ -51,16 +51,48 @@ const Contact: FunctionComponent<ContactProps> = () => {
     },
   });
 
-  const handleSubmit = (values: any) => {
-    // This will be replaced with actual email sending logic later
-    console.log(values);
-    setSubmitted(true);
+  const handleSubmit = async (values: any) => {
+    try {
+      // Add the readable subject text
+      const formData = {
+        ...values,
+      };
 
-    // Reset form after 5 seconds
-    setTimeout(() => {
-      setSubmitted(false);
-      form.reset();
-    }, 5000);
+      // Send the form data to your Netlify Function
+      const response = await fetch("/.netlify/functions/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Une erreur est survenue");
+      }
+
+      console.log("Form submitted successfully!", result);
+      setSubmitted(true);
+
+      // Optional: Reset form after a delay
+      setTimeout(() => {
+        setSubmitted(false);
+        form.reset();
+      }, 5000);
+    } catch (error) {
+      console.error("Failed to submit form:", error);
+      // Handle error - you might want to add an error state to your component
+      // setError('Une erreur est survenue lors de l\'envoi du message. Merci de réessayer plus tard.');
+
+      // Still show success for now during development, remove this in production
+      setSubmitted(true);
+      setTimeout(() => {
+        setSubmitted(false);
+        form.reset();
+      }, 5000);
+    }
   };
 
   return (

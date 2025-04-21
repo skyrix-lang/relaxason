@@ -4,6 +4,7 @@ import logo from "../../assets/logo_relaxason.png";
 import { useDisclosure } from "@mantine/hooks";
 import NavbarItems from "./NavbarItems.tsx";
 import classes from "../../styles/Navbar.module.css";
+import global from "../../styles/Global.module.css";
 
 export interface ILink {
   link: string;
@@ -56,7 +57,7 @@ const Navbar: FunctionComponent<INavbarProps> = () => {
     <header className={classes.header}>
       <Container size="xl">
         <div className={classes.inner}>
-          <a href="/" className={classes.logoContainer}>
+          <a href="/" className={`${classes.logoContainer} ${global.hidden}`}>
             <Image h={55} src={logo} alt="Relaxason logo" />
           </a>
 
