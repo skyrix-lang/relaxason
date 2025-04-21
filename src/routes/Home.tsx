@@ -200,29 +200,30 @@ const Home: FunctionComponent = () => {
         />
 
         {/* Scroll down indicator */}
-        <Button
-          className={global.hidden}
-          variant="subtle"
-          color="brand.7"
-          style={{
-            position: "absolute",
-            bottom: "60px",
-            left: "50%",
-            transform: "translateX(-50%)",
-            zIndex: 3,
-            padding: "12px",
-            borderRadius: "50%",
-            width: "60px",
-            height: "60px",
-          }}
-          onClick={() => {
-            document
-              .getElementById("intro")
-              ?.scrollIntoView({ behavior: "smooth" });
-          }}
-        >
-          <IconArrowDown size={28} />
-        </Button>
+        <div className={global.hidden}>
+          <Button
+            variant="subtle"
+            color="brand.7"
+            style={{
+              position: "absolute",
+              bottom: "60px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              zIndex: 3,
+              padding: "12px",
+              borderRadius: "50%",
+              width: "60px",
+              height: "60px",
+            }}
+            onClick={() => {
+              document
+                .getElementById("intro")
+                ?.scrollIntoView({ behavior: "smooth" });
+            }}
+          >
+            <IconArrowDown size={28} />
+          </Button>
+        </div>
       </section>
 
       {/* Section Introduction */}

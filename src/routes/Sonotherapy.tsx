@@ -246,7 +246,12 @@ const Sonotherapy: FunctionComponent = () => {
         </Paper>
 
         <Paper p="xl" radius="lg" mb={30} className={global.sonoSection}>
-          <Text size="lg" ta="center" className={global.quote}>
+          <Text
+            size="lg"
+            ta="center"
+            className={global.quote}
+            style={{ padding: "1.5rem" }}
+          >
             En résonnance avec notre corps, ces fréquences sonores apaisent le
             mental, libèrent les tensions et aident à retrouver un équilibre
             intérieur.

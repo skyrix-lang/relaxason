@@ -1,41 +1,65 @@
 import { FunctionComponent } from "react";
 import {
+  Box,
   Button,
   Container,
   Image,
   SimpleGrid,
+  Space,
   Text,
   Title,
 } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import image from "../assets/error404.svg";
+import global from "../styles/Global.module.css";
 import classes from "../styles/Error404.module.css";
+import app from "../styles/App.module.css";
 
 const Error404: FunctionComponent = () => {
   const navigate = useNavigate();
+
   return (
-    <Container className={classes.root}>
-      <SimpleGrid spacing={80} cols={2}>
-        <Image src={image} />
-        <div>
-          <Title className={classes.title}>
-            {"Oups... Quelque chose ne va pas !"}
-          </Title>
-          <Text color="dimmed" size="lg">
-            {"Cette page n'existe pas."}
-          </Text>
-          <Button
-            variant="outline"
-            size="md"
-            mt="xl"
-            className={classes.control}
-            onClick={() => navigate("/")}
-          >
-            {"Retour sur la page d'accueil"}
-          </Button>
-        </div>
-      </SimpleGrid>
-    </Container>
+    <div className={app.hero}>
+      <Container size="xl" className={classes.container}>
+        <SimpleGrid
+          cols={{ base: 1, md: 2 }}
+          spacing={{ base: "xl", md: 80 }}
+          className={global.fadeInSection + " " + global.visible}
+        >
+          <div className={global.flexCenter}>
+            <Image
+              src={image}
+              alt="Page non trouvée"
+              className={classes.errorImage}
+            />
+          </div>
+
+          <div className={global.flexColumn + " " + global.mt3}>
+            <Title order={2} className={global.sectionTitle}>
+              <Box component="span" className={global.titleUnderline} />
+              Oups... Quelque chose ne va pas !
+            </Title>
+            <Space h="md" />
+
+            <Text p={10} size="lg" className={global.mb3}>
+              Cette page n'existe pas ou a été déplacée.
+            </Text>
+
+            <Button
+              mt={10}
+              p={10}
+              variant="filled"
+              size="md"
+              radius="md"
+              className={global.ctaButton}
+              onClick={() => navigate("/")}
+            >
+              Retour sur la page d'accueil
+            </Button>
+          </div>
+        </SimpleGrid>
+      </Container>
+    </div>
   );
 };
 

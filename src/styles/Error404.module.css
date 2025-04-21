@@ -7,3 +7,34 @@
     font-weight: 900;
     font-size: rem(34);
 }
+
+.errorImage {
+	max-width: 100%;
+	height: auto;
+	margin: 0 auto;
+	transition: transform 0.3s ease;
+}
+
+.errorImage:hover {
+	transform: scale(1.03);
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 992px) {
+	.errorImage {
+		max-width: 90%;
+	}
+}
+
+@media (max-width: 768px) {
+	.errorImage {
+		max-width: 80%;
+		margin: 2rem auto;
+	}
+}
+
+@media (max-width: 576px) {
+	.errorImage {
+		max-width: 100%;
+	}
+}

@@ -135,7 +135,7 @@ const Contact: FunctionComponent<ContactProps> = () => {
                 </ThemeIconStyled>
                 <Box>
                   <Text fw={700}>Email</Text>
-                  <Text>contact@sonotherapie.fr</Text>
+                  <Text>misterdb01@gmail.com</Text>
                 </Box>
               </Flex>
 
@@ -170,8 +170,8 @@ const Contact: FunctionComponent<ContactProps> = () => {
             <Text
               mt="md"
               size="sm"
+              style={{ marginTop: "auto", padding: "1.5rem" }}
               className={global.quote}
-              style={{ marginTop: "auto" }}
             >
               Je vous répondrai dans les plus brefs délais, généralement sous 24
               à 48 heures ouvrées. N'hésitez pas à laisser un numéro de
