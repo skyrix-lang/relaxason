@@ -1,18 +1,18 @@
+// netlify/functions/send-email.ts
 import { Handler } from "@netlify/functions";
-import nodemailer from "nodemailer";
+import * as Brevo from "@getbrevo/brevo";
 
-// Type definitions
 interface ContactFormData {
   name: string;
   email: string;
   phone?: string;
-  reason?: string;
   subject?: string;
   message: string;
+  reason: string;
 }
 
 const handler: Handler = async (event) => {
-  // Only allow POST requests
+  // N'autoriser que les requêtes POST
   if (event.httpMethod !== "POST") {
     return {
       statusCode: 405,
@@ -21,83 +21,96 @@ const handler: Handler = async (event) => {
   }
 
   try {
-    // Parse the request body
+    // Analyser le corps de la requête
     const data: ContactFormData = JSON.parse(event.body || "{}");
 
-    // Basic validation
-    if (!data.name || !data.email || !data.message) {
+    // Validation de base
+    if (!data.name || !data.email || !data.message || !data.reason) {
       return {
         statusCode: 400,
-        body: JSON.stringify({ error: "Missing required fields" }),
+        body: JSON.stringify({ error: "Champs obligatoires manquants" }),
       };
     }
 
-    // Create transporter using environment variables
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: parseInt(process.env.SMTP_PORT || "587"),
-      secure: process.env.SMTP_PORT === "465",
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    });
-
-    // Get subject text or default
+    // Obtenir le texte du sujet ou utiliser la raison de contact
     const emailSubject =
-      data.reason ||
-      getSubjectLabel(data.subject) ||
+      data.subject ||
+      getReasonLabel(data.reason) ||
       "Nouveau message de contact";
 
-    // Send email
-    await transporter.sendMail({
-      from: `"Contact Sonothérapie" <${process.env.SMTP_USER}>`,
-      to: process.env.RECIPIENT_EMAIL,
-      replyTo: data.email,
-      subject: `[Site Web] ${emailSubject}`,
-      html: `
-        <div style="font-family: Arial, sans-serif; line-height: 1.6;">
-          <h2 style="color: #1A9E8E;">Nouveau message de contact</h2>
-          <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px;">
-            <p><strong>Nom:</strong> ${data.name}</p>
-            <p><strong>Email:</strong> ${data.email}</p>
-            <p><strong>Téléphone:</strong> ${data.phone || "Non renseigné"}</p>
-            <p><strong>Sujet:</strong> ${emailSubject}</p>
-          </div>
-          <div style="background-color: #f0f0f0; padding: 15px; border-radius: 5px; margin-top: 20px;">
-            <h3>Message:</h3>
-            <p>${data.message.replace(/\n/g, "<br/>")}</p>
-          </div>
+    // Configurer l'API Brevo
+    const apiInstance = new Brevo.TransactionalEmailsApi();
+    apiInstance.setApiKey(
+      Brevo.TransactionalEmailsApiApiKeys.apiKey,
+      process.env.BREVO_API_KEY as string
+    );
+
+    // Préparer l'email
+    const sendSmtpEmail = new Brevo.SendSmtpEmail();
+
+    // Définir les destinataires
+    sendSmtpEmail.to = [{ email: process.env.RECIPIENT_EMAIL as string }];
+
+    // Définir l'expéditeur (doit être vérifié dans Brevo)
+    sendSmtpEmail.sender = {
+      name: "Contact Sonothérapie",
+      email: process.env.BREVO_SENDER_EMAIL as string,
+    };
+
+    // Définir le sujet
+    sendSmtpEmail.subject = `[Site Web] ${emailSubject}`;
+
+    // Définir le contenu HTML
+    sendSmtpEmail.htmlContent = `
+      <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+        <h2 style="color: #1A9E8E;">Nouveau message de contact</h2>
+        <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px;">
+          <p><strong>Nom:</strong> ${data.name}</p>
+          <p><strong>Email:</strong> ${data.email}</p>
+          <p><strong>Téléphone:</strong> ${data.phone || "Non renseigné"}</p>
+          <p><strong>Raison de contact:</strong> ${getReasonLabel(data.reason)}</p>
+          ${data.subject ? `<p><strong>Sujet:</strong> ${data.subject}</p>` : ""}
         </div>
-      `,
-    });
+        <div style="background-color: #f0f0f0; padding: 15px; border-radius: 5px; margin-top: 20px;">
+          <h3>Message:</h3>
+          <p>${data.message.replace(/\n/g, "<br/>")}</p>
+        </div>
+      </div>
+    `;
+
+    // Définir l'adresse de réponse
+    sendSmtpEmail.replyTo = { email: data.email };
+
+    // Envoyer l'email
+    await apiInstance.sendTransacEmail(sendSmtpEmail);
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: "Email sent successfully" }),
+      body: JSON.stringify({ message: "Email envoyé avec succès" }),
     };
   } catch (error) {
     console.error("Error sending email:", error);
 
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: "Failed to send email" }),
+      body: JSON.stringify({ error: "Échec de l'envoi de l'email" }),
     };
   }
 };
 
-// Helper function to map subject codes to labels
-function getSubjectLabel(subject?: string): string {
-  if (!subject) return "Demande de contact";
+// Fonction auxiliaire pour associer les raisons de contact à des libellés
+function getReasonLabel(reason: string): string {
+  if (!reason) return "Demande de contact";
 
-  const subjectMap: Record<string, string> = {
+  const reasonMap: Record<string, string> = {
     info: "Demande d'information",
     rdv: "Prise de rendez-vous",
     pricing: "Demande de tarifs",
+    workshop: "Information sur les ateliers",
     other: "Autre sujet",
   };
 
-  return subjectMap[subject] || subject;
+  return reasonMap[reason] || reason;
 }
 
 export { handler };
