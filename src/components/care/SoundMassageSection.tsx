@@ -61,7 +61,7 @@ const SoundMassageSection: FC<SoundMassageSectionProps> = ({ isVisible }) => {
               Une expérience inoubliable de bien-être profond
             </Text>
             <Text mb="md">
-              Allongé confortablement sur une table de massage, habillé,
+              Allongé(e) confortablement sur une table de massage, habillé(e),
               découvrez le pouvoir apaisant du massage sonore individuel. Une
               méthode douce et immersive qui utilise les vibrations des bols et
               des diapasons thérapeutiques posés sur vous pour rééquilibrer le

@@ -33,7 +33,7 @@ const Treatments: FC = () => {
           Soins Proposés
         </Title>
         <Text size="lg" mb="xl" maw={800} mx="auto">
-          Découvrez notre gamme complète de soins thérapeutiques conçus pour
+          Découvrez ma liste complète de soins thérapeutiques conçus pour
           harmoniser votre corps et votre esprit à travers le son et le toucher.
         </Text>
       </div>
