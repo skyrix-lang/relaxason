@@ -13,6 +13,7 @@ import {
 } from "@mantine/core";
 import { IconMassage } from "@tabler/icons-react";
 import global from "../../styles/Global.module.css";
+import massage from "../../assets/massage.jpg";
 
 interface SwedishMassageSectionProps {
   isVisible: boolean;
@@ -59,7 +60,7 @@ const SwedishMassageSection: FC<SwedishMassageSectionProps> = ({
           <Grid.Col span={{ base: 12, md: 6 }}>
             <div className={global.roundedImage}>
               <Image
-                src="/images/massage-suedois.jpg"
+                src={massage}
                 alt="Massage Suédois"
                 height={400}
                 className={global.fullWidthImage}

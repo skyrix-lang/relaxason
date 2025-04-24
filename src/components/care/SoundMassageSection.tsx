@@ -13,7 +13,7 @@ import {
 } from "@mantine/core";
 import { IconAlertTriangle, IconWaveSine } from "@tabler/icons-react";
 import global from "../../styles/Global.module.css";
-import massage from "../../assets/massage.jpg";
+import bolsDos from "../../assets/bols-dos.jpg";
 
 interface SoundMassageSectionProps {
   isVisible: boolean;
@@ -42,7 +42,7 @@ const SoundMassageSection: FC<SoundMassageSectionProps> = ({ isVisible }) => {
           <Grid.Col span={{ base: 12, md: 6 }}>
             <div className={global.roundedImage}>
               <Image
-                src={massage}
+                src={bolsDos}
                 alt="Massage Sonore Individuel"
                 className={global.fullWidthImage}
                 fallbackSrc="https://placehold.co/600x400?text=Massage+Sonore"
@@ -75,23 +75,6 @@ const SoundMassageSection: FC<SoundMassageSectionProps> = ({ isVisible }) => {
             <Badge color="brand" size="lg" mt="md">
               60-90 minutes | Session individuelle
             </Badge>
-            <Alert
-              mt="xl"
-              icon={<IconAlertTriangle size={16} />}
-              title="Précautions importantes"
-              color="accent.5"
-              radius="md"
-            >
-              <Text>La sonothérapie est à éviter pour les personnes :</Text>
-              <List size="sm" mt="xs">
-                <List.Item>Portant un pacemaker ou stent</List.Item>
-                <List.Item>Épileptiques</List.Item>
-                <List.Item>Souffrant d'asthme grave</List.Item>
-                <List.Item>
-                  Femmes enceintes de moins de 4 mois ou de plus de 8 mois
-                </List.Item>
-              </List>
-            </Alert>
           </Grid.Col>
         </Grid>
 
@@ -139,6 +122,22 @@ const SoundMassageSection: FC<SoundMassageSectionProps> = ({ isVisible }) => {
           Offrez-vous un moment unique de recentrage et d'harmonie intérieure,
           pour un bien-être durable et une paix retrouvée.
         </Text>
+        <Alert
+          icon={<IconAlertTriangle size={16} />}
+          title="Précautions importantes"
+          color="accent.5"
+          radius="md"
+        >
+          <Text>La sonothérapie est à éviter pour les personnes :</Text>
+          <List size="sm" mt="xs">
+            <List.Item>Portant un pacemaker ou stent</List.Item>
+            <List.Item>Épileptiques</List.Item>
+            <List.Item>Souffrant d'asthme grave</List.Item>
+            <List.Item>
+              Femmes enceintes de moins de 4 mois ou de plus de 8 mois
+            </List.Item>
+          </List>
+        </Alert>
       </Paper>
     </div>
   );
