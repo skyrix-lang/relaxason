@@ -9,6 +9,7 @@ import Home from "./routes/Home.tsx";
 import Contact from "./routes/Contact.tsx";
 import "./index.css";
 import Sonotherapy from "./routes/Sonotherapy.tsx";
+import Treatments from "./routes/Treatments.tsx";
 
 const theme: MantineThemeOverride = {
   // Base font and configuration
@@ -106,7 +107,7 @@ const theme: MantineThemeOverride = {
       defaultProps: {
         radius: "md",
       },
-      styles: (theme: any) => ({
+      styles: () => ({
         root: {
           fontWeight: 500,
         },
@@ -171,6 +172,10 @@ const router = createBrowserRouter([
       {
         path: "/contact",
         element: <Contact />,
+      },
+      {
+        path: "/soins",
+        element: <Treatments />,
       },
     ],
   },

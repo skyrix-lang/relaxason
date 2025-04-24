@@ -80,8 +80,9 @@ const NavbarItems: FunctionComponent<INavbarButtonProps> = ({ links }) => {
           }}
         >
           <Menu.Target>
-            <a
-              href={link.link}
+            <Link
+              key={link.link}
+              to={link.link}
               className={`${classes.link} ${isActive ? classes.linkActive : ""}`}
               onClick={(event) => event.preventDefault()}
             >
@@ -97,7 +98,7 @@ const NavbarItems: FunctionComponent<INavbarButtonProps> = ({ links }) => {
                   className={classes.chevron}
                 />
               </Center>
-            </a>
+            </Link>
           </Menu.Target>
           <Menu.Dropdown>{menuItems}</Menu.Dropdown>
         </Menu>

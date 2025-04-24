@@ -4,6 +4,7 @@ import { IconChevronRight } from "@tabler/icons-react";
 import global from "../../styles/Global.module.css";
 import outils from "../../assets/outils.jpg";
 import { VisibleSectionProps } from "../../routes/Home.tsx";
+import { Link } from "react-router-dom";
 
 const IntroSection: FC<VisibleSectionProps> = ({ visible }) => {
   return (
@@ -62,8 +63,8 @@ const IntroSection: FC<VisibleSectionProps> = ({ visible }) => {
             variant="light"
             color="brand.6"
             size="md"
-            component="a"
-            href="/sonotherapie"
+            component={Link}
+            to="/sonotherapie"
             rightSection={<IconChevronRight size={18} />}
           >
             En savoir plus

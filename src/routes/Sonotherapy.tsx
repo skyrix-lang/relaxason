@@ -2,7 +2,7 @@ import { FC } from "react";
 import global from "../styles/Global.module.css";
 import useScrollVisibility from "../hooks/useScrollVisibility";
 import useScrollToHash from "../hooks/useScrollToHash";
-import SonotherapyIntro from "../components/sonotherapy/SonotherapyIntro";
+import SonotherapyIntro from "../components/sonotherapy/SonotherapyIntro.tsx";
 import BenefitsSection from "../components/sonotherapy/BenefitsSection";
 import VideoSection from "../components/sonotherapy/VideoSection";
 import CallToAction from "../components/sonotherapy/CallToAction";

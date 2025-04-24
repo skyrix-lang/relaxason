@@ -5,6 +5,7 @@ import BenefitsSection from "../components/home/BenefitsSection";
 import ServicesSection from "../components/home/ServicesSection";
 import TestimonialSection from "../components/home/TestimonialSection";
 import CTASection from "../components/home/CTASection";
+import useScrollToHash from "../hooks/useScrollToHash.ts";
 
 interface VisibleSection {
   hero: boolean;
@@ -20,6 +21,9 @@ export interface VisibleSectionProps {
 }
 
 const Home = () => {
+  // Hook to handle hash-based navigation
+  useScrollToHash();
+
   // State pour les animations au scroll
   const [visible, setVisible] = useState<VisibleSection>({
     hero: false,

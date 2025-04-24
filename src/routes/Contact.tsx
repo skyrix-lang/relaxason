@@ -7,8 +7,12 @@ import ContactInfo from "../components/contact/ContactInfo";
 import ContactForm from "../components/contact/ContactForm";
 import FaqSection from "../components/contact/FaqSection";
 import Confetti from "../components/contact/Confetti";
+import useScrollToHash from "../hooks/useScrollToHash.ts";
 
 const Contact: FunctionComponent = () => {
+  // Hook to handle hash-based navigation
+  useScrollToHash();
+
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");

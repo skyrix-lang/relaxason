@@ -1,11 +1,15 @@
 import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const useScrollToHash = () => {
+  const location = useLocation();
+
   useEffect(() => {
     // Function to handle scrolling to section based on hash
     const scrollToSection = () => {
-      if (window.location.hash) {
-        const sectionId = window.location.hash.substring(1);
+      // If hash exists, scroll to the specific section
+      if (location.hash) {
+        const sectionId = location.hash.substring(1);
         const element = document.getElementById(sectionId);
 
         if (element) {
@@ -13,20 +17,18 @@ const useScrollToHash = () => {
             element.scrollIntoView({ behavior: "smooth" });
           }, 100);
         }
+      } else {
+        // If no hash, scroll to top of the page
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
       }
     };
 
-    // Scroll on initial load
+    // Execute scroll on location change
     scrollToSection();
-
-    // Add event listener for hash changes
-    window.addEventListener("hashchange", scrollToSection);
-
-    // Cleanup
-    return () => {
-      window.removeEventListener("hashchange", scrollToSection);
-    };
-  }, []);
+  }, [location]); // Depend on location changes
 };
 
 export default useScrollToHash;

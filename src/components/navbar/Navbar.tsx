@@ -5,6 +5,7 @@ import { useDisclosure } from "@mantine/hooks";
 import NavbarItems from "./NavbarItems.tsx";
 import classes from "../../styles/Navbar.module.css";
 import global from "../../styles/Global.module.css";
+import { Link } from "react-router-dom";
 
 export interface ILink {
   link: string;
@@ -21,21 +22,21 @@ const Navbar: FunctionComponent<INavbarProps> = () => {
     { link: "/", label: "Accueil" },
     { link: "/mon-parcours", label: "Mon parcours" },
     { link: "/sonotherapie", label: "La sonothérapie, c'est quoi ?" },
-    // {
-    //   link: "/soins",
-    //   label: "Soins proposés",
-    //   links: [
-    //     { link: "/massage-sonore", label: "Massage sonore" },
-    //     { link: "/voyage-sonore-collectif", label: "Voyage sonore collectif" },
-    //     {
-    //       link: "/atelier-expansion-conscience",
-    //       label: "Atelier d'expansion de conscience",
-    //     },
-    //     { link: "/drainage", label: "Drainage de bien-être" },
-    //     { link: "/massage-suedois", label: "Massage suédois" },
-    //     { link: "/tarifs", label: "Tarifs" },
-    //   ],
-    // },
+    {
+      link: "/soins",
+      label: "Soins proposés",
+      links: [
+        { link: "/soins#massage", label: "Massage sonore" },
+        { link: "/soins#voyage", label: "Voyage sonore collectif" },
+        {
+          link: "/soins#atelier",
+          label: "Atelier d'expansion de conscience",
+        },
+        { link: "/soins#drainage", label: "Drainage de bien-être" },
+        { link: "/soins#suedois", label: "Massage suédois" },
+        { link: "/soins#tarifs", label: "Tarifs" },
+      ],
+    },
     // { link: "/temoignages", label: "Témoignagnes" },
     {
       link: "/liens",
@@ -57,9 +58,9 @@ const Navbar: FunctionComponent<INavbarProps> = () => {
     <header className={classes.header}>
       <Container size="xl">
         <div className={classes.inner}>
-          <a href="/" className={`${classes.logoContainer} ${global.hidden}`}>
+          <Link to="/" className={`${classes.logoContainer} ${global.hidden}`}>
             <Image h={55} src={logo} alt="Relaxason logo" />
-          </a>
+          </Link>
 
           {/* Desktop menu - visible from small breakpoint and up */}
           <Group gap={5} visibleFrom="sm">
@@ -132,14 +133,14 @@ const MobileNavbarItems: FunctionComponent<{
           (nestedLink.link !== "/" && currentPath.startsWith(nestedLink.link));
 
         return (
-          <a
+          <Link
             key={nestedLink.label}
-            href={nestedLink.link}
+            to={nestedLink.link}
             className={`${classes.mobileNestedLink} ${isNestedActive ? classes.linkActive : ""}`}
             onClick={onItemClick}
           >
             → {nestedLink.label}
-          </a>
+          </Link>
         );
       });
 
@@ -159,14 +160,14 @@ const MobileNavbarItems: FunctionComponent<{
 
     // For regular links
     return (
-      <a
+      <Link
         key={link.label}
-        href={link.link}
+        to={link.link}
         className={`${classes.mobileLink} ${isActive ? classes.linkActive : ""}`}
         onClick={onItemClick}
       >
         {link.label}
-      </a>
+      </Link>
     );
   });
 

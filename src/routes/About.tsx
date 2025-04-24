@@ -2,8 +2,12 @@ import { FunctionComponent, useEffect, useState } from "react";
 import { Box, Grid, Image, Space, Text, Title } from "@mantine/core";
 import global from "../styles/Global.module.css";
 import portrait from "../assets/portrait.jpg";
+import useScrollToHash from "../hooks/useScrollToHash.ts";
 
 const About: FunctionComponent = () => {
+  // Hook to handle hash-based navigation
+  useScrollToHash();
+
   // For animations when scrolling
   const [visible, setVisible] = useState({
     bio: false,

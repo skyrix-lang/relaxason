@@ -13,6 +13,7 @@ import {
 import { IconChevronRight } from "@tabler/icons-react";
 import global from "../../styles/Global.module.css";
 import { VisibleSectionProps } from "../../routes/Home.tsx";
+import { Link } from "react-router-dom";
 
 const ServicesSection: FC<VisibleSectionProps> = ({ visible }) => {
   return (
@@ -76,8 +77,8 @@ const ServicesSection: FC<VisibleSectionProps> = ({ visible }) => {
                 <Button
                   variant="light"
                   color="brand.6"
-                  component="a"
-                  href="/soins#individuel"
+                  component={Link}
+                  to="/soins#massage"
                   rightSection={<IconChevronRight size={18} />}
                 >
                   Voir les détails
@@ -126,8 +127,8 @@ const ServicesSection: FC<VisibleSectionProps> = ({ visible }) => {
                 <Button
                   variant="light"
                   color="brand.6"
-                  component="a"
-                  href="/soins#collectif"
+                  component={Link}
+                  to="/soins#voyage"
                   rightSection={<IconChevronRight size={18} />}
                 >
                   Voir les détails
@@ -142,8 +143,8 @@ const ServicesSection: FC<VisibleSectionProps> = ({ visible }) => {
         <Button
           size="lg"
           className={global.ctaButton}
-          component="a"
-          href="/soins"
+          component={Link}
+          to="/soins"
           rightSection={<IconChevronRight size={18} />}
         >
           Tous mes soins

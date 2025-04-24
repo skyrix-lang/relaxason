@@ -3,6 +3,7 @@ import { Box, Button, Card, Grid, Text, Title } from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons-react";
 import global from "../../styles/Global.module.css";
 import { VisibleSectionProps } from "../../routes/Home.tsx";
+import { Link } from "react-router-dom";
 
 const CTASection: FC<VisibleSectionProps> = ({ visible }) => {
   return (
@@ -43,8 +44,8 @@ const CTASection: FC<VisibleSectionProps> = ({ visible }) => {
               size="xl"
               variant="white"
               color="brand.8"
-              component="a"
-              href="/contact"
+              component={Link}
+              to="/contact"
               rightSection={<IconChevronRight size={18} />}
               style={{
                 boxShadow: "0 8px 15px rgba(0, 0, 0, 0.1)",

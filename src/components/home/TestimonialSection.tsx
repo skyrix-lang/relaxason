@@ -3,6 +3,7 @@ import { Box, Button, Text } from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons-react";
 import global from "../../styles/Global.module.css";
 import { VisibleSectionProps } from "../../routes/Home.tsx";
+import { Link } from "react-router-dom";
 
 const TestimonialSection: FC<VisibleSectionProps> = ({ visible }) => {
   return (
@@ -54,8 +55,8 @@ const TestimonialSection: FC<VisibleSectionProps> = ({ visible }) => {
             variant="outline"
             color="brand.7"
             size="lg"
-            component="a"
-            href="/temoignages"
+            component={Link}
+            to="/temoignages"
             rightSection={<IconChevronRight size={18} />}
           >
             Voir tous les témoignages

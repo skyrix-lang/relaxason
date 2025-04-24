@@ -14,6 +14,7 @@ import global from "../../styles/Global.module.css";
 import styles from "../../styles/Home.module.css";
 import bolsTibetains from "../../assets/bols-tibetains.jpg";
 import { VisibleSectionProps } from "../../routes/Home.tsx";
+import { Link } from "react-router-dom";
 
 const HeroSection: FC<VisibleSectionProps> = ({ visible }) => {
   return (
@@ -84,8 +85,8 @@ const HeroSection: FC<VisibleSectionProps> = ({ visible }) => {
                   size="lg"
                   radius="md"
                   className={global.ctaButton}
-                  component="a"
-                  href="/soins"
+                  component={Link}
+                  to={"/soins"}
                   rightSection={<IconChevronRight size={18} />}
                 >
                   Découvrir mes soins
@@ -94,8 +95,8 @@ const HeroSection: FC<VisibleSectionProps> = ({ visible }) => {
                   size="lg"
                   variant="outline"
                   color="brand.7"
-                  component="a"
-                  href="/contact"
+                  component={Link}
+                  to="/contact"
                 >
                   Prendre rendez-vous
                 </Button>
