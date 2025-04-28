@@ -1,16 +1,21 @@
 import { FC } from "react";
 import {
-  Badge,
   Box,
+  Divider,
   Grid,
   Group,
   Image,
-  List,
+  Paper,
   Space,
   Text,
   Title,
 } from "@mantine/core";
-import { IconBrain } from "@tabler/icons-react";
+import {
+  IconBrain,
+  IconCalendarEvent,
+  IconMapPin,
+  IconUsers,
+} from "@tabler/icons-react";
 import global from "../../styles/Global.module.css";
 
 interface ConsciousnessExpansionWorkshopSectionProps {
@@ -32,36 +37,75 @@ const ConsciousnessExpansionWorkshopSection: FC<
     >
       <Grid gutter="xl">
         <Grid.Col span={{ base: 12, md: 6 }} order={{ base: 2, md: 1 }}>
-          <Group mb="md">
+          <Group mb="md" justify="center">
             <IconBrain size={24} color="#3DCFBC" />
             <Title order={2} className={global.sectionTitle}>
               <Box component="span" className={global.titleUnderline} />
               Atelier d'Expansion de Conscience
             </Title>
           </Group>
-          <Text mb="md">
-            Ces ateliers guidés combinent des techniques de respiration,
-            méditation sonore et pratiques chamaniques pour explorer les
-            dimensions profondes de votre conscience et potentiel intérieur.
+
+          <Text size="lg" mb="md" fw={600} style={{ color: "#2BB9A7" }}>
+            Un Éveil à soi - Élevez votre conscience en musique !
           </Text>
-          <div className={global.quote}>
-            "Un voyage intérieur pour éveiller votre potentiel créatif et votre
-            intuition, guidé par des sons ancestraux et des pratiques
-            contemplatives."
-          </div>
+
+          <Text mb="md">
+            L'expansion de conscience est un voyage intérieur guidé par la voix
+            et la création sonore intuitive issue de la vibration du groupe.
+            Vous vivrez une reconnexion à votre essence spirituelle en état
+            méditatif profond et conscient, grâce à l'énergie de votre cœur.
+          </Text>
+
+          <Text>
+            Vous revisiterez certains aspects de votre passé, découvrirez des
+            capacités méconnues de vous-même, les ramenant au présent, pour les
+            mettre en œuvre dans votre futur.
+          </Text>
+
+          <Text fw={500} mt="md">
+            Une journée pour faire le point et se repositionner sur son chemin
+            de vie.
+          </Text>
+
+          <Space h="lg" />
+
+          <Paper p="md" radius="md" style={{ backgroundColor: "#E6F9F7" }}>
+            <Group wrap="nowrap" align="flex-start">
+              <IconCalendarEvent size={20} color="#1A9E8E" />
+              <div>
+                <Text fw={600}>Prochaines dates</Text>
+                <Text>11 Mai 2025 • 07 Juin 2025</Text>
+              </div>
+            </Group>
+
+            <Divider my="sm" />
+
+            <Group wrap="nowrap" align="flex-start">
+              <IconMapPin size={20} color="#1A9E8E" />
+              <div>
+                <Text fw={600}>Informations pratiques</Text>
+                <Text size="sm">Horaires : 9h à 18h</Text>
+                <Text size="sm">Lieu : Villemoisson-sur-Orge (91)</Text>
+                <Text size="sm">Repas : Auberge Espagnole</Text>
+              </div>
+            </Group>
+
+            <Divider my="sm" />
+
+            <Group wrap="nowrap" align="flex-start">
+              <IconUsers size={20} color="#1A9E8E" />
+              <div>
+                <Text fw={600}>Format intime</Text>
+                <Text size="sm">
+                  De 4 à 7 personnes maximum pour un accompagnement personnalisé
+                </Text>
+              </div>
+            </Group>
+          </Paper>
+
           <Space h="md" />
-          <List withPadding>
-            <List.Item>Techniques de respiration consciente</List.Item>
-            <List.Item>Méditation guidée avec support sonore</List.Item>
-            <List.Item>Pratiques d'ancrage énergétique</List.Item>
-            <List.Item>
-              Exploration des états non-ordinaires de conscience
-            </List.Item>
-          </List>
-          <Badge color="brand" size="lg" mt="md">
-            2-3 heures | Sessions en petit groupe
-          </Badge>
         </Grid.Col>
+
         <Grid.Col span={{ base: 12, md: 6 }} order={{ base: 1, md: 2 }}>
           <div className={global.roundedImage}>
             <Image
@@ -72,6 +116,41 @@ const ConsciousnessExpansionWorkshopSection: FC<
               fallbackSrc="https://placehold.co/600x400?text=Atelier+Conscience"
             />
           </div>
+
+          <Space h="xl" />
+
+          <Paper
+            p="lg"
+            radius="md"
+            withBorder
+            style={{ backgroundColor: "#F8FDFC" }}
+          >
+            <Title order={4} mb="md" style={{ color: "#1A9E8E" }}>
+              Vos guides
+            </Title>
+
+            <Text fw={600} mb="xs">
+              Michelle RESSE
+            </Text>
+            <Text size="sm" mb="md">
+              Ancienne infirmière en psychiatrie, Michelle pratique les soins
+              énergétiques depuis plus de vingt ans. Ses qualités d'écoute,
+              d'empathie et ses capacités extrasensorielles sont complétées par
+              diverses formations en Thérapie Énergétique, Expansion de
+              Conscience, Sophro-Analyse et Méditation de pleine conscience.
+            </Text>
+
+            <Text fw={600} mb="xs">
+              Denis BENSOUSSAN
+            </Text>
+            <Text size="sm">
+              Musicien saxophoniste de jazz et ingénieur du son professionnel,
+              Denis pratique la sonothérapie depuis plusieurs années (voyages
+              sonores collectifs et massages sonores individuels). Son expertise
+              musicale l'amène naturellement à la création sonore des expansions
+              de conscience proposées avec Michelle.
+            </Text>
+          </Paper>
         </Grid.Col>
       </Grid>
     </div>

@@ -1,8 +1,19 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { Box, Grid, Image, Space, Text, Title } from "@mantine/core";
+import {
+  Anchor,
+  Box,
+  Grid,
+  Group,
+  Image,
+  Space,
+  Text,
+  ThemeIcon,
+  Title,
+} from "@mantine/core";
 import global from "../styles/Global.module.css";
 import portrait from "../assets/portrait.jpg";
 import useScrollToHash from "../hooks/useScrollToHash.ts";
+import { IconCertificate, IconSchool } from "@tabler/icons-react";
 
 const About: FunctionComponent = () => {
   // Hook to handle hash-based navigation
@@ -102,7 +113,7 @@ const About: FunctionComponent = () => {
             <Text>
               Après une riche expérience en tant qu'ingénieur du son dans
               l'audiovisuel, associé à un parcours de musicien saxophoniste
-              amateur, j'ai découvert la puissance des soins énergétique par un
+              amateur, j'ai découvert la puissance des soins énergétiques par un
               ancien art chinois, le Jin-Chin-Jyutsu. Mon parcours m'a amené à
               me former au massage sonore en 2023 (Zen & Sounds), un domaine où
               l'harmonie des sons rencontre l'art du soin. Aujourd'hui, je
@@ -110,6 +121,76 @@ const About: FunctionComponent = () => {
               individuels ainsi que des expansions de conscience en
               collaboration avec Michelle Resse, énergéticienne.
             </Text>
+
+            {/* Formation Links - Simple List Format */}
+            <Text
+              fw={500}
+              size="sm"
+              style={{
+                color: "#1A9E8E",
+                marginTop: "1.5rem",
+                marginBottom: "0.5rem",
+              }}
+            >
+              Mes Formations
+            </Text>
+
+            <div
+              style={{
+                padding: "0.5rem 0.5rem 0.5rem 1rem",
+                borderLeft: "3px solid #3DCFBC",
+                backgroundColor: "rgba(231, 249, 247, 0.5)",
+                borderRadius: "0 6px 6px 0",
+              }}
+            >
+              <Group gap="lg" wrap="wrap">
+                <Group align="center" gap="xs">
+                  <ThemeIcon
+                    size="sm"
+                    variant="light"
+                    color="brand"
+                    radius="xl"
+                  >
+                    <IconCertificate size={14} />
+                  </ThemeIcon>
+                  <Anchor
+                    href="https://www.zen-and-sounds.com"
+                    target="_blank"
+                    style={{
+                      color: "#1A9E8E",
+                      fontWeight: 500,
+                      textDecoration: "none",
+                    }}
+                    underline="hover"
+                  >
+                    Zen & Sounds
+                  </Anchor>
+                </Group>
+
+                <Group align="center" gap="xs">
+                  <ThemeIcon
+                    size="sm"
+                    variant="light"
+                    color="brand"
+                    radius="xl"
+                  >
+                    <IconSchool size={14} />
+                  </ThemeIcon>
+                  <Anchor
+                    href="https://ecole-spa-international.com/"
+                    target="_blank"
+                    style={{
+                      color: "#1A9E8E",
+                      fontWeight: 500,
+                      textDecoration: "none",
+                    }}
+                    underline="hover"
+                  >
+                    École Internationale du Spa
+                  </Anchor>
+                </Group>
+              </Group>
+            </div>
           </Grid.Col>
         </Grid>
       </div>

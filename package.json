@@ -1,6 +1,6 @@
 {
   "name": "relaxason",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "Shop window for the relaxason website",
   "private": true,
   "packageManager": "yarn@4.9.1",

@@ -5,7 +5,6 @@ import {
   Group,
   Loader,
   Paper,
-  Select,
   SimpleGrid,
   Textarea,
   TextInput,
@@ -21,6 +20,7 @@ import {
 } from "@tabler/icons-react";
 import styles from "./../../styles/Contact.module.css";
 import SuccessAnimation from "./SuccessAnimation";
+import BrowserAwareSelect from "../common/BrowserAwareSelect.tsx";
 
 interface ContactFormProps {
   loading: boolean;
@@ -138,7 +138,7 @@ const ContactForm: FC<ContactFormProps> = ({
               leftSection={<IconPhone size={16} />}
             />
 
-            <Select
+            <BrowserAwareSelect
               label="Raison du contact"
               placeholder="Sélectionnez une raison"
               required

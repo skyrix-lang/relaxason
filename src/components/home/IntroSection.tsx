@@ -3,16 +3,19 @@ import { Box, Button, Grid, Image, Space, Text, Title } from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons-react";
 import global from "../../styles/Global.module.css";
 import outils from "../../assets/outils.jpg";
-import { VisibleSectionProps } from "../../routes/Home.tsx";
 import { Link } from "react-router-dom";
 
-const IntroSection: FC<VisibleSectionProps> = ({ visible }) => {
+interface IntroSectionProps {
+  isVisible: boolean;
+}
+
+const IntroSection: FC<IntroSectionProps> = ({ isVisible }) => {
   return (
     <section
       id="intro"
       style={{ scrollMarginTop: "100px", padding: "6rem 0" }}
       className={
-        visible.intro
+        isVisible
           ? `${global.fadeInSection} ${global.visible}`
           : global.fadeInSection
       }

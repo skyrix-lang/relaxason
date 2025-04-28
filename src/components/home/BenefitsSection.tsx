@@ -1,15 +1,18 @@
 import React, { FC } from "react";
 import { Box, Card, Grid, Space, Text, Title } from "@mantine/core";
 import {
+  IconEmpathize,
   IconHeartbeat,
-  IconMicrophone,
+  IconMassage,
   IconWaveSine,
-  IconZodiacAquarius,
 } from "@tabler/icons-react";
 import global from "../../styles/Global.module.css";
-import { VisibleSectionProps } from "../../routes/Home.tsx";
 
-const BenefitsSection: FC<VisibleSectionProps> = ({ visible }) => {
+interface BenefitsSectionProps {
+  isVisible: boolean;
+}
+
+const BenefitsSection: FC<BenefitsSectionProps> = ({ isVisible }) => {
   return (
     <section
       id="benefits"
@@ -22,7 +25,7 @@ const BenefitsSection: FC<VisibleSectionProps> = ({ visible }) => {
         width: "calc(100% + 48px)", // Make section full width
       }}
       className={
-        visible.benefits
+        isVisible
           ? `${global.fadeInSection} ${global.visible}`
           : global.fadeInSection
       }
@@ -45,12 +48,35 @@ const BenefitsSection: FC<VisibleSectionProps> = ({ visible }) => {
           <Space h="lg" />
           <Text size="lg" maw={700} mx="auto" mb="xl">
             La sonothérapie offre de nombreux avantages pour votre santé
-            physique et mentale. Découvrez comment cette approche peut vous
-            aider.
+            physique, mentale et émotionnelle. Découvrez comment cette approche
+            peut vous aider.
           </Text>
         </Box>
 
         <Grid>
+          <Grid.Col span={{ base: 12, sm: 6, md: 3 }}>
+            <Card
+              className={global.serviceCard}
+              style={{
+                textAlign: "center",
+                transition: "all 0.3s ease",
+              }}
+            >
+              <IconMassage
+                size={48}
+                stroke={1.5}
+                color="#3DCFBC"
+                style={{ marginBottom: "1rem" }}
+              />
+              <Title order={4} mb="md" c="brand.7">
+                Relaxation profonde
+              </Title>
+              <Text>
+                Facilite l'accès à des états modifiés de conscience, propices au
+                lâcher prise et qui apaisent le mental.
+              </Text>
+            </Card>
+          </Grid.Col>
           <Grid.Col span={{ base: 12, sm: 6, md: 3 }}>
             <Card
               className={global.serviceCard}
@@ -69,7 +95,7 @@ const BenefitsSection: FC<VisibleSectionProps> = ({ visible }) => {
                 Réduction du stress
               </Title>
               <Text>
-                Les vibrations sonores favorisent la détente et diminuent
+                Les fréquences sonores favorisent la détente, diminuent
                 l'anxiété et les tensions accumulées.
               </Text>
             </Card>
@@ -105,30 +131,7 @@ const BenefitsSection: FC<VisibleSectionProps> = ({ visible }) => {
                 transition: "all 0.3s ease",
               }}
             >
-              <IconMicrophone
-                size={48}
-                stroke={1.5}
-                color="#3DCFBC"
-                style={{ marginBottom: "1rem" }}
-              />
-              <Title order={4} mb="md" c="brand.7">
-                Méditation profonde
-              </Title>
-              <Text>
-                Facilite l'accès à des états de conscience modifiés propices à
-                la méditation et l'introspection.
-              </Text>
-            </Card>
-          </Grid.Col>
-          <Grid.Col span={{ base: 12, sm: 6, md: 3 }}>
-            <Card
-              className={global.serviceCard}
-              style={{
-                textAlign: "center",
-                transition: "all 0.3s ease",
-              }}
-            >
-              <IconZodiacAquarius
+              <IconEmpathize
                 size={48}
                 stroke={1.5}
                 color="#3DCFBC"
@@ -139,7 +142,7 @@ const BenefitsSection: FC<VisibleSectionProps> = ({ visible }) => {
               </Title>
               <Text>
                 Renforce le système immunitaire et favorise un sentiment durable
-                de bien-être physique et mental.
+                de bien-être physique, mental et émotionnel.
               </Text>
             </Card>
           </Grid.Col>

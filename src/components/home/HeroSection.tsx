@@ -12,11 +12,14 @@ import {
 import { IconArrowDown, IconChevronRight } from "@tabler/icons-react";
 import global from "../../styles/Global.module.css";
 import styles from "../../styles/Home.module.css";
-import bolsTibetains from "../../assets/bols-tibetains.jpg";
-import { VisibleSectionProps } from "../../routes/Home.tsx";
+import logoRelaxason from "../../assets/logo_relaxason.png";
 import { Link } from "react-router-dom";
 
-const HeroSection: FC<VisibleSectionProps> = ({ visible }) => {
+interface HeroSectionProps {
+  isVisible: boolean;
+}
+
+const HeroSection: FC<HeroSectionProps> = ({ isVisible }) => {
   return (
     <section
       id="hero"
@@ -47,16 +50,16 @@ const HeroSection: FC<VisibleSectionProps> = ({ visible }) => {
           px={{ base: "xs", sm: "md", lg: "lg" }}
           style={{ maxWidth: "1200px", margin: "0 auto" }}
         >
-          <Grid.Col span={{ base: 12, md: 6 }}>
+          <Grid.Col span={{ base: 12, md: 6 }} mt="xl">
             <div
               className={
-                visible.hero
+                isVisible
                   ? `${global.fadeInSection} ${global.visible}`
                   : global.fadeInSection
               }
             >
-              <Text size="lg" fw={500} c="brand.7" mb="sm">
-                Bienvenue dans un voyage sonore
+              <Text size="lg" fw={500} c="brand.7" mt="md" mb="sm">
+                Bienvenue chez Relaxa'Son
               </Text>
               <Title
                 order={1}
@@ -77,8 +80,8 @@ const HeroSection: FC<VisibleSectionProps> = ({ visible }) => {
                 style={{ lineHeight: 1.6 }}
               >
                 Une approche holistique qui utilise les vibrations et les
-                fréquences sonores pour favoriser l'équilibre, la relaxation et
-                le bien-être.
+                fréquences sonores pour apaiser le mental, favoriser l'équilibre
+                intérieur, la relaxation et le bien-être.
               </Text>
               <Group gap="md">
                 <Button
@@ -110,18 +113,15 @@ const HeroSection: FC<VisibleSectionProps> = ({ visible }) => {
           >
             <div
               className={
-                visible.hero
+                isVisible
                   ? `${global.fadeInSection} ${global.visible}`
                   : global.fadeInSection
               }
               style={{ transitionDelay: "0.3s" }}
             >
-              <Box
-                className={global.roundedImage}
-                style={{ boxShadow: "0 20px 40px rgba(0, 105, 92, 0.15)" }}
-              >
+              <Box className={global.roundedImage}>
                 <Image
-                  src={bolsTibetains}
+                  src={logoRelaxason}
                   alt="Séance de sonothérapie"
                   className={global.fullWidthImage}
                   style={{ borderRadius: "12px" }}

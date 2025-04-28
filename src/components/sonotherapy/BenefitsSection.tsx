@@ -60,13 +60,13 @@ const BenefitsSection: FC<BenefitsSectionProps> = ({ isVisible }) => {
               }
             >
               <List.Item>
-                <strong>Migraine, Fatigue</strong>
-              </List.Item>
-              <List.Item>
                 <strong>Stress, Angoisse</strong>
               </List.Item>
               <List.Item>
                 <strong>Surmenage, Burn-Out</strong>
+              </List.Item>
+              <List.Item>
+                <strong>Migraine, Fatigue</strong>
               </List.Item>
               <List.Item>
                 <strong>Insomnies</strong>

@@ -6,8 +6,7 @@ import {
   Grid,
   Group,
   Image,
-  List,
-  Tabs,
+  Paper,
   Text,
   Title,
 } from "@mantine/core";
@@ -33,30 +32,7 @@ const SwedishMassageSection: FC<SwedishMassageSectionProps> = ({
       }`}
     >
       <Container size="lg">
-        <Group mb="md" justify="center">
-          <IconMassage size={24} color="#3DCFBC" />
-          <Title
-            order={2}
-            className={`${global.sectionTitle} ${global.textCenter}`}
-          >
-            <Box component="span" className={global.titleUnderline} />
-            Massage Suédois
-          </Title>
-        </Group>
-
-        <Text
-          size="lg"
-          mb="xl"
-          className={global.textCenter}
-          maw={800}
-          mx="auto"
-        >
-          Le massage suédois est une technique classique qui combine des
-          mouvements fluides, des pressions profondes et des étirements pour
-          détendre les muscles et revitaliser le corps.
-        </Text>
-
-        <Grid gutter="xl">
+        <Grid gutter="xl" mb="xl">
           <Grid.Col span={{ base: 12, md: 6 }}>
             <div className={global.roundedImage}>
               <Image
@@ -69,54 +45,58 @@ const SwedishMassageSection: FC<SwedishMassageSectionProps> = ({
             </div>
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6 }}>
-            <Tabs defaultValue="benefits">
-              <Tabs.List grow>
-                <Tabs.Tab value="benefits">Bienfaits</Tabs.Tab>
-                <Tabs.Tab value="technique">Technique</Tabs.Tab>
-                <Tabs.Tab value="experience">Expérience</Tabs.Tab>
-              </Tabs.List>
-
-              <Tabs.Panel value="benefits" pt="md">
-                <List withPadding>
-                  <List.Item>Soulage les tensions musculaires</List.Item>
-                  <List.Item>Améliore la circulation sanguine</List.Item>
-                  <List.Item>Réduit le stress et l'anxiété</List.Item>
-                  <List.Item>Favorise la récupération physique</List.Item>
-                  <List.Item>Augmente la mobilité articulaire</List.Item>
-                </List>
-              </Tabs.Panel>
-
-              <Tabs.Panel value="technique" pt="md">
-                <Text>
-                  Le massage suédois intègre cinq techniques principales :
-                  effleurage (mouvements glissés), pétrissage (pressions
-                  circulaires), tapotement (percussions rythmées), friction
-                  (pressions profondes) et vibration (mouvements oscillatoires).
-                </Text>
-                <Text mt="md">
-                  L'intensité est adaptée à vos besoins, créant un équilibre
-                  parfait entre relaxation et travail thérapeutique des tissus
-                  profonds.
-                </Text>
-              </Tabs.Panel>
-
-              <Tabs.Panel value="experience" pt="md">
-                <Text>
-                  Chaque séance commence par une consultation pour déterminer
-                  vos besoins spécifiques. Dans une ambiance apaisante enrichie
-                  d'huiles essentielles, le massage est personnalisé pour cibler
-                  vos zones de tension.
-                </Text>
-                <Text mt="md">
-                  Une attention particulière est portée à votre confort tout au
-                  long de la séance, créant une expérience de détente profonde
-                  et régénératrice.
-                </Text>
-              </Tabs.Panel>
-            </Tabs>
-            <Badge color="brand" size="lg" mt="md">
-              60 minutes | 90 minutes
-            </Badge>
+            <Group mb="md" justify="center">
+              <IconMassage size={24} color="#3DCFBC" />
+              <Title
+                order={2}
+                className={`${global.sectionTitle} ${global.textCenter}`}
+                style={{ color: "#1A9E8E" }}
+              >
+                <Box component="span" className={global.titleUnderline} />
+                Massage Suédois
+              </Title>
+            </Group>
+            <Text mb="md">
+              Le massage suédois est un massage musculaire qui peut s'effectuer
+              à la fois de façon globale ou plus spécifique. En variant le
+              rythme et la pression, il pourrait être soit plus relaxant ou plus
+              tonifiant.
+            </Text>
+            <Text mb="xl">
+              Les glissés, les prétrissages et les drainages entre autres,
+              éxécutés en respectant une logiquer de massage, permettent la
+              détente musculaire : assouplissement des tissus musculaires,
+              relâchement des tensions et raideurs localisées, stimule la
+              circulation et favorise une meilleure oxygénation des muscles.
+            </Text>
+            <Paper
+              shadow="sm"
+              p="lg"
+              mb="xl"
+              radius="md"
+              withBorder
+              style={{ backgroundColor: "#F8FDFC" }}
+            >
+              <Title order={4} mb="md" style={{ color: "#1A9E8E" }}>
+                L'Expérience
+              </Title>
+              <Text>
+                Chaque séance commence par une consultation pour déterminer vos
+                besoins spécifiques. Dans une ambiance apaisante enrichie
+                d'huiles essentielles, le massage est personnalisé pour cibler
+                vos zones de tension.
+              </Text>
+              <Text mt="md">
+                Une attention particulière est portée à votre confort tout au
+                long de la séance, créant une expérience de détente profonde et
+                régénératrice.
+              </Text>
+            </Paper>
+            <Group mt="lg">
+              <Badge color="brand" size="lg">
+                60 minutes | Session individuelle
+              </Badge>
+            </Group>
           </Grid.Col>
         </Grid>
       </Container>

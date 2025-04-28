@@ -8,10 +8,14 @@ import ContactForm from "../components/contact/ContactForm";
 import FaqSection from "../components/contact/FaqSection";
 import Confetti from "../components/contact/Confetti";
 import useScrollToHash from "../hooks/useScrollToHash.ts";
+import useScrollVisibility from "../hooks/useScrollVisibility.ts";
 
 const Contact: FunctionComponent = () => {
   // Hook to handle hash-based navigation
   useScrollToHash();
+
+  // Hook to handle visibility of sections when scrolling
+  const visibleSections = useScrollVisibility(["contact", "faq"]);
 
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -74,7 +78,14 @@ const Contact: FunctionComponent = () => {
   };
 
   return (
-    <div className={global.aboutWrapper}>
+    <div
+      id="contact"
+      className={
+        visibleSections.contact
+          ? `${global.fadeInSection} ${global.visible} ${global.aboutWrapper}`
+          : global.fadeInSection
+      }
+    >
       {/* Confetti effect when message is sent successfully */}
       {showConfetti && <Confetti />}
 

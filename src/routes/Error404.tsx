@@ -14,12 +14,27 @@ import image from "../assets/error404.svg";
 import global from "../styles/Global.module.css";
 import classes from "../styles/Error404.module.css";
 import app from "../styles/App.module.css";
+import useScrollToHash from "../hooks/useScrollToHash.ts";
+import useScrollVisibility from "../hooks/useScrollVisibility.ts";
 
 const Error404: FunctionComponent = () => {
+  // Hook to handle hash-based navigation
+  useScrollToHash();
+
+  // Hook to handle visibility of sections when scrolling
+  const visibleSections = useScrollVisibility(["error"]);
+
   const navigate = useNavigate();
 
   return (
-    <div className={app.hero}>
+    <div
+      id="error"
+      className={
+        visibleSections.error
+          ? `${global.fadeInSection} ${global.visible} ${app.hero}`
+          : global.fadeInSection
+      }
+    >
       <Container size="xl" className={classes.container}>
         <SimpleGrid
           cols={{ base: 1, md: 2 }}

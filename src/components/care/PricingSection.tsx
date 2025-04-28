@@ -1,18 +1,15 @@
 import { FC } from "react";
+import { Box, Container, Group, SimpleGrid, Text, Title } from "@mantine/core";
 import {
-  Box,
-  Button,
-  Card,
-  Grid,
-  Group,
-  List,
-  Space,
-  Text,
-  Title,
-} from "@mantine/core";
-import { IconCoins } from "@tabler/icons-react";
+  IconCoins,
+  IconGift,
+  IconStar,
+  IconUser,
+  IconUsers,
+} from "@tabler/icons-react";
 import global from "../../styles/Global.module.css";
-import { Link } from "react-router-dom";
+import PriceCard from "./pricing/PriceCard";
+import CallToAction from "./pricing/CallToAction";
 
 interface PricingSectionProps {
   isVisible: boolean;
@@ -29,142 +26,114 @@ const PricingSection: FC<PricingSectionProps> = ({ isVisible }) => {
           : global.fadeInSection
       }
     >
-      <Group mb="md" justify="center">
-        <IconCoins size={24} color="#3DCFBC" />
-        <Title
-          order={2}
-          className={`${global.sectionTitle} ${global.textCenter}`}
+      <Container size="lg" py="xl">
+        {/* Header */}
+        <Group mb="md" justify="center">
+          <IconCoins size={24} color="#3DCFBC" />
+          <Title
+            order={2}
+            className={`${global.sectionTitle} ${global.textCenter}`}
+          >
+            <Box component="span" className={global.titleUnderline} />
+            Tarifs
+          </Title>
+        </Group>
+
+        <Text
+          size="lg"
+          mb="xl"
+          ta="center"
+          maw={700}
+          mx="auto"
+          style={{ color: "#495057" }}
         >
-          <Box component="span" className={global.titleUnderline} />
-          Tarifs
-        </Title>
-      </Group>
+          Des tarifs adaptés à tous les besoins pour vous permettre d'accéder à
+          un bien-être durable et personnalisé.
+        </Text>
 
-      <Text size="lg" mb="xl" className={global.textCenter} maw={800} mx="auto">
-        Des tarifs adaptés à tous les besoins pour vous permettre d'accéder à un
-        bien-être durable.
-      </Text>
-
-      <Grid gutter="xl">
-        <Grid.Col span={{ base: 12, sm: 6, md: 4 }}>
-          <ServiceCard
+        {/* Pricing Cards */}
+        <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="lg">
+          <PriceCard
+            icon={<IconUser size={24} />}
             title="Séances Individuelles"
-            services={[
+            highlight={false}
+            items={[
               {
-                name: "Massage Sonore",
-                prices: ["60 min - 75€", "90 min - 95€"],
+                service: "Massage Sonore",
+                duration: "70 min",
+                price: "70€",
               },
               {
-                name: "Drainage Lymphatique",
-                prices: ["60 min - 70€"],
+                service: "Drainage Lymphatique",
+                duration: "60 min",
+                price: "60€",
               },
               {
-                name: "Massage Suédois",
-                prices: ["60 min - 70€", "90 min - 90€"],
+                service: "Massage Suédois",
+                duration: "60 min",
+                price: "60€",
               },
             ]}
             buttonText="Prendre Rendez-vous"
+            href="/contact"
           />
-        </Grid.Col>
 
-        <Grid.Col span={{ base: 12, sm: 6, md: 4 }}>
-          <ServiceCard
+          <PriceCard
+            icon={<IconUsers size={24} />}
             title="Sessions Collectives"
-            services={[
+            highlight={true}
+            items={[
               {
-                name: "Voyage Sonore Collectif",
-                prices: ["Par personne - 35€", "Forfait couple - 60€"],
+                service: "Voyage Sonore Collectif",
+                options: [
+                  { label: "Par personne", price: "25€" },
+                  { label: "Forfait couple", price: "40€" },
+                ],
               },
               {
-                name: "Atelier d'Expansion de Conscience",
-                prices: ["Session de 2h - 45€", "Session de 3h - 60€"],
+                service: "Atelier d'Expansion de Conscience",
+                options: [{ label: "Atelier 9h/18h", price: "100€" }],
               },
             ]}
-            buttonText="Voir le Calendrier"
+            buttonText="Prendre Rendez-vous"
+            href="/contact"
           />
-        </Grid.Col>
 
-        <Grid.Col span={{ base: 12, sm: 12, md: 4 }}>
-          <ServiceCard
-            title="Forfaits & Abonnements"
-            services={[
+          <PriceCard
+            icon={<IconStar size={24} />}
+            title="Forfaits & Carte"
+            highlight={false}
+            items={[
               {
-                name: "Forfait 3 Séances",
-                prices: ["3 massages au choix - 195€"],
-                note: "Valable 3 mois",
-              },
-              {
-                name: "Pass Bien-être",
-                prices: ["5 séances collectives - 150€"],
+                service: "Forfait 3 Massages Sonores",
+                price: "180€",
                 note: "Valable 6 mois",
               },
               {
-                name: "Carte Cadeau",
-                prices: ["Montant personnalisable"],
+                service: "Forfait 3 Massages ou Drainages",
+                price: "150€",
+                note: "Valable 6 mois",
+              },
+              {
+                service: "Carte Cadeau",
+                price: "Personnalisable",
+                icon: <IconGift size={18} />,
               },
             ]}
-            buttonText="Découvrir les Offres"
+            buttonText="Demander un Forfait"
+            href="/contact"
           />
-        </Grid.Col>
-      </Grid>
+        </SimpleGrid>
 
-      <Space h="xl" />
-
-      <div className={global.quote + " " + global.textCenter}>
-        <Text size="lg" fw={600} mb="sm">
-          Besoin d'informations supplémentaires?
-        </Text>
-        <Text mb="md">
-          N'hésitez pas à me contacter pour toute question concernant les soins
-          ou pour une consultation personnalisée adaptée à vos besoins
-          spécifiques.
-        </Text>
-        <Button component={Link} to={"/contact"} className={global.ctaButton}>
-          Contact
-        </Button>
-      </div>
+        {/* Call to Action */}
+        <CallToAction
+          title="Besoin d'informations supplémentaires?"
+          description="N'hésitez pas à me contacter pour toute question concernant les soins ou pour une consultation personnalisée adaptée à vos besoins spécifiques."
+          buttonText="Me Contacter"
+          href="/contact"
+        />
+      </Container>
     </div>
-  );
-};
-
-interface ServiceType {
-  name: string;
-  prices: string[];
-  note?: string;
-}
-
-interface ServiceCardProps {
-  title: string;
-  services: ServiceType[];
-  buttonText: string;
-}
-
-const ServiceCard: FC<ServiceCardProps> = ({ title, services, buttonText }) => {
-  return (
-    <Card className={global.serviceCard} padding="xl" withBorder>
-      <Title order={3} mb="sm" style={{ color: "#1A9E8E" }}>
-        {title}
-      </Title>
-      <List withPadding spacing="md">
-        {services.map((service, index) => (
-          <List.Item key={index}>
-            <Text fw={500}>{service.name}</Text>
-            {service.prices.map((price, priceIndex) => (
-              <Text key={priceIndex}>{price}</Text>
-            ))}
-            {service.note && (
-              <Text>
-                <i>{service.note}</i>
-              </Text>
-            )}
-          </List.Item>
-        ))}
-      </List>
-      <Space h="md" />
-      <Button fullWidth className={global.ctaButton}>
-        {buttonText}
-      </Button>
-    </Card>
   );
 };
 

@@ -11,7 +11,7 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { IconAlertTriangle, IconWaveSine } from "@tabler/icons-react";
+import { IconAlertTriangle, IconMassage } from "@tabler/icons-react";
 import global from "../../styles/Global.module.css";
 import bolsDos from "../../assets/bols-dos.jpg";
 
@@ -50,8 +50,8 @@ const SoundMassageSection: FC<SoundMassageSectionProps> = ({ isVisible }) => {
             </div>
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6 }}>
-            <Group mb="md">
-              <IconWaveSine size={24} color="#3DCFBC" />
+            <Group mb="md" justify="center">
+              <IconMassage size={24} color="#3DCFBC" />
               <Title order={2} className={global.sectionTitle}>
                 <Box component="span" className={global.titleUnderline} />
                 Massage Sonore Individuel
@@ -73,7 +73,7 @@ const SoundMassageSection: FC<SoundMassageSectionProps> = ({ isVisible }) => {
               stimulant la circulation de l'énergie.
             </Text>
             <Badge color="brand" size="lg" mt="md">
-              60-90 minutes | Session individuelle
+              70 minutes | Session individuelle
             </Badge>
           </Grid.Col>
         </Grid>
@@ -130,12 +130,13 @@ const SoundMassageSection: FC<SoundMassageSectionProps> = ({ isVisible }) => {
         >
           <Text>La sonothérapie est à éviter pour les personnes :</Text>
           <List size="sm" mt="xs">
+            <List.Item>
+              Femme enceintes de moins de 4 mois ou de plus de 8 mois
+            </List.Item>
             <List.Item>Portant un pacemaker ou stent</List.Item>
             <List.Item>Épileptiques</List.Item>
             <List.Item>Souffrant d'asthme grave</List.Item>
-            <List.Item>
-              Femmes enceintes de moins de 4 mois ou de plus de 8 mois
-            </List.Item>
+            <List.Item>Souffrant d'un cancer (sauf rémission)</List.Item>
           </List>
         </Alert>
       </Paper>

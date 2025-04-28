@@ -182,3 +182,85 @@
 		gap: 1rem;
 	}
 }
+/* Add this to your Global.module.css file */
+
+/* Firefox Native Select Styling with rounded corners */
+.firefox-native-select {
+	position: relative;
+	transition: all 0.2s ease;
+	overflow: hidden; /* This helps maintain rounded corners */
+}
+
+.firefox-native-select.is-focused {
+	border-color: #3DCFBC !important;
+	box-shadow: 0 0 0 2px rgba(61, 207, 188, 0.2);
+}
+
+.firefox-native-select.has-error {
+	border-color: var(--mantine-color-error) !important;
+}
+
+/* Remove default select styling */
+.firefox-native-select select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	outline: none;
+	width: 110% !important; /* Trick to hide default arrow */
+	margin-left: -5px; /* Adjust for the extra width */
+}
+
+/* Hide default arrow in IE */
+.firefox-native-select select::-ms-expand {
+	display: none;
+}
+
+/* Firefox-specific styling */
+@-moz-document url-prefix() {
+	/* Force rounded corners in Firefox */
+	.firefox-native-select {
+		border-radius: 8px !important; /* Default md radius */
+		overflow: hidden !important;
+	}
+
+	/* Override specific radius values */
+	.firefox-native-select[data-radius="xs"] {
+		border-radius: 2px !important;
+	}
+
+	.firefox-native-select[data-radius="sm"] {
+		border-radius: 4px !important;
+	}
+
+	.firefox-native-select[data-radius="md"] {
+		border-radius: 8px !important;
+	}
+
+	.firefox-native-select[data-radius="lg"] {
+		border-radius: 16px !important;
+	}
+
+	.firefox-native-select[data-radius="xl"] {
+		border-radius: 32px !important;
+	}
+
+	.firefox-native-select select {
+		text-indent: 0.01px;
+		text-overflow: '';
+		padding-right: 30px !important; /* Space for custom arrow */
+		border: none !important;
+		width: 110% !important; /* Ensures the default arrow is hidden */
+	}
+
+	/* Make options look like Mantine dropdown */
+	.firefox-native-select select option {
+		background-color: white;
+		color: var(--mantine-color-text);
+		padding: 8px 12px;
+	}
+
+	/* Remove focus outline */
+	.firefox-native-select select::-moz-focus-inner {
+		border: 0;
+	}
+}

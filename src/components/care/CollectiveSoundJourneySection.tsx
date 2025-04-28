@@ -13,12 +13,12 @@ import {
 import {
   IconBrain,
   IconCrystalBall,
+  IconDisc,
   IconInnerShadowBottomLeft,
-  IconMusic,
-  IconPiano,
   IconProng,
   IconUsers,
   IconWaveSine,
+  IconYoga,
 } from "@tabler/icons-react";
 import global from "../../styles/Global.module.css";
 
@@ -83,7 +83,7 @@ const CollectiveSoundJourneySection: FC<CollectiveSoundJourneySectionProps> = ({
         <Grid gutter="xl" mb="xl">
           <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
             <InstrumentCard
-              icon={<IconPiano size={32} color="#3DCFBC" />}
+              icon={<IconDisc size={32} color="#3DCFBC" />}
               title="Tambour"
               description="Porteur de rythmes ancestraux qui ancrent et reconnectent à la Terre,
               associé à ma voix, pour accompagner et amplifier l'expérience."
@@ -124,7 +124,7 @@ const CollectiveSoundJourneySection: FC<CollectiveSoundJourneySectionProps> = ({
         <Grid gutter="xl">
           <Grid.Col span={{ base: 12, md: 4 }}>
             <BenefitCard
-              icon={<IconMusic size={32} color="#3DCFBC" />}
+              icon={<IconYoga size={32} color="#3DCFBC" />}
               title="Plan Physique"
               description="Libération des tensions corporelles, amélioration de la qualité du sommeil et détente musculaire profonde."
             />
@@ -170,7 +170,7 @@ const CollectiveSoundJourneySection: FC<CollectiveSoundJourneySectionProps> = ({
 
         <div className={global.textCenter}>
           <Badge color="brand" size="lg">
-            60-90 minutes | Sessions en groupe
+            60-90 minutes | Session en groupe
           </Badge>
         </div>
       </Container>

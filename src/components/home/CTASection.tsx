@@ -2,10 +2,13 @@ import React, { FC } from "react";
 import { Box, Button, Card, Grid, Text, Title } from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons-react";
 import global from "../../styles/Global.module.css";
-import { VisibleSectionProps } from "../../routes/Home.tsx";
 import { Link } from "react-router-dom";
 
-const CTASection: FC<VisibleSectionProps> = ({ visible }) => {
+interface CTASectionProps {
+  isVisible: boolean;
+}
+
+const CTASection: FC<CTASectionProps> = ({ isVisible }) => {
   return (
     <section
       id="cta"
@@ -16,7 +19,7 @@ const CTASection: FC<VisibleSectionProps> = ({ visible }) => {
         overflow: "hidden",
       }}
       className={
-        visible.cta
+        isVisible
           ? `${global.fadeInSection} ${global.visible}`
           : global.fadeInSection
       }
