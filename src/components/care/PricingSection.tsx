@@ -64,7 +64,7 @@ const PricingSection: FC<PricingSectionProps> = ({ isVisible }) => {
                 price: "70€",
               },
               {
-                service: "Drainage Lymphatique",
+                service: "Drainage Manuel de Bien-Être",
                 duration: "60 min",
                 price: "60€",
               },

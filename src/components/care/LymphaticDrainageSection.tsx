@@ -46,7 +46,7 @@ const LymphaticDrainageSection: FC<LymphaticDrainageSectionProps> = ({
             <IconDroplet size={24} color="#3DCFBC" />
             <Title order={2} className={global.sectionTitle}>
               <Box component="span" className={global.titleUnderline} />
-              Drainage manuel de bien-être
+              Drainage Manuel de Bien-Être
             </Title>
           </Group>
           <Text mb="md">
