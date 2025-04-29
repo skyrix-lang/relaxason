@@ -4,6 +4,7 @@
   "description": "Shop window for the relaxason website",
   "private": true,
   "packageManager": "yarn@4.9.1",
+  "type": "module",
   "devDependencies": {
     "@netlify/functions": "^3.1.2",
     "@types/node": "^22.14.1",
@@ -15,7 +16,9 @@
     "postcss-simple-vars": "^7.0.1",
     "prettier": "^3.5.3",
     "rimraf": "^5.0.10",
+    "rollup-plugin-visualizer": "^5.14.0",
     "sharp": "^0.34.1",
+    "svgo": "^3.3.2",
     "terser": "^5.39.0",
     "typescript": "^5.8.3",
     "vite": "^5.4.14",

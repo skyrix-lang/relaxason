@@ -1,8 +1,10 @@
+// vite.config.mts
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tsconfigPaths from "vite-tsconfig-paths";
 import viteCompression from "vite-plugin-compression";
 import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
+import { visualizer } from "rollup-plugin-visualizer";
 
 export default defineConfig({
 	plugins: [
@@ -28,10 +30,17 @@ export default defineConfig({
 			webp: {
 				lossless: true
 			}
+		}),
+		visualizer({
+			filename: 'dist/stats.html',
+			open: false,
 		})
 	],
+	// Optimisation CSS uniquement - pas de suppressions agressives
+	css: {
+		devSourcemap: false
+	},
 	build: {
-		// Additional build optimizations
 		minify: 'terser',
 		terserOptions: {
 			compress: {
@@ -41,9 +50,10 @@ export default defineConfig({
 		},
 		rollupOptions: {
 			output: {
+				// Chunking plus standard sans optimisation excessive
 				manualChunks: {
-					vendor: ['react', 'react-dom'],
-					mantine: ['@mantine/core', '@mantine/hooks']
+					'vendor': ['react', 'react-dom', 'react-router-dom'],
+					'mantine': ['@mantine/core', '@mantine/hooks']
 				}
 			}
 		}
