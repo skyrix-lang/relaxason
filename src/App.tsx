@@ -1,12 +1,17 @@
-import { FunctionComponent } from "react";
+import { FC } from "react";
 import Navbar from "./components/navbar/Navbar.tsx";
 import "@mantine/core/styles.css";
 import { Outlet, useLocation } from "react-router-dom";
 import { AppShell, Container } from "@mantine/core";
 import classes from "./styles/App.module.css";
+import usePageTracking from "./hooks/usePageTracking.tsx";
+import CookieConsent from "./components/google/CookieConsent.tsx";
 
-const App: FunctionComponent = () => {
+const App: FC = () => {
   const location = useLocation();
+
+  usePageTracking();
+
   return (
     <AppShell header={{ height: 56 }} padding="md">
       <AppShell.Header>
@@ -23,6 +28,7 @@ const App: FunctionComponent = () => {
             </Container>
           </div>
         )}
+        <CookieConsent />
       </AppShell.Main>
 
       {/* You can add a footer later if needed */}
