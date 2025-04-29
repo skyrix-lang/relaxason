@@ -27,7 +27,7 @@ const Home = () => {
   return (
     <>
       <SEOMetadata
-        title="Sonothérapie - Découvrez les bienfaits du son pour votre bien-être"
+        title="Relaxa'Son - Découvrez les bienfaits du son pour votre bien-être"
         description="Explorez la puissance thérapeutique des sons et vibrations. Mes sessions de sonothérapie vous aident à réduire le stress, améliorer le sommeil et retrouver l'équilibre intérieur."
         image={outils}
         url="https://relaxason.com"

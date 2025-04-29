@@ -82,7 +82,7 @@ const Contact: FunctionComponent = () => {
   return (
     <>
       <SEOMetadata
-        title="Sonothérapie - Contactez-moi pour prendre rendez-vous"
+        title="Relaxa'Son - Contactez-moi pour prendre rendez-vous"
         description="Explorez la puissance thérapeutique des sons et vibrations. Nos sessions de sonothérapie vous aident à réduire le stress, améliorer le sommeil et retrouver l'équilibre intérieur."
         image={portrait}
         url="https://relaxason.com/contact"
