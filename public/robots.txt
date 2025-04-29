@@ -1,0 +1,21 @@
+# robots.txt for Sonotherapy Website
+
+# Allow all web crawlers to access all content (default)
+User-agent: *
+Allow: /
+
+# Disallow crawling of specific directories that might contain sensitive or admin-only content
+Disallow: /admin/
+Disallow: /private/
+Disallow: /api/
+Disallow: /backend/
+Disallow: /temp/
+Disallow: /drafts/
+
+# Disallow crawling of development-related files
+Disallow: /*.json$
+Disallow: /*.js.map$
+Disallow: /*.css.map$
+
+# Sitemap location (update with your actual sitemap URL when available)
+Sitemap: https://relaxason.com/sitemap.xml

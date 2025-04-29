@@ -11,9 +11,20 @@ import "./index.css";
 import Sonotherapy from "./routes/Sonotherapy.tsx";
 import Treatments from "./routes/Treatments.tsx";
 
+// Import Lora for headings
+import "@fontsource/lora/400.css";
+import "@fontsource/lora/500.css";
+import "@fontsource/lora/600.css";
+import "@fontsource/lora/700.css";
+
+// Import Source Sans 3 for body text
+import "@fontsource/source-sans-3/400.css";
+import "@fontsource/source-sans-3/500.css";
+import "@fontsource/source-sans-3/600.css";
+
 const theme: MantineThemeOverride = {
   // Base font and configuration
-  fontFamily: "Montserrat, Helvetica, sans-serif",
+  fontFamily: "'Source Sans 3', Helvetica, sans-serif",
 
   // Color palette inspired by healing/relaxation themes
   // with mintcream background in mind
@@ -95,7 +106,7 @@ const theme: MantineThemeOverride = {
   components: {
     Title: {
       defaultProps: {
-        color: "brand.7",
+        style: { fontFamily: "'Lora', serif", color: "brand.7" },
       },
     },
     Text: {

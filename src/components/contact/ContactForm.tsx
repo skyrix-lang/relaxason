@@ -84,6 +84,7 @@ const ContactForm: FC<ContactFormProps> = ({
         <form
           onSubmit={form.onSubmit(onSubmit)}
           className={submitted ? styles.hidden : styles.visible}
+          autoComplete="on"
         >
           <Title order={3} mb="lg" style={{ color: "#1A9E8E" }}>
             <IconMessageCircle
@@ -116,6 +117,9 @@ const ContactForm: FC<ContactFormProps> = ({
               {...form.getInputProps("name")}
               style={{ marginBottom: "1rem" }}
               radius="md"
+              name="name"
+              autoComplete="name"
+              inputWrapperOrder={["label", "input", "error"]}
             />
 
             <TextInput
@@ -125,6 +129,10 @@ const ContactForm: FC<ContactFormProps> = ({
               {...form.getInputProps("email")}
               style={{ marginBottom: "1rem" }}
               radius="md"
+              name="email"
+              autoComplete="email"
+              type="email"
+              inputWrapperOrder={["label", "input", "error"]}
             />
           </SimpleGrid>
 
@@ -136,6 +144,10 @@ const ContactForm: FC<ContactFormProps> = ({
               style={{ marginBottom: "1rem" }}
               radius="md"
               leftSection={<IconPhone size={16} />}
+              name="tel"
+              autoComplete="tel"
+              type="tel"
+              inputWrapperOrder={["label", "input", "error"]}
             />
 
             <BrowserAwareSelect
@@ -154,6 +166,8 @@ const ContactForm: FC<ContactFormProps> = ({
               {...form.getInputProps("reason")}
               style={{ marginBottom: "1rem" }}
               radius="md"
+              name="reason"
+              autoComplete="off"
             />
           </SimpleGrid>
 
@@ -164,6 +178,9 @@ const ContactForm: FC<ContactFormProps> = ({
             {...form.getInputProps("subject")}
             style={{ marginBottom: "1rem" }}
             radius="md"
+            name="subject"
+            autoComplete="off"
+            inputWrapperOrder={["label", "input", "error"]}
           />
 
           <Textarea
@@ -176,6 +193,9 @@ const ContactForm: FC<ContactFormProps> = ({
             {...form.getInputProps("message")}
             style={{ marginBottom: "1rem" }}
             radius="md"
+            name="message"
+            autoComplete="off"
+            inputWrapperOrder={["label", "input", "error"]}
           />
 
           <Group justify="flex-end" mt="xl">

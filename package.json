@@ -15,11 +15,17 @@
     "postcss-simple-vars": "^7.0.1",
     "prettier": "^3.5.3",
     "rimraf": "^5.0.10",
+    "sharp": "^0.34.1",
+    "terser": "^5.39.0",
     "typescript": "^5.8.3",
     "vite": "^5.4.14",
+    "vite-plugin-compression": "^0.5.1",
+    "vite-plugin-image-optimizer": "^1.1.8",
     "vite-tsconfig-paths": "^5.1.4"
   },
   "dependencies": {
+    "@fontsource/lora": "^5.2.5",
+    "@fontsource/source-sans-3": "^5.2.6",
     "@getbrevo/brevo": "^2.2.0",
     "@mantine/core": "^7.17.1",
     "@mantine/form": "^7.17.1",
@@ -27,6 +33,7 @@
     "@tabler/icons-react": "^3.30.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-helmet-async": "^2.0.5",
     "react-router-dom": "^6.30.0"
   },
   "scripts": {

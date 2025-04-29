@@ -9,6 +9,8 @@ import FaqSection from "../components/contact/FaqSection";
 import Confetti from "../components/contact/Confetti";
 import useScrollToHash from "../hooks/useScrollToHash.ts";
 import useScrollVisibility from "../hooks/useScrollVisibility.ts";
+import portrait from "../assets/portrait.jpg";
+import SEOMetadata from "../components/google/SEOMetaData.tsx";
 
 const Contact: FunctionComponent = () => {
   // Hook to handle hash-based navigation
@@ -78,46 +80,55 @@ const Contact: FunctionComponent = () => {
   };
 
   return (
-    <div
-      id="contact"
-      className={
-        visibleSections.contact
-          ? `${global.fadeInSection} ${global.visible} ${global.aboutWrapper}`
-          : global.fadeInSection
-      }
-    >
-      {/* Confetti effect when message is sent successfully */}
-      {showConfetti && <Confetti />}
+    <>
+      <SEOMetadata
+        title="Sonothérapie - Contactez-moi pour prendre rendez-vous"
+        description="Explorez la puissance thérapeutique des sons et vibrations. Nos sessions de sonothérapie vous aident à réduire le stress, améliorer le sommeil et retrouver l'équilibre intérieur."
+        image={portrait}
+        url="https://relaxason.com/contact"
+        type="article"
+      />
+      <div
+        id="contact"
+        className={
+          visibleSections.contact
+            ? `${global.fadeInSection} ${global.visible} ${global.aboutWrapper}`
+            : global.fadeInSection
+        }
+      >
+        {/* Confetti effect when message is sent successfully */}
+        {showConfetti && <Confetti />}
 
-      {/* Page Title */}
-      <Title order={1} mb="xl" className={global.sectionTitle}>
-        <Box component="span" className={global.titleUnderline} />
-        Contactez-moi
-      </Title>
+        {/* Page Title */}
+        <Title order={1} mb="xl" className={global.sectionTitle}>
+          <Box component="span" className={global.titleUnderline} />
+          Contactez-moi
+        </Title>
 
-      <Text size="lg" mb="xl" ta="center" className={global.mb4}>
-        Pour toute question sur la sonothérapie ou pour prendre rendez-vous,
-        n'hésitez pas à me contacter via le formulaire ci-dessous.
-      </Text>
+        <Text size="lg" mb="xl" ta="center" className={global.mb4}>
+          Pour toute question sur la sonothérapie ou pour prendre rendez-vous,
+          n'hésitez pas à me contacter via le formulaire ci-dessous.
+        </Text>
 
-      <Grid gutter={{ base: 20, md: 50 }} align="stretch">
-        <Grid.Col span={{ base: 12, md: 5 }}>
-          <ContactInfo />
-        </Grid.Col>
+        <Grid gutter={{ base: 20, md: 50 }} align="stretch">
+          <Grid.Col span={{ base: 12, md: 5 }}>
+            <ContactInfo />
+          </Grid.Col>
 
-        <Grid.Col span={{ base: 12, md: 7 }}>
-          <ContactForm
-            loading={loading}
-            submitted={submitted}
-            error={error}
-            onSubmit={handleSubmit}
-          />
-        </Grid.Col>
-      </Grid>
+          <Grid.Col span={{ base: 12, md: 7 }}>
+            <ContactForm
+              loading={loading}
+              submitted={submitted}
+              error={error}
+              onSubmit={handleSubmit}
+            />
+          </Grid.Col>
+        </Grid>
 
-      {/* FAQ Section */}
-      <FaqSection />
-    </div>
+        {/* FAQ Section */}
+        <FaqSection />
+      </div>
+    </>
   );
 };
 
