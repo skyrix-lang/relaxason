@@ -1,10 +1,8 @@
-// vite.config.mts
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tsconfigPaths from "vite-tsconfig-paths";
 import viteCompression from "vite-plugin-compression";
 import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
-import { visualizer } from "rollup-plugin-visualizer";
 
 export default defineConfig({
 	plugins: [
@@ -30,39 +28,24 @@ export default defineConfig({
 			webp: {
 				lossless: true
 			}
-		}),
-		visualizer({
-			filename: 'stats.html',
-			open: false,
 		})
 	],
-	// Point to the new MTS config
-	css: {
-		postcss: './postcss.config.mts',
-	},
 	build: {
+		// Additional build optimizations
 		minify: 'terser',
 		terserOptions: {
 			compress: {
 				drop_console: true,
-				drop_debugger: true,
-				pure_funcs: ['console.log', 'console.info', 'console.debug']
+				drop_debugger: true
 			}
 		},
 		rollupOptions: {
 			output: {
 				manualChunks: {
 					vendor: ['react', 'react-dom'],
-					mantine: ['@mantine/core', '@mantine/hooks'],
-					icons: ['@tabler/icons-react']
+					mantine: ['@mantine/core', '@mantine/hooks']
 				}
-			},
-			treeshake: {
-				moduleSideEffects: false,
-				propertyReadSideEffects: false,
-				tryCatchDeoptimization: false
 			}
-		},
-		target: 'es2020'
+		}
 	}
 });
