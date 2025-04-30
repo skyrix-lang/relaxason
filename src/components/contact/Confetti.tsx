@@ -15,7 +15,7 @@ const Confetti: FC = () => {
 
   useEffect(() => {
     // Generate confetti particles
-    const colors = ["#3DCFBC", "#5FD8C8", "#1A9E8E", "#F5F0FF", "#E9DBFF"];
+    const colors = ["#1EB19E", "#30C1AE", "#008577", "#F5F0FF", "#E9DBFF"];
     const newParticles = Array.from({ length: 100 }).map(() => {
       const left = `${Math.random() * 100}%`;
       const size = `${Math.random() * 10 + 5}px`;

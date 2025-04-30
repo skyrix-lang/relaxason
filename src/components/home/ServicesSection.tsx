@@ -56,7 +56,7 @@ const ServicesSection: FC<ServicesSectionProps> = ({ isVisible }) => {
               }}
             >
               <Overlay
-                color="#3DCFBC"
+                color="#1EB19E"
                 backgroundOpacity={0.5}
                 style={{ height: "100%" }}
               />
@@ -106,7 +106,7 @@ const ServicesSection: FC<ServicesSectionProps> = ({ isVisible }) => {
               }}
             >
               <Overlay
-                color="#3DCFBC"
+                color="#1EB19E"
                 backgroundOpacity={0.5}
                 style={{ height: "100%" }}
               />

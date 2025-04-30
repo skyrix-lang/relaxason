@@ -136,7 +136,7 @@ const About: FunctionComponent = () => {
                 fw={500}
                 size="sm"
                 style={{
-                  color: "#1A9E8E",
+                  color: "#008577",
                   marginTop: "1.5rem",
                   marginBottom: "0.5rem",
                 }}
@@ -147,7 +147,7 @@ const About: FunctionComponent = () => {
               <div
                 style={{
                   padding: "0.5rem 0.5rem 0.5rem 1rem",
-                  borderLeft: "3px solid #3DCFBC",
+                  borderLeft: "3px solid #1EB19E",
                   backgroundColor: "rgba(231, 249, 247, 0.5)",
                   borderRadius: "0 6px 6px 0",
                 }}
@@ -166,7 +166,7 @@ const About: FunctionComponent = () => {
                       href="https://www.zen-and-sounds.com"
                       target="_blank"
                       style={{
-                        color: "#1A9E8E",
+                        color: "#008577",
                         fontWeight: 500,
                         textDecoration: "none",
                       }}
@@ -189,7 +189,7 @@ const About: FunctionComponent = () => {
                       href="https://ecole-spa-international.com/"
                       target="_blank"
                       style={{
-                        color: "#1A9E8E",
+                        color: "#008577",
                         fontWeight: 500,
                         textDecoration: "none",
                       }}

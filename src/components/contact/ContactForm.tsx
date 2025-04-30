@@ -68,7 +68,7 @@ const ContactForm: FC<ContactFormProps> = ({
       <div className={styles.formContainer}>
         {loading && (
           <div className={styles.loaderOverlay}>
-            <Loader color="#3DCFBC" size="lg" />
+            <Loader color="#1EB19E" size="lg" />
           </div>
         )}
 
@@ -86,7 +86,7 @@ const ContactForm: FC<ContactFormProps> = ({
           className={submitted ? styles.hidden : styles.visible}
           autoComplete="on"
         >
-          <Title order={3} mb="lg" style={{ color: "#1A9E8E" }}>
+          <Title order={3} mb="lg" style={{ color: "#008577" }}>
             <IconMessageCircle
               size={24}
               style={{

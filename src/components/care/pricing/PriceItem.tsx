@@ -28,7 +28,7 @@ export const PriceItem: FC<PriceItemProps> = ({
           {icon ? (
             icon
           ) : (
-            <IconPointFilled size={18} color="#3DCFBC" stroke={2} />
+            <IconPointFilled size={18} color="#1EB19E" stroke={2} />
           )}
           <Text fw={500}>{service}</Text>
         </Group>

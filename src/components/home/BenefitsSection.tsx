@@ -65,10 +65,10 @@ const BenefitsSection: FC<BenefitsSectionProps> = ({ isVisible }) => {
               <IconMassage
                 size={48}
                 stroke={1.5}
-                color="#3DCFBC"
+                color="#1EB19E"
                 style={{ marginBottom: "1rem" }}
               />
-              <Title order={4} mb="md" c="brand.7">
+              <Title order={3} mb="md" c="brand.7">
                 Relaxation profonde
               </Title>
               <Text>
@@ -88,10 +88,10 @@ const BenefitsSection: FC<BenefitsSectionProps> = ({ isVisible }) => {
               <IconWaveSine
                 size={48}
                 stroke={1.5}
-                color="#3DCFBC"
+                color="#1EB19E"
                 style={{ marginBottom: "1rem" }}
               />
-              <Title order={4} mb="md" c="brand.7">
+              <Title order={3} mb="md" c="brand.7">
                 Réduction du stress
               </Title>
               <Text>
@@ -111,10 +111,10 @@ const BenefitsSection: FC<BenefitsSectionProps> = ({ isVisible }) => {
               <IconHeartbeat
                 size={48}
                 stroke={1.5}
-                color="#3DCFBC"
+                color="#1EB19E"
                 style={{ marginBottom: "1rem" }}
               />
-              <Title order={4} mb="md" c="brand.7">
+              <Title order={3} mb="md" c="brand.7">
                 Équilibre énergétique
               </Title>
               <Text>
@@ -134,10 +134,10 @@ const BenefitsSection: FC<BenefitsSectionProps> = ({ isVisible }) => {
               <IconEmpathize
                 size={48}
                 stroke={1.5}
-                color="#3DCFBC"
+                color="#1EB19E"
                 style={{ marginBottom: "1rem" }}
               />
-              <Title order={4} mb="md" c="brand.7">
+              <Title order={3} mb="md" c="brand.7">
                 Bien-être global
               </Title>
               <Text>

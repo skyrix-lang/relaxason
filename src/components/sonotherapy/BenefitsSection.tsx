@@ -33,10 +33,10 @@ const BenefitsSection: FC<BenefitsSectionProps> = ({ isVisible }) => {
         withBorder
         mb={60}
         style={{
-          background: "linear-gradient(45deg, #E6F9F7, #C5F1EC)",
+          background: "linear-gradient(45deg, #E6F9F7, #B0EAE4)",
         }}
       >
-        <Title order={3} mb="xl" style={{ color: "#1A9E8E" }}>
+        <Title order={3} mb="xl" style={{ color: "#008577" }}>
           Les Bienfaits de la Sonothérapie
         </Title>
 

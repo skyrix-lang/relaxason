@@ -73,7 +73,7 @@ const Navbar: FunctionComponent<INavbarProps> = () => {
             onClick={toggle}
             size="sm"
             hiddenFrom="sm"
-            color="#1A9E8E" /* brand[7] color */
+            color="#008577" /* brand[7] color */
           />
 
           {/* Mobile drawer that appears when burger is clicked */}
@@ -92,7 +92,7 @@ const Navbar: FunctionComponent<INavbarProps> = () => {
                 borderBottom: "1px solid #E6F9F7" /* brand[0] color */,
               },
               close: {
-                color: "#1A9E8E" /* brand[7] color */,
+                color: "#008577" /* brand[7] color */,
                 "&:hover": {
                   backgroundColor: "#E6F9F7" /* brand[0] color */,
                 },

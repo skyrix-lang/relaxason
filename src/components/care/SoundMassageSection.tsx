@@ -51,13 +51,13 @@ const SoundMassageSection: FC<SoundMassageSectionProps> = ({ isVisible }) => {
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6 }}>
             <Group mb="md" justify="center">
-              <IconMassage size={24} color="#3DCFBC" />
+              <IconMassage size={24} color="#1EB19E" />
               <Title order={2} className={global.sectionTitle}>
                 <Box component="span" className={global.titleUnderline} />
                 Massage Sonore Individuel
               </Title>
             </Group>
-            <Text size="lg" fw={500} mb="md" style={{ color: "#1A9E8E" }}>
+            <Text size="lg" fw={500} mb="md" style={{ color: "#008577" }}>
               Une expérience inoubliable de bien-être profond
             </Text>
             <Text mb="md">
@@ -80,7 +80,7 @@ const SoundMassageSection: FC<SoundMassageSectionProps> = ({ isVisible }) => {
 
         <Grid mt="xl">
           <Grid.Col span={12}>
-            <Title order={3} mb="md" style={{ color: "#1A9E8E" }}>
+            <Title order={3} mb="md" style={{ color: "#008577" }}>
               Bienfaits du Massage Sonore
             </Title>
             <Grid>
@@ -88,7 +88,7 @@ const SoundMassageSection: FC<SoundMassageSectionProps> = ({ isVisible }) => {
                 <List
                   spacing="sm"
                   icon={
-                    <Box component="span" style={{ color: "#3DCFBC" }}>
+                    <Box component="span" style={{ color: "#1EB19E" }}>
                       •
                     </Box>
                   }
@@ -102,7 +102,7 @@ const SoundMassageSection: FC<SoundMassageSectionProps> = ({ isVisible }) => {
                 <List
                   spacing="sm"
                   icon={
-                    <Box component="span" style={{ color: "#3DCFBC" }}>
+                    <Box component="span" style={{ color: "#1EB19E" }}>
                       •
                     </Box>
                   }

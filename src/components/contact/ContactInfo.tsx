@@ -22,7 +22,7 @@ const ContactInfo: FC = () => {
         flexDirection: "column",
       }}
     >
-      <Title order={3} mb="md" style={{ color: "#1A9E8E" }}>
+      <Title order={3} mb="md" style={{ color: "#008577" }}>
         Informations de Contact
       </Title>
 

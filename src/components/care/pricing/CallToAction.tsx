@@ -24,7 +24,7 @@ const CallToAction: FC<CallToActionProps> = ({
       mt={50}
       style={{
         backgroundColor: "#F8FDFC",
-        borderLeft: `${rem(4)} solid #3DCFBC`,
+        borderLeft: `${rem(4)} solid #1EB19E`,
       }}
     >
       <Group

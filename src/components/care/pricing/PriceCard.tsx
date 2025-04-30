@@ -36,7 +36,7 @@ const PriceCard: FC<PriceCardProps> = ({
       radius="md"
       withBorder
       style={{
-        borderColor: highlight ? "#3DCFBC" : undefined,
+        borderColor: highlight ? "#1EB19E" : undefined,
         borderWidth: highlight ? "2px" : undefined,
       }}
     >
@@ -53,7 +53,7 @@ const PriceCard: FC<PriceCardProps> = ({
             radius="md"
             variant={highlight ? "filled" : "light"}
             color={highlight ? "brand.6" : "brand.1"}
-            style={{ color: highlight ? "white" : "#3DCFBC" }}
+            style={{ color: highlight ? "white" : "#1EB19E" }}
           >
             {icon}
           </ThemeIcon>
@@ -61,7 +61,7 @@ const PriceCard: FC<PriceCardProps> = ({
         <Title
           order={3}
           ta="center"
-          style={{ color: "#1A9E8E", fontSize: rem(24) }}
+          style={{ color: "#008577", fontSize: rem(24) }}
         >
           {title}
         </Title>

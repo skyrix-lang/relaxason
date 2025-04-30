@@ -38,14 +38,14 @@ const ConsciousnessExpansionWorkshopSection: FC<
       <Grid gutter="xl">
         <Grid.Col span={{ base: 12, md: 6 }} order={{ base: 2, md: 1 }}>
           <Group mb="md" justify="center">
-            <IconBrain size={24} color="#3DCFBC" />
+            <IconBrain size={24} color="#1EB19E" />
             <Title order={2} className={global.sectionTitle}>
               <Box component="span" className={global.titleUnderline} />
               Atelier d'Expansion de Conscience
             </Title>
           </Group>
 
-          <Text size="lg" mb="md" fw={600} style={{ color: "#2BB9A7" }}>
+          <Text size="lg" mb="md" fw={600} style={{ color: "#0D9D8A" }}>
             Un Éveil à soi - Élevez votre conscience en musique !
           </Text>
 
@@ -71,7 +71,7 @@ const ConsciousnessExpansionWorkshopSection: FC<
 
           <Paper p="md" radius="md" style={{ backgroundColor: "#E6F9F7" }}>
             <Group wrap="nowrap" align="flex-start">
-              <IconCalendarEvent size={20} color="#1A9E8E" />
+              <IconCalendarEvent size={20} color="#008577" />
               <div>
                 <Text fw={600}>Prochaines dates</Text>
                 <Text>11 Mai 2025 • 07 Juin 2025</Text>
@@ -81,7 +81,7 @@ const ConsciousnessExpansionWorkshopSection: FC<
             <Divider my="sm" />
 
             <Group wrap="nowrap" align="flex-start">
-              <IconMapPin size={20} color="#1A9E8E" />
+              <IconMapPin size={20} color="#008577" />
               <div>
                 <Text fw={600}>Informations pratiques</Text>
                 <Text size="sm">Horaires : 9h à 18h</Text>
@@ -93,7 +93,7 @@ const ConsciousnessExpansionWorkshopSection: FC<
             <Divider my="sm" />
 
             <Group wrap="nowrap" align="flex-start">
-              <IconUsers size={20} color="#1A9E8E" />
+              <IconUsers size={20} color="#008577" />
               <div>
                 <Text fw={600}>Format intime</Text>
                 <Text size="sm">
@@ -125,7 +125,7 @@ const ConsciousnessExpansionWorkshopSection: FC<
             withBorder
             style={{ backgroundColor: "#F8FDFC" }}
           >
-            <Title order={4} mb="md" style={{ color: "#1A9E8E" }}>
+            <Title order={4} mb="md" style={{ color: "#008577" }}>
               Vos guides
             </Title>
 

@@ -71,10 +71,10 @@ const NavbarItems: FunctionComponent<INavbarButtonProps> = ({ links }) => {
               borderRadius: "var(--mantine-radius-sm)",
             },
             item: {
-              color: "#1A9E8E", // brand[7] color
+              color: "#008577", // brand[7] color
               "&:hover": {
                 backgroundColor: "#E6F9F7", // brand[0] color
-                color: "#3DCFBC", // brand[5] color
+                color: "#1EB19E", // brand[5] color
               },
             },
           }}

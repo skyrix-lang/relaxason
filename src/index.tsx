@@ -11,12 +11,6 @@ import "./index.css";
 import Sonotherapy from "./routes/Sonotherapy.tsx";
 import Treatments from "./routes/Treatments.tsx";
 
-// Import Lora for headings
-import "@fontsource/lora/400.css";
-import "@fontsource/lora/500.css";
-import "@fontsource/lora/600.css";
-import "@fontsource/lora/700.css";
-
 // Import Source Sans 3 for body text
 import "@fontsource/source-sans-3/400.css";
 import "@fontsource/source-sans-3/500.css";
@@ -26,62 +20,61 @@ const theme: MantineThemeOverride = {
   // Base font and configuration
   fontFamily: "'Source Sans 3', Helvetica, sans-serif",
 
-  // Color palette inspired by healing/relaxation themes
-  // with mintcream background in mind
+  // Color palette optimized for accessibility with mintcream background
   colors: {
     // Soothing teal/turquoise palette for brand colors
     brand: [
-      "#E6F9F7", // Lightest teal
-      "#C5F1EC",
-      "#A3E9E0",
-      "#81E0D4",
-      "#5FD8C8",
-      "#3DCFBC", // Mid teal - primary
-      "#2BB9A7",
-      "#1A9E8E",
-      "#098375",
-      "#00695C", // Darkest teal
+      "#E6F9F7", // Lightest teal (background)
+      "#B0EAE4",
+      "#7ADFD2",
+      "#4FD1C0",
+      "#30C1AE",
+      "#1EB19E", // Mid teal - primary
+      "#0D9D8A",
+      "#008577",
+      "#00705F",
+      "#005C4B", // Darkest teal
     ],
 
     // Secondary purple accents (keeping some of the previous theme feel)
     accent: [
-      "#F5F0FF",
+      "#F5F0FF", // Lightest purple (background)
       "#E9DBFF",
-      "#D4BFFF",
-      "#B89DFC",
-      "#9C7BF9",
-      "#8059F5", // Mid purple
-      "#6E47E5",
-      "#5C35D0",
-      "#4B23BC",
-      "#3A11A8", // Darkest purple
+      "#D0B5FF",
+      "#B495F8",
+      "#9B76F7",
+      "#7D53ED", // Mid purple
+      "#6940DD",
+      "#5730C5",
+      "#4A22B5",
+      "#3A109F", // Darkest purple
     ],
 
     // Neutral colors
     neutral: [
-      "#F8F9FA",
+      "#F8F9FA", // Lightest neutral
       "#E9ECEF",
       "#DEE2E6",
       "#CED4DA",
-      "#ADB5BD",
-      "#868E96", // Mid gray
+      "#A4ACB5",
+      "#7D858F", // Mid gray
+      "#5F6B75",
       "#495057",
       "#343A40",
-      "#212529",
-      "#121416",
+      "#212529", // Darkest neutral
     ],
 
     // Natural greens to complement mintcream
     nature: [
-      "#E8F5E9",
+      "#E8F5E9", // Lightest green
       "#C8E6C9",
       "#A5D6A7",
-      "#81C784",
-      "#66BB6A",
-      "#4CAF50", // Mid green
-      "#43A047",
-      "#388E3C",
-      "#2E7D32",
+      "#7CC47F",
+      "#5AAF5D",
+      "#3F9542", // Mid green
+      "#358738",
+      "#2C742F",
+      "#236127",
       "#1B5E20", // Darkest green
     ],
   },
@@ -106,7 +99,7 @@ const theme: MantineThemeOverride = {
   components: {
     Title: {
       defaultProps: {
-        style: { fontFamily: "'Lora', serif", color: "brand.7" },
+        color: "brand.8",
       },
     },
     Text: {

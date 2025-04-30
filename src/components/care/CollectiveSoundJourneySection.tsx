@@ -41,7 +41,7 @@ const CollectiveSoundJourneySection: FC<CollectiveSoundJourneySectionProps> = ({
     >
       <Container size="lg">
         <Group mb="md" justify="center">
-          <IconWaveSine size={24} color="#3DCFBC" />
+          <IconWaveSine size={24} color="#1EB19E" />
           <Title
             order={2}
             className={`${global.sectionTitle} ${global.textCenter}`}
@@ -75,7 +75,7 @@ const CollectiveSoundJourneySection: FC<CollectiveSoundJourneySectionProps> = ({
           order={3}
           className={global.textCenter}
           mb="lg"
-          style={{ color: "#1A9E8E" }}
+          style={{ color: "#008577" }}
         >
           Les Instruments du Voyage
         </Title>
@@ -83,7 +83,7 @@ const CollectiveSoundJourneySection: FC<CollectiveSoundJourneySectionProps> = ({
         <Grid gutter="xl" mb="xl">
           <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
             <InstrumentCard
-              icon={<IconDisc size={32} color="#3DCFBC" />}
+              icon={<IconDisc size={32} color="#1EB19E" />}
               title="Tambour"
               description="Porteur de rythmes ancestraux qui ancrent et reconnectent à la Terre,
               associé à ma voix, pour accompagner et amplifier l'expérience."
@@ -91,21 +91,21 @@ const CollectiveSoundJourneySection: FC<CollectiveSoundJourneySectionProps> = ({
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
             <InstrumentCard
-              icon={<IconInnerShadowBottomLeft size={32} color="#3DCFBC" />}
+              icon={<IconInnerShadowBottomLeft size={32} color="#1EB19E" />}
               title="Gongs"
               description="Leurs résonances profondes favorisent un lâcher prise immédiat."
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
             <InstrumentCard
-              icon={<IconCrystalBall size={32} color="#3DCFBC" />}
+              icon={<IconCrystalBall size={32} color="#1EB19E" />}
               title="Bols de cristal"
               description="Leurs harmoniques cristallines ouvrent et équilibrent les centres énergétiques."
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
             <InstrumentCard
-              icon={<IconProng size={32} color="#3DCFBC" />}
+              icon={<IconProng size={32} color="#1EB19E" />}
               title="Shimes et percussions"
               description="Affinent l'écoute intérieure et éveillent la sensibilité."
             />
@@ -116,7 +116,7 @@ const CollectiveSoundJourneySection: FC<CollectiveSoundJourneySectionProps> = ({
           order={3}
           className={global.textCenter}
           mb="lg"
-          style={{ color: "#1A9E8E" }}
+          style={{ color: "#008577" }}
         >
           Bienfaits du Voyage Sonore
         </Title>
@@ -124,21 +124,21 @@ const CollectiveSoundJourneySection: FC<CollectiveSoundJourneySectionProps> = ({
         <Grid gutter="xl">
           <Grid.Col span={{ base: 12, md: 4 }}>
             <BenefitCard
-              icon={<IconYoga size={32} color="#3DCFBC" />}
+              icon={<IconYoga size={32} color="#1EB19E" />}
               title="Plan Physique"
               description="Libération des tensions corporelles, amélioration de la qualité du sommeil et détente musculaire profonde."
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 4 }}>
             <BenefitCard
-              icon={<IconUsers size={32} color="#3DCFBC" />}
+              icon={<IconUsers size={32} color="#1EB19E" />}
               title="Plan Émotionnel et Mental"
               description="Apaisement, réduction du stress et de l'anxiété, harmonisation des émotions et clarté mentale."
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 4 }}>
             <BenefitCard
-              icon={<IconBrain size={32} color="#3DCFBC" />}
+              icon={<IconBrain size={32} color="#1EB19E" />}
               title="Plan Spirituel"
               description="Expansion de la conscience, connexion intérieure profonde et sentiment d'unité amplifiés par l'énergie collective."
             />
@@ -151,7 +151,7 @@ const CollectiveSoundJourneySection: FC<CollectiveSoundJourneySectionProps> = ({
           mb="md"
           size="lg"
           fw={500}
-          style={{ color: "#1A9E8E" }}
+          style={{ color: "#008577" }}
         >
           Chaque session est unique, guidée par l'intention du moment et les
           besoins du groupe.
@@ -193,7 +193,7 @@ const InstrumentCard: FC<InstrumentCardProps> = ({
     <Card className={global.serviceCard} padding="md" h="100%">
       <Stack>
         <div>{icon}</div>
-        <Title order={4} style={{ color: "#1A9E8E" }}>
+        <Title order={4} style={{ color: "#008577" }}>
           {title}
         </Title>
         <Text size="sm">{description}</Text>
@@ -213,7 +213,7 @@ const BenefitCard: FC<BenefitCardProps> = ({ icon, title, description }) => {
     <Card className={global.serviceCard} padding="xl" h="100%">
       <Stack>
         <div>{icon}</div>
-        <Title order={4} style={{ color: "#1A9E8E" }}>
+        <Title order={4} style={{ color: "#008577" }}>
           {title}
         </Title>
         <Text>{description}</Text>

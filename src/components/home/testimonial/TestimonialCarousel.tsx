@@ -52,7 +52,7 @@ const TestimonialsCarousel: FC<TestimonialsCarouselProps> = ({
           width: "10px",
           height: "10px",
           borderRadius: "50%",
-          backgroundColor: index === activeIndex ? "#3DCFBC" : "#C5F1EC",
+          backgroundColor: index === activeIndex ? "#1EB19E" : "#B0EAE4",
           cursor: "pointer",
           transition: "all 0.3s ease",
         }}
@@ -102,6 +102,8 @@ const TestimonialsCarousel: FC<TestimonialsCarouselProps> = ({
           }}
         >
           <ActionIcon
+            id="button-show-precedent"
+            aria-label="show precedent"
             onClick={prevSlide}
             variant="light"
             radius="xl"
@@ -112,6 +114,8 @@ const TestimonialsCarousel: FC<TestimonialsCarouselProps> = ({
           </ActionIcon>
 
           <ActionIcon
+            id="button-show-next"
+            aria-label="show next"
             onClick={nextSlide}
             variant="light"
             radius="xl"

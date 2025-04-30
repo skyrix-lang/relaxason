@@ -27,7 +27,7 @@ const VideoSection: FC<VideoSectionProps> = ({ isVisible }) => {
           backgroundColor: "#F8FDFC", // secondaryBackground from theme
         }}
       >
-        <Title order={2} ta="center" mb="lg" style={{ color: "#1A9E8E" }}>
+        <Title order={2} ta="center" mb="lg" style={{ color: "#008577" }}>
           Découvrez la Sonothérapie
         </Title>
         <Text size="lg" ta="center" mb="xl">

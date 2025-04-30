@@ -29,7 +29,7 @@ const FaqSection: FC = () => {
         background: "linear-gradient(135deg, #F5FFFA 0%, #E6F9F7 100%)",
       }}
     >
-      <Title order={3} mb="lg" ta="center" style={{ color: "#1A9E8E" }}>
+      <Title order={3} mb="lg" ta="center" style={{ color: "#008577" }}>
         Foire Aux Questions
       </Title>
 

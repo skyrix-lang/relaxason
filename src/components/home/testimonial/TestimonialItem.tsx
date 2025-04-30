@@ -50,7 +50,7 @@ const TestimonialItem: FC<TestimonialItemProps> = ({
               left: "-5px",
               fontSize: "4rem",
               opacity: 0.1,
-              color: "#3DCFBC",
+              color: "#1EB19E",
               fontFamily: "serif",
             }}
           >
@@ -59,7 +59,7 @@ const TestimonialItem: FC<TestimonialItemProps> = ({
         </Box>
 
         <Box style={{ marginTop: "auto" }}>
-          <Text fw={600} ta="center" style={{ color: "#3DCFBC" }}>
+          <Text fw={600} ta="center" style={{ color: "#1EB19E" }}>
             {name}
           </Text>
           <Text size="sm" ta="center" c="dimmed">

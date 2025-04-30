@@ -51,7 +51,7 @@ const TestimonialsSection: FC<TestimonialsSectionProps> = ({ isVisible }) => {
             order={2}
             mb="md"
             className={global.sectionTitle}
-            style={{ color: "#1A9E8E" }}
+            style={{ color: "#008577" }}
           >
             <Box component="span" className={global.titleUnderline} />
             Témoignages
@@ -68,7 +68,7 @@ const TestimonialsSection: FC<TestimonialsSectionProps> = ({ isVisible }) => {
             <IconQuote
               size={40}
               style={{
-                color: "#3DCFBC",
+                color: "#1EB19E",
                 opacity: 0.2,
                 transform: isVisible ? "rotate(180deg)" : "rotate(0deg)",
                 transition: "transform 0.8s ease-in-out",

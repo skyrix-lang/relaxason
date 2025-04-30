@@ -27,7 +27,7 @@ const HeroSection: FC<HeroSectionProps> = ({ isVisible }) => {
         position: "relative",
         height: "80vh",
         minHeight: "500px",
-        backgroundImage: "linear-gradient(135deg, #E6F9F7 0%, #C5F1EC 100%)",
+        backgroundImage: "linear-gradient(135deg, #E6F9F7 0%, #B0EAE4 100%)",
         display: "flex",
         alignItems: "center",
         overflow: "hidden",
@@ -70,7 +70,7 @@ const HeroSection: FC<HeroSectionProps> = ({ isVisible }) => {
                 }}
               >
                 Découvrez le pouvoir <br />
-                <span style={{ color: "#3DCFBC" }}>thérapeutique des sons</span>
+                <span style={{ color: "#1EB19E" }}>thérapeutique des sons</span>
               </Title>
               <Text
                 size="lg"
@@ -150,6 +150,8 @@ const HeroSection: FC<HeroSectionProps> = ({ isVisible }) => {
       {/* Scroll down indicator */}
       <div className={global.hidden}>
         <Button
+          id="button-move-forward"
+          aria-label="move forward"
           variant="subtle"
           color="brand.7"
           style={{

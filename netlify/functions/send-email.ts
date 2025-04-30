@@ -63,7 +63,7 @@ const handler: Handler = async (event) => {
     // Définir le contenu HTML
     sendSmtpEmail.htmlContent = `
       <div style="font-family: Arial, sans-serif; line-height: 1.6;">
-        <h2 style="color: #1A9E8E;">Nouveau message de contact</h2>
+        <h2 style="color: #008577;">Nouveau message de contact</h2>
         <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px;">
           <p><strong>Nom:</strong> ${data.name}</p>
           <p><strong>Email:</strong> ${data.email}</p>

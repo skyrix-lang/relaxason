@@ -28,7 +28,7 @@ const CTASection: FC<CTASectionProps> = ({ isVisible }) => {
         padding="xl"
         radius="lg"
         style={{
-          background: "linear-gradient(135deg, #3DCFBC 0%, #1A9E8E 100%)",
+          background: "linear-gradient(135deg, #1EB19E 0%, #008577 100%)",
           boxShadow: "0 20px 40px rgba(0, 105, 92, 0.2)",
         }}
       >

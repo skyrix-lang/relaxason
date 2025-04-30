@@ -46,11 +46,11 @@ const SwedishMassageSection: FC<SwedishMassageSectionProps> = ({
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6 }}>
             <Group mb="md" justify="center">
-              <IconMassage size={24} color="#3DCFBC" />
+              <IconMassage size={24} color="#1EB19E" />
               <Title
                 order={2}
                 className={`${global.sectionTitle} ${global.textCenter}`}
-                style={{ color: "#1A9E8E" }}
+                style={{ color: "#008577" }}
               >
                 <Box component="span" className={global.titleUnderline} />
                 Massage Suédois
@@ -77,7 +77,7 @@ const SwedishMassageSection: FC<SwedishMassageSectionProps> = ({
               withBorder
               style={{ backgroundColor: "#F8FDFC" }}
             >
-              <Title order={4} mb="md" style={{ color: "#1A9E8E" }}>
+              <Title order={4} mb="md" style={{ color: "#008577" }}>
                 L'Expérience
               </Title>
               <Text>

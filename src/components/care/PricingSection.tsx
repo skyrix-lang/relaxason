@@ -29,7 +29,7 @@ const PricingSection: FC<PricingSectionProps> = ({ isVisible }) => {
       <Container size="lg" py="xl">
         {/* Header */}
         <Group mb="md" justify="center">
-          <IconCoins size={24} color="#3DCFBC" />
+          <IconCoins size={24} color="#1EB19E" />
           <Title
             order={2}
             className={`${global.sectionTitle} ${global.textCenter}`}

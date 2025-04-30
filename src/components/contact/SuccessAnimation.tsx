@@ -25,7 +25,7 @@ const SuccessAnimation: FC<SuccessAnimationProps> = ({ style }) => {
             <div className={styles.iconFix}></div>
           </div>
         </div>
-        <Title order={3} mt="md" style={{ color: "#1A9E8E" }}>
+        <Title order={3} mt="md" style={{ color: "#008577" }}>
           Message Envoyé !
         </Title>
         <Text ta="center" mt="sm" size="lg">

@@ -21,21 +21,21 @@
 	padding: rem(8px) rem(12px);
 	border-radius: var(--mantine-radius-sm);
 	text-decoration: none;
-	color: #1A9E8E; /* brand[7] color */
+	color: #008577; /* brand[7] color */
 	font-size: var(--mantine-font-size-sm);
 	font-weight: 500;
 	position: relative;
 	transition: all 0.3s ease;
 
 	&:hover {
-		color: #3DCFBC; /* brand[5] color */
+		color: #1EB19E; /* brand[5] color */
 		background-color: #F8FDFC; /* secondaryBackground */
 	}
 }
 
 /* Active link with underline */
 .linkActive {
-	color: #098375; /* brand[8] color - darker for active state */
+	color: #00705F; /* brand[8] color - darker for active state */
 	font-weight: 600;
 	position: relative;
 }
@@ -47,7 +47,7 @@
 	left: rem(12px);
 	width: calc(100% - rem(24px));
 	height: rem(2px);
-	background: linear-gradient(90deg, #3DCFBC 0%, #5FD8C8 100%);
+	background: linear-gradient(90deg, #1EB19E 0%, #30C1AE 100%);
 	border-radius: rem(1px);
 }
 
@@ -58,7 +58,7 @@
 /* Menu item styling */
 .menuItemActive {
 	background-color: #E6F9F7 !important; /* brand[0] color */
-	color: #098375 !important; /* brand[8] color */
+	color: #00705F !important; /* brand[8] color */
 	font-weight: 500;
 	position: relative;
 }
@@ -70,7 +70,7 @@
 	bottom: rem(4px);
 	width: rem(20px);
 	height: rem(2px);
-	background: linear-gradient(90deg, #3DCFBC 0%, #5FD8C8 100%);
+	background: linear-gradient(90deg, #1EB19E 0%, #30C1AE 100%);
 	border-radius: rem(1px);
 }
 
@@ -88,7 +88,7 @@
 	display: block;
 	padding: rem(14px) 0;
 	text-decoration: none;
-	color: #1A9E8E; /* brand[7] color */
+	color: #008577; /* brand[7] color */
 	font-size: var(--mantine-font-size-md);
 	font-weight: 500;
 	border-bottom: rem(1px) solid #E6F9F7; /* brand[0] color */
@@ -96,14 +96,14 @@
 }
 
 .mobileLink:hover {
-	color: #3DCFBC; /* brand[5] color */
+	color: #1EB19E; /* brand[5] color */
 }
 
 .mobileMainLink {
 	font-weight: 600;
 	font-size: var(--mantine-font-size-md);
 	padding: rem(14px) 0;
-	color: #098375; /* brand[8] color */
+	color: #00705F; /* brand[8] color */
 	border-bottom: rem(1px) solid #E6F9F7; /* brand[0] color */
 }
 
@@ -112,13 +112,13 @@
 	padding: rem(10px) 0;
 	padding-left: rem(16px);
 	text-decoration: none;
-	color: #2BB9A7; /* brand[6] color */
+	color: #0D9D8A; /* brand[6] color */
 	font-size: var(--mantine-font-size-sm);
 	transition: color 0.3s ease, transform 0.2s ease;
 }
 
 .mobileNestedLink:hover {
-	color: #3DCFBC; /* brand[5] color */
+	color: #1EB19E; /* brand[5] color */
 	transform: translateX(rem(4px));
 }
 
