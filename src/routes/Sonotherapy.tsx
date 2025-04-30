@@ -23,8 +23,8 @@ const Sonotherapy: FC = () => {
   return (
     <>
       <SEOMetadata
-        title="Relaxa'Son - Découvrez les bienfaits du son pour votre bien-être"
-        description="Explorez la puissance thérapeutique des sons et vibrations. Mes sessions de sonothérapie vous aident à réduire le stress, améliorer le sommeil et retrouver l'équilibre intérieur."
+        title="Relaxa'Son - Découvrez le pouvoir thérapeutique des sons"
+        description="Une approche holistique qui utilise les vibrations et les fréquences sonores pour apaiser le mental, favoriser l'équilibre intérieur, la relaxation et le bien-être."
         image={outils}
         url="https://relaxason.com/sonotherapie"
         type="article"
