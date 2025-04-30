@@ -69,6 +69,8 @@ const Navbar: FunctionComponent<INavbarProps> = () => {
 
           {/* Mobile burger button - hidden from small breakpoint and up */}
           <Burger
+            id="menu-navigation"
+            aria-label="menu de navigation"
             opened={opened}
             onClick={toggle}
             size="sm"
