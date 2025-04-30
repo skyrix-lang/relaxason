@@ -81,7 +81,7 @@ const About: FunctionComponent = () => {
     <>
       <SEOMetadata
         title="Relaxa'Son - Mon portrait de sonothérapeute"
-        description="Explorez la puissance thérapeutique des sons et vibrations. Nos sessions de sonothérapie vous aident à réduire le stress, améliorer le sommeil et retrouver l'équilibre intérieur."
+        description="Une approche holistique qui utilise les vibrations et les fréquences sonores pour apaiser le mental, favoriser l'équilibre intérieur, la relaxation et le bien-être."
         image={portrait}
         url="https://relaxason.com/mon-parcours"
         type="article"
