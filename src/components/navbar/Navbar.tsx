@@ -1,10 +1,17 @@
 import { FunctionComponent } from "react";
-import { Burger, Container, Drawer, Group, Image, Stack } from "@mantine/core";
+import {
+  Burger,
+  Container,
+  Drawer,
+  Group,
+  Image,
+  Stack,
+  Text,
+} from "@mantine/core";
 import logo from "../../assets/logo_relaxason.png";
 import { useDisclosure } from "@mantine/hooks";
 import NavbarItems from "./NavbarItems.tsx";
 import classes from "../../styles/Navbar.module.css";
-import global from "../../styles/Global.module.css";
 import { Link } from "react-router-dom";
 
 export interface ILink {
@@ -41,14 +48,7 @@ const Navbar: FunctionComponent<INavbarProps> = () => {
     {
       link: "/liens",
       label: "Liens et partenariats",
-      links: [
-        { link: "https://pontdostara.fr/", label: "Le Pont d'Ostara" },
-        { link: "https://www.zen-and-sounds.com/", label: "Zen and Sounds" },
-        {
-          link: "https://ecole-spa-international.com/",
-          label: "Ecole Internationale du Spa",
-        },
-      ],
+      links: [{ link: "https://pontdostara.fr/", label: "Le Pont d'Ostara" }],
     },
     { link: "/contact", label: "Me contacter" },
     // { link: "/plan", label: "Plan d'accès" },
@@ -58,8 +58,32 @@ const Navbar: FunctionComponent<INavbarProps> = () => {
     <header className={classes.header}>
       <Container size="xl">
         <div className={classes.inner}>
-          <Link to="/" className={`${classes.logoContainer} ${global.hidden}`}>
-            <Image h={55} src={logo} alt="Relaxason logo" />
+          <Link
+            to="/"
+            className={classes.logoContainer}
+            style={{ textDecoration: "none" }}
+          >
+            <Group gap="sm" align="center" wrap="nowrap">
+              <Image
+                h={55}
+                src={logo}
+                alt="Relaxason logo"
+                style={{ display: "block" }}
+              />
+              <Text
+                size="xl"
+                fw={600}
+                style={{
+                  fontFamily: "'Josefin Sans', sans-serif",
+                  color: "#008577",
+                  letterSpacing: "0.5px",
+                  lineHeight: 1,
+                  marginTop: "4px",
+                }}
+              >
+                Relaxa'Son
+              </Text>
+            </Group>
           </Link>
 
           {/* Desktop menu - visible from small breakpoint and up */}

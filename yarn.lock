@@ -784,6 +784,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fontsource/josefin-sans@npm:^5.2.7":
+  version: 5.2.7
+  resolution: "@fontsource/josefin-sans@npm:5.2.7"
+  checksum: 10c0/3b76cdcf3ec9ec11abefdab975ef7ce8fb4f6f1cfee795e04dd9f6829f0455d1c2a0f4c88ae705f5386a0f9ab12c35c9995a19d8cddabbd764d6501845dc87c3
+  languageName: node
+  linkType: hard
+
 "@fontsource/lora@npm:^5.2.5":
   version: 5.2.5
   resolution: "@fontsource/lora@npm:5.2.5"
@@ -5529,6 +5536,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "relaxason@workspace:."
   dependencies:
+    "@fontsource/josefin-sans": "npm:^5.2.7"
     "@fontsource/lora": "npm:^5.2.5"
     "@fontsource/source-sans-3": "npm:^5.2.6"
     "@getbrevo/brevo": "npm:^2.2.0"

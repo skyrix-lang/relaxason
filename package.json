@@ -24,6 +24,7 @@
     "vite-tsconfig-paths": "^5.1.4"
   },
   "dependencies": {
+    "@fontsource/josefin-sans": "^5.2.7",
     "@fontsource/lora": "^5.2.5",
     "@fontsource/source-sans-3": "^5.2.6",
     "@getbrevo/brevo": "^2.2.0",

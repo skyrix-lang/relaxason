@@ -16,6 +16,10 @@ import "@fontsource/source-sans-3/400.css";
 import "@fontsource/source-sans-3/500.css";
 import "@fontsource/source-sans-3/600.css";
 
+// Import Josefin Sans for website name
+import "@fontsource/josefin-sans/400.css";
+import "@fontsource/josefin-sans/600.css";
+
 const theme: MantineThemeOverride = {
   // Base font and configuration
   fontFamily: "'Source Sans 3', Helvetica, sans-serif",

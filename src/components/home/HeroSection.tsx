@@ -58,6 +58,30 @@ const HeroSection: FC<HeroSectionProps> = ({ isVisible }) => {
                   : global.fadeInSection
               }
             >
+              {/* Mobile Logo - Displayed only on mobile above the text */}
+              <Box
+                hiddenFrom="md"
+                ta="center"
+                mb="lg"
+                style={{
+                  transform: isVisible ? "scale(1)" : "scale(0.9)",
+                  transition: "transform 0.6s ease-out",
+                }}
+              >
+                <Image
+                  src={logoRelaxason}
+                  alt="Logo Relaxason"
+                  h={120}
+                  w="auto"
+                  mx="auto"
+                  className={global.roundedImage}
+                  style={{
+                    maxWidth: "200px",
+                    filter: "drop-shadow(0 4px 8px rgba(0, 105, 92, 0.2))",
+                  }}
+                />
+              </Box>
+
               <Text size="lg" fw={500} c="brand.7" mt="md" mb="sm">
                 Bienvenue chez Relaxa'Son
               </Text>
@@ -109,7 +133,7 @@ const HeroSection: FC<HeroSectionProps> = ({ isVisible }) => {
           <Grid.Col
             span={{ base: 12, md: 6 }}
             pt={{ base: "xl", md: 0 }}
-            className={global.hidden}
+            visibleFrom="md" // Only show on desktop
           >
             <div
               className={

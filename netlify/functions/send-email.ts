@@ -103,9 +103,8 @@ function getReasonLabel(reason: string): string {
   if (!reason) return "Demande de contact";
 
   const reasonMap: Record<string, string> = {
-    info: "Demande d'information",
-    rdv: "Prise de rendez-vous",
-    pricing: "Demande de tarifs",
+    information: "Demande d'information",
+    session: "Prise de rendez-vous",
     workshop: "Information sur les ateliers",
     other: "Autre sujet",
   };

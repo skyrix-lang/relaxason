@@ -129,9 +129,33 @@
 
 /* Logo container with hover effect */
 .logoContainer {
-	transition: transform 0.3s ease;
+	text-decoration: none;
+	transition: none;
 }
 
 .logoContainer:hover {
-	transform: scale(1.05);
+	text-decoration: none;
+	opacity: 0.8;
+	transition: opacity 0.2s ease;
+}
+
+/* Mobile adjustments for logo and text */
+@media (max-width: 768px) {
+	.logoContainer img {
+		height: 40px !important;
+	}
+
+	.logoContainer .mantine-Text-root {
+		font-size: 1.1rem !important;
+	}
+}
+
+@media (max-width: 576px) {
+	.logoContainer img {
+		height: 35px !important;
+	}
+
+	.logoContainer .mantine-Text-root {
+		font-size: 1rem !important;
+	}
 }
