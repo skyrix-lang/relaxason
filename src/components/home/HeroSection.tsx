@@ -12,7 +12,7 @@ import {
 import { IconArrowDown, IconChevronRight } from "@tabler/icons-react";
 import global from "../../styles/Global.module.css";
 import styles from "../../styles/Home.module.css";
-import logoRelaxason from "../../assets/logo_relaxason.png";
+import logoRelaxason from "../../assets/logo_relaxason_green_text.png";
 import { Link } from "react-router-dom";
 
 interface HeroSectionProps {
@@ -49,9 +49,10 @@ const HeroSection: FC<HeroSectionProps> = ({ isVisible }) => {
         <Grid
           gutter={{ base: 20, sm: 30, md: 40 }}
           px={{ base: "xs", sm: "md", lg: "lg" }}
+          py={{ base: "md", lg: "xl" }}
           style={{ maxWidth: "1200px", margin: "0 auto" }}
         >
-          <Grid.Col span={{ base: 12, md: 6 }} mt="xl">
+          <Grid.Col span={{ base: 12, md: 6 }} mt={{ base: "xs", lg: "xl" }}>
             <div
               className={
                 isVisible
