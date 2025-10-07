@@ -25,13 +25,14 @@ const HeroSection: FC<HeroSectionProps> = ({ isVisible }) => {
       id="hero"
       style={{
         position: "relative",
-        height: "80vh",
-        minHeight: "500px",
+        height: "auto",
+        minHeight: "calc(100vh - 70px)",
         backgroundImage: "linear-gradient(135deg, #E6F9F7 0%, #B0EAE4 100%)",
         display: "flex",
         alignItems: "center",
         overflow: "hidden",
-        marginTop: "-56px", // Match the header height from AppShell
+        marginTop: "-70px",
+        paddingTop: "70px",
         marginLeft: "calc(-1 * var(--mantine-spacing-md, 16px))",
         marginRight: "calc(-1 * var(--mantine-spacing-md, 16px))",
         width: "calc(100% + (2 * var(--mantine-spacing-md, 16px)))",

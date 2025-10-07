@@ -87,7 +87,7 @@ const Navbar: FunctionComponent<INavbarProps> = () => {
           </Link>
 
           {/* Desktop menu - visible from small breakpoint and up */}
-          <Group gap={5} visibleFrom="sm">
+          <Group gap={5} visibleFrom="lg">
             <NavbarItems links={links} />
           </Group>
 
@@ -98,7 +98,7 @@ const Navbar: FunctionComponent<INavbarProps> = () => {
             opened={opened}
             onClick={toggle}
             size="sm"
-            hiddenFrom="sm"
+            hiddenFrom="lg"
             color="#008577" /* brand[7] color */
           />
 

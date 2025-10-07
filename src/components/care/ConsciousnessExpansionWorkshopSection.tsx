@@ -74,7 +74,7 @@ const ConsciousnessExpansionWorkshopSection: FC<
               <IconCalendarEvent size={20} color="#008577" />
               <div>
                 <Text fw={600}>Prochaines dates</Text>
-                <Text>11 Mai 2025 • 07 Juin 2025</Text>
+                <Text>09 Novembre 2025 • 07 Décembre 2025</Text>
               </div>
             </Group>
 
