@@ -45,9 +45,7 @@ const ContactInfo: FC = () => {
           </ThemeIconStyled>
           <Box>
             <Text fw={700}>Adresse</Text>
-            <Text>49 Avenue d'Epinay,</Text>
-            <Text>91360 Villemoisson-sur-Orge,</Text>
-            <Text>France</Text>
+            <Text>91360 Villemoisson-sur-Orge, France</Text>
           </Box>
         </Flex>
 
