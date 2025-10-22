@@ -35,7 +35,7 @@ const ContactInfo: FC = () => {
           </ThemeIconStyled>
           <Box>
             <Text fw={700}>Email</Text>
-            <Text>misterdb01@gmail.com</Text>
+            <Text>relaxason.pro@gmail.com</Text>
           </Box>
         </Flex>
 
