@@ -1,6 +1,6 @@
 // netlify/functions/send-email.ts
 import { Handler } from "@netlify/functions";
-import * as Brevo from "@getbrevo/brevo";
+import { BrevoClient } from "@getbrevo/brevo";
 
 interface ContactFormData {
   name: string;
@@ -39,29 +39,19 @@ const handler: Handler = async (event) => {
       "Nouveau message de contact";
 
     // Configurer l'API Brevo
-    const apiInstance = new Brevo.TransactionalEmailsApi();
-    apiInstance.setApiKey(
-      Brevo.TransactionalEmailsApiApiKeys.apiKey,
-      process.env.BREVO_API_KEY as string
-    );
+    const brevo = new BrevoClient({
+      apiKey: process.env.BREVO_API_KEY as string,
+    });
 
-    // Préparer l'email
-    const sendSmtpEmail = new Brevo.SendSmtpEmail();
-
-    // Définir les destinataires
-    sendSmtpEmail.to = [{ email: process.env.RECIPIENT_EMAIL as string }];
-
-    // Définir l'expéditeur (doit être vérifié dans Brevo)
-    sendSmtpEmail.sender = {
-      name: "Contact Sonothérapie",
-      email: process.env.BREVO_SENDER_EMAIL as string,
-    };
-
-    // Définir le sujet
-    sendSmtpEmail.subject = `[Site Web] ${emailSubject}`;
-
-    // Définir le contenu HTML
-    sendSmtpEmail.htmlContent = `
+    // Envoyer l'email
+    await brevo.transactionalEmails.sendTransacEmail({
+      to: [{ email: process.env.RECIPIENT_EMAIL as string }],
+      sender: {
+        name: "Contact Sonothérapie",
+        email: process.env.BREVO_SENDER_EMAIL as string,
+      },
+      subject: `[Site Web] ${emailSubject}`,
+      htmlContent: `
       <div style="font-family: Arial, sans-serif; line-height: 1.6;">
         <h2 style="color: #008577;">Nouveau message de contact</h2>
         <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px;">
@@ -76,13 +66,9 @@ const handler: Handler = async (event) => {
           <p>${data.message.replace(/\n/g, "<br/>")}</p>
         </div>
       </div>
-    `;
-
-    // Définir l'adresse de réponse
-    sendSmtpEmail.replyTo = { email: data.email };
-
-    // Envoyer l'email
-    await apiInstance.sendTransacEmail(sendSmtpEmail);
+    `,
+      replyTo: { email: data.email },
+    });
 
     return {
       statusCode: 200,

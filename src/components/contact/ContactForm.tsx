@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import {
   Alert,
   Button,
@@ -35,6 +35,10 @@ const ContactForm: FC<ContactFormProps> = ({
   error,
   onSubmit,
 }) => {
+  useEffect(() => {
+    if (submitted) form.reset();
+  }, [submitted]);
+
   const form = useForm({
     initialValues: {
       name: "",

@@ -5,6 +5,7 @@ lib/
 
 # editors
 *.swp
+.claude/
 .idea/
 .vs/
 .vscode/
@@ -103,4 +104,5 @@ release-artifacts-*
 
 # Local Netlify folder
 .netlify
+deno.lock
 /functions-build/
