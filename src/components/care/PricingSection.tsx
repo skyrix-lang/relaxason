@@ -91,8 +91,10 @@ const PricingSection: FC<PricingSectionProps> = ({ isVisible }) => {
                 ],
               },
               {
-                service: "Atelier d'Expansion de Conscience",
-                options: [{ label: "Atelier 9h/18h", price: "100€" }],
+                service: "Séminaire de Reconnexion",
+                options: [
+                  { label: "Séminaire 4 jours – tout compris", price: "600€" },
+                ],
               },
             ]}
             buttonText="Prendre Rendez-vous"

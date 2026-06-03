@@ -5,7 +5,7 @@ import useScrollToHash from "../hooks/useScrollToHash";
 import useScrollVisibility from "../hooks/useScrollVisibility";
 import SoundMassageSection from "../components/care/SoundMassageSection.tsx";
 import CollectiveSoundJourneySection from "../components/care/CollectiveSoundJourneySection.tsx";
-import ConsciousnessExpansionWorkshopSection from "../components/care/ConsciousnessExpansionWorkshopSection.tsx";
+import BodyReconnectionSeminarSection from "../components/care/BodyReconnectionSeminarSection.tsx";
 import LymphaticDrainageSection from "../components/care/LymphaticDrainageSection.tsx";
 import SwedishMassageSection from "../components/care/SwedishMassageSection.tsx";
 import PricingSection from "../components/care/PricingSection.tsx";
@@ -20,7 +20,7 @@ const Treatments: FC = () => {
   const visibleSections = useScrollVisibility([
     "massage",
     "voyage",
-    "atelier",
+    "seminaire",
     "drainage",
     "suedois",
     "tarifs",
@@ -58,8 +58,8 @@ const Treatments: FC = () => {
         <CollectiveSoundJourneySection isVisible={visibleSections.voyage} />
         <Space h={60} />
 
-        <ConsciousnessExpansionWorkshopSection
-          isVisible={visibleSections.atelier}
+        <BodyReconnectionSeminarSection
+          isVisible={visibleSections.seminaire}
         />
         <Space h={60} />
 

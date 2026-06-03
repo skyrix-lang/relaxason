@@ -36,8 +36,8 @@ const Navbar: FunctionComponent<INavbarProps> = () => {
         { link: "/soins#massage", label: "Massage sonore" },
         { link: "/soins#voyage", label: "Voyage sonore collectif" },
         {
-          link: "/soins#atelier",
-          label: "Atelier d'expansion de conscience",
+          link: "/soins#seminaire",
+          label: "Séminaire de reconnexion au corps et aux émotions",
         },
         { link: "/soins#drainage", label: "Drainage manuel de bien-être" },
         { link: "/soins#suedois", label: "Massage suédois" },

@@ -164,7 +164,7 @@ const ContactForm: FC<ContactFormProps> = ({
                   label: "Demande d'information",
                 },
                 { value: "session", label: "Réserver une séance" },
-                { value: "workshop", label: "Atelier / Cours" },
+                { value: "workshop", label: "Séminaire / Atelier" },
                 { value: "other", label: "Autre" },
               ]}
               {...form.getInputProps("reason")}

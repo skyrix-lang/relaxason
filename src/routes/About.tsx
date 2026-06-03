@@ -126,9 +126,10 @@ const About: FunctionComponent = () => {
                 un ancien art chinois, le Jin-Chin-Jyutsu. Mon parcours m'a
                 amené à me former au massage sonore en 2023 (Zen & Sounds), un
                 domaine où l'harmonie des sons rencontre l'art du soin.
-                Aujourd'hui, je propose des voyages sonores collectifs, des
-                massages sonores individuels ainsi que des expansions de
-                conscience en collaboration avec Michelle Resse, énergéticienne.
+                Aujourd'hui, je propose des voyages sonores collectifs et des
+                massages sonores individuels, et je participe au Séminaire de
+                Reconnexion au Corps et aux Émotions aux côtés de Laura
+                Ricciardelli, thérapeute psycho-corporelle.
               </Text>
 
               {/* Formation Links - Simple List Format */}
