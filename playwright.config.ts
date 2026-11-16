@@ -47,6 +47,8 @@ export default defineConfig({
   use: {
     baseURL: BASE_URL,
     trace: "retain-on-failure",
+    // Blocks that fade in on scroll are shown at once, so axe checks them all.
+    reducedMotion: "reduce",
   },
   projects: [
     {

@@ -38,7 +38,7 @@ export function BodyReconnectionSeminarSection() {
             Séminaire de Reconnexion au Corps et aux Émotions
           </IconTitle>
 
-          <p className="mb-6 text-lg font-semibold text-brand-600">
+          <p className="mb-6 text-lg font-semibold text-brand-700">
             L'importance du travail du corps dans le processus de guérison
           </p>
           <p className="mb-6 text-body">

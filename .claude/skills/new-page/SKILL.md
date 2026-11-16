@@ -58,10 +58,9 @@ export const Route = createFileRoute("/pricing")({
 ## 3. Check the structure
 
 - One `h1`, no skipped heading levels, meaningful `alt` text (or `alt=""` for
-  decoration), visible focus, WCAG 2.2 AA contrast for running text. The e2e
-  tests run axe, without its colour-contrast rule: the brand's white on teal is
-  kept on purpose (`docs/decisions.md`), so check the contrast of new text
-  yourself.
+  decoration), visible focus, WCAG 2.2 AA contrast. The e2e tests run axe,
+  contrast included: teal text and fills under white text use `brand-700` or
+  darker.
 - Add it to the navbar (`apps/web/src/components/navbar.tsx`, desktop menu and
   mobile menu) if needed.
 - Style with the theme's tokens (`bg-primary`, `text-brand-700`, `text-body`…),

@@ -194,28 +194,31 @@ nothing to run or secure on the VPS.
 **Revisit when:** messages must survive an outage of the email service: store
 them in Postgres first, then send.
 
-## The previous design, rebuilt on the kit, including its low-contrast teal
+## The previous design, rebuilt on the kit, with the teal darkened to pass AA
 
 The Mantine site was rebuilt with Tailwind and the UI kit so that visitors see
-the same pages: same colours, spacing, breakpoints and fonts. That includes
-white text on the brand's teal (`#1EB19E`, about 2.7:1) for buttons and badges,
-and teal accents on the mint page, which are below WCAG AA contrast (4.5:1).
-The e2e accessibility check therefore runs axe without its `color-contrast`
-rule (`e2e/support.ts`); every other rule still fails a test.
-**Why:** the client asked for the site they know, unchanged.
-**Revisit when:** the brand can be adjusted: darkening `--primary` to
-`--brand-700` (`#008577`, 4.6:1) for text-bearing surfaces would pass, and the
-rule can be switched back on.
+the same pages: same layout, spacing, breakpoints and fonts. The colours differ
+in one way: the previous site put white text on its teal (`#1EB19E`, about
+2.7:1) and used that teal and `#0D9D8A` for text, below WCAG AA (4.5:1). Here
+`--primary` and `--brand-700` are `#00776A` (5.5:1 under white, at least 4.8:1
+on the light backgrounds); buttons, badges, the call-to-action panel, links and
+teal text use it or a darker step, and the purple of the precautions notice is
+`#6A3DE3`. The lighter teals remain for decoration: rules, borders, icons.
+The e2e check runs axe with its `color-contrast` rule, with reduced motion so
+that blocks which fade in on scroll are checked too.
+**Why:** accessibility is a requirement of the starter (WCAG 2.2 AA, European
+Accessibility Act), and the owner chose it over keeping the exact colours.
+**Cost:** buttons and teal text are noticeably darker than on the previous site.
 
-## Analytics load before consent, as on the previous site
+## Analytics only after consent
 
-With `GA_MEASUREMENT_ID` set, Google Analytics starts on the first page and
-stops when the visitor refuses the cookie banner (`apps/web/src/analytics.ts`).
-**Why:** it's what the previous site did, and this migration changes nothing
-visitors or the owner would notice.
-**Revisit when:** before relying on it in production in France: the CNIL
-expects consent before audience cookies are set. Starting only after "Accepter"
-is a small change in `startAnalytics`.
+With `GA_MEASUREMENT_ID` set, the cookie banner is shown and Google Analytics
+is loaded only once the visitor accepts (`apps/web/src/analytics.ts`): before
+that, and after a refusal, no request goes to Google and no cookie is set. The
+previous site started measuring before the answer.
+**Why:** the CNIL requires consent before audience cookies.
+**Cost:** visitors who ignore or refuse the banner aren't counted, so the
+figures are lower than the previous site's.
 
 ## Icons: lucide-react, plus a few Tabler paths
 

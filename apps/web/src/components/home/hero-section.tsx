@@ -34,7 +34,7 @@ export function HeroSection() {
             </p>
             <h1 className="mb-6 text-[2.5rem] leading-[1.2] font-bold">
               Découvrez le pouvoir <br />
-              <span className="text-brand-500">thérapeutique des sons</span>
+              <span className="text-brand-700">thérapeutique des sons</span>
             </h1>
             <p className="mb-12 max-w-[500px] text-lg text-body">
               Une approche holistique qui utilise les vibrations et les

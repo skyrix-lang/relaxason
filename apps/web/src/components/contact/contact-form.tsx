@@ -33,7 +33,7 @@ type FormOutput = z.output<typeof contactMessageSchema>;
 const SUCCESS_MS = 5000;
 const CONFETTI_MS = 3000;
 
-const control = "h-9 py-0 shadow-none focus:border-brand-500";
+const control = "h-9 py-0 shadow-none focus:border-brand-700";
 
 function Required() {
   return (
@@ -273,7 +273,7 @@ export function ContactForm() {
                 <Required />
               </FieldLabel>
               <Textarea
-                className="min-h-[123px] py-1.5 shadow-none focus:border-brand-500"
+                className="min-h-[123px] py-1.5 shadow-none focus:border-brand-700"
                 placeholder="Écrivez votre message ici..."
                 rows={5}
                 required

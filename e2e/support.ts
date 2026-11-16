@@ -16,8 +16,7 @@ import { createLocalSession, storageState } from "../scripts/local-session";
  *   pages). Tests that trigger an error on purpose opt out with
  *   `test.use({ allowConsoleErrors: true })`.
  * - an accessibility violation (WCAG 2.2 AA, checked with axe) on the app
- *   page the test ends on. Colour contrast is left out: the brand's teal with
- *   white text is below AA on purpose (docs/decisions.md).
+ *   page the test ends on.
  */
 export const test = base.extend<{
   allowConsoleErrors: boolean;
@@ -73,7 +72,6 @@ export const test = base.extend<{
       if (!page.url().startsWith(baseURL!)) return;
       const { violations } = await new AxeBuilder({ page })
         .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
-        .disableRules(["color-contrast"])
         .analyze();
       expect(
         violations.map(

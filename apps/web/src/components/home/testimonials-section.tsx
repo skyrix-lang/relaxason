@@ -70,7 +70,7 @@ function Carousel() {
                   "
                 </span>
               </div>
-              <figcaption className="text-center font-semibold text-brand-500">
+              <figcaption className="text-center font-semibold text-brand-700">
                 {testimonial.name}
               </figcaption>
             </figure>

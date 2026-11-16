@@ -152,7 +152,7 @@ export function PricingSection() {
                     className={cn(
                       "flex size-10 items-center justify-center rounded-md",
                       card.highlight
-                        ? "bg-brand-600 text-white"
+                        ? "bg-brand-700 text-white"
                         : "bg-brand-100/10 text-brand-500",
                     )}
                   >

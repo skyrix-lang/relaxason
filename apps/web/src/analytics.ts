@@ -1,7 +1,8 @@
 // Google Analytics (GA4), when the server is configured with a measurement id
-// (GA_MEASUREMENT_ID): the BFF writes it into index.html. It loads unless the
-// visitor refused cookies (components/cookie-consent.tsx). The script comes
-// from Google's origin, which the BFF's content security policy then allows.
+// (GA_MEASUREMENT_ID): the BFF writes it into index.html. Nothing is loaded
+// from Google and no cookie is set until the visitor accepts in the banner
+// (components/cookie-consent.tsx), as the CNIL requires. The script comes from
+// Google's origin, which the BFF's content security policy then allows.
 
 const CONSENT_KEY = "cookie-consent";
 
@@ -41,13 +42,11 @@ function gtag(..._args: unknown[]) {
 
 let started = false;
 
-/** Loads the library once. Does nothing without an id, or after a refusal. */
+/** Loads the library once, and only for a visitor who has accepted. */
 export function startAnalytics() {
   if (!measurementId || started) return;
-  if (storedConsent() === "false") {
-    window[`ga-disable-${measurementId}`] = true;
-    return;
-  }
+  if (storedConsent() !== "true") return;
+  window[`ga-disable-${measurementId}`] = false;
   started = true;
   window.dataLayer = window.dataLayer ?? [];
   gtag("js", new Date());
@@ -64,13 +63,24 @@ export function trackPageView(path: string) {
   gtag("config", measurementId, { page_path: path });
 }
 
+/** Remembers the agreement and starts measuring, from this page on. */
 export function acceptAnalytics() {
-  window.localStorage.setItem(CONSENT_KEY, "true");
+  try {
+    window.localStorage.setItem(CONSENT_KEY, "true");
+  } catch {
+    // Storage is blocked: the answer can't be kept, so nothing is measured.
+    return;
+  }
+  startAnalytics();
 }
 
 /** Remembers the refusal, stops measuring and removes Google's cookies. */
 export function declineAnalytics() {
-  window.localStorage.setItem(CONSENT_KEY, "false");
+  try {
+    window.localStorage.setItem(CONSENT_KEY, "false");
+  } catch {
+    // Storage is blocked: the banner comes back on the next visit.
+  }
   if (!measurementId) return;
   window[`ga-disable-${measurementId}`] = true;
   for (const name of ["_ga", `_ga_${measurementId.slice(2)}`, "_gid", "_gat"]) {

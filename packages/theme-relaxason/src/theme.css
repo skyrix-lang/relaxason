@@ -8,7 +8,11 @@
   --font-display: "Josefin Sans", sans-serif;
   --radius: 0.5rem;
 
-  /* The teal scale every other token is picked from, light to dark. */
+  /*
+   * The teal scale every other token is picked from, light to dark. 700 and
+   * darker pass WCAG AA (4.5:1) as text on the light backgrounds and under
+   * white text; 600 and lighter are for decoration only (rules, borders, icons).
+   */
   --brand-50: #e6f9f7;
   --brand-100: #b0eae4;
   --brand-200: #7adfd2;
@@ -16,7 +20,7 @@
   --brand-400: #30c1ae;
   --brand-500: #1eb19e;
   --brand-600: #0d9d8a;
-  --brand-700: #008577;
+  --brand-700: #00776a;
   --brand-800: #00705f;
   --brand-900: #005c4b;
 
@@ -32,11 +36,11 @@
   --muted-foreground: #5f6b75;
   --border: #dee2e6;
   --input: #ced4da;
-  --ring: #1eb19e;
+  --ring: #00776a;
 
-  --primary: #1eb19e;
-  --primary-hover: #0d9d8a;
-  --primary-strong: #008577;
+  --primary: #00776a;
+  --primary-hover: #00705f;
+  --primary-strong: #005c4b;
   --primary-foreground: #ffffff;
   --primary-soft: #e6f9f7;
   --primary-soft-foreground: #00705f;
@@ -45,7 +49,7 @@
   --secondary-foreground: #495057;
 
   /* The purple of the "precautions" notice. */
-  --accent: #7d53ed;
+  --accent: #6a3de3;
   --success: #3f9542;
   --success-soft: #e8f5e9;
   --success-soft-foreground: #236127;

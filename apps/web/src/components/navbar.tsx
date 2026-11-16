@@ -148,7 +148,7 @@ function DesktopMenu({ group, active }: { group: MenuGroup; active: boolean }) {
 }
 
 const mobileLink =
-  "block border-b border-brand-50 py-3.5 font-medium text-brand-700 transition-colors hover:text-brand-600";
+  "block border-b border-brand-50 py-3.5 font-medium text-brand-700 transition-colors hover:text-brand-900";
 
 /** The mobile menu: a native modal dialog, so focus stays inside it. */
 function MobileMenu({
@@ -220,7 +220,7 @@ function MobileMenu({
                       item={entry}
                       prefix="→ "
                       onNavigate={onClose}
-                      className="block py-2.5 pl-4 text-sm text-brand-700 transition-all hover:translate-x-1 hover:text-brand-600"
+                      className="block py-2.5 pl-4 text-sm text-brand-700 transition-all hover:translate-x-1 hover:text-brand-900"
                     />
                   </li>
                 ))}

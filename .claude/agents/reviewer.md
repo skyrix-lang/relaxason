@@ -34,7 +34,9 @@ rules you check against.
 4. **Contract.** `packages/api` was regenerated (`yarn api:check` passes); no
    hand-written API types or fetch calls in the UI.
 5. **Boundaries and UI.** Imports respect `scripts/check-boundaries.ts`.
-   Components use theme tokens, not raw colours. One `h1`, no skipped heading
+   Components use theme tokens, not raw colours; text and fills under white
+   text use `brand-700` or darker. Nothing measures a visitor or sets a
+   non-essential cookie before they accept the banner. One `h1`, no skipped heading
    levels, labelled controls, links styled with `buttonVariants()` rather than
    buttons inside links. Visible text is French, and existing copy, design and
    order weren't changed unless the request asked for it. App pages set `noindex`; public pages are in

@@ -10,6 +10,7 @@ from a `packages/feature-*` package; there is none yet.
 - App routes call `requireUser` in `beforeLoad` and `usePageMeta` with `noindex`.
 - Text is French. Photos are imported from `src/assets` (optimised files), not
   `public/`.
-- Google Analytics loads only when the BFF is given `GA_MEASUREMENT_ID`
-  (`src/analytics.ts`).
+- Google Analytics loads only when the BFF is given `GA_MEASUREMENT_ID` and
+  the visitor has accepted the cookie banner (`src/analytics.ts`). Nothing
+  that sets a cookie or calls a third party for measurement may run before.
 - Never import `@relaxason/db` or anything server-side.

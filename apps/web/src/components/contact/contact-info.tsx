@@ -12,7 +12,7 @@ function Detail({
 }) {
   return (
     <div className="flex items-center gap-6">
-      <span className="flex size-[42px] shrink-0 items-center justify-center rounded-full bg-brand-500 text-white">
+      <span className="flex size-[42px] shrink-0 items-center justify-center rounded-full bg-brand-700 text-white">
         {icon}
       </span>
       <div className="text-body">

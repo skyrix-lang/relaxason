@@ -92,7 +92,7 @@ function SonotherapyPage() {
                     key={ailment}
                     className="flex items-center gap-3 font-bold"
                   >
-                    <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-brand-500 text-white">
+                    <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-brand-700 text-white">
                       <CircleCheck aria-hidden="true" size={16} />
                     </span>
                     {ailment}

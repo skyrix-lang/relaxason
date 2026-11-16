@@ -130,10 +130,10 @@ labels, for the form and for the email, live together in the schema file.
 ## Analytics and cookies
 
 With `GA_MEASUREMENT_ID` set, the BFF writes the id into the page and allows
-Google's origins in the content security policy; the app then loads Google
-Analytics and shows the cookie banner. Refusing stops the measurement and
-removes Google's cookies. As on the previous site, measurement starts before
-the visitor answers and stops on refusal (see `docs/decisions.md`).
+Google's origins in the content security policy; the app then shows the
+cookie banner. Nothing is loaded from Google and no cookie is set until the
+visitor clicks "Accepter"; measurement then starts at once and on later visits.
+After "Refuser", or with no answer, nothing is measured (`apps/web/src/analytics.ts`).
 
 ## Authentication
 
@@ -188,8 +188,7 @@ placeholder stands in (`apps/web/src/components/image-placeholder.tsx`).
   BFF on its own port and database. A fake Brevo (`e2e/brevo-stub.ts`) receives
   the emails, so the contact form is tested through to the email's content.
   Every test also fails on a browser console error, or on an axe accessibility
-  violation on the page it ends on (colour contrast excepted, see
-  `docs/decisions.md`). `e2e/auth.spec.ts` drives the real Keycloak login.
+  violation on the page it ends on, colour contrast included. `e2e/auth.spec.ts` drives the real Keycloak login.
 
 ## Docker
 
