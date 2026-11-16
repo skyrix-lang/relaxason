@@ -10,14 +10,20 @@ test.describe("home page", () => {
     // What a crawler or link preview reads before any JavaScript runs.
     const html = await (await request.get("/")).text();
 
-    expect(html).toContain("<title>BookingHub</title>");
+    expect(html).toContain(
+      "<title>Relaxa'Son - Découvrez le pouvoir thérapeutique des sons</title>",
+    );
+    expect(html).toContain('<html lang="fr">');
     expect(html).toContain(`<link rel="canonical" href="${baseURL}/" />`);
     expect(html).toMatch(
-      /<meta\s+name="description"\s+content="[^"]*manage your bookings/,
+      /<meta\s+name="description"\s+content="[^"]*fréquences sonores/,
     );
-    expect(html).toContain('<meta property="og:title" content="BookingHub" />');
+    expect(html).toContain(
+      `<meta property="og:image" content="${baseURL}/og-image.jpg" />`,
+    );
     expect(html).toContain(`<meta property="og:url" content="${baseURL}/" />`);
     expect(html).not.toContain("%PUBLIC_URL%");
+    expect(html).not.toContain("%GA_MEASUREMENT_ID%");
     expect(html).not.toContain('name="robots"');
   });
 
@@ -33,7 +39,7 @@ test.describe("home page", () => {
     expect(JSON.parse(json!)).toMatchObject({
       "@context": "https://schema.org",
       "@type": "WebSite",
-      name: "BookingHub",
+      name: "Relaxa'Son",
       url: baseURL,
     });
   });
@@ -43,18 +49,47 @@ test.describe("home page", () => {
 
     await expect(page.locator("h1")).toHaveCount(1);
     await expect(page.locator("h2")).not.toHaveCount(0);
-    await expect(page.locator("h3")).toHaveCount(0);
+  });
+
+  test("the social image is served", async ({ request }) => {
+    const image = await request.get("/og-image.jpg");
+
+    expect(image.status()).toBe(200);
+    expect(image.headers()["content-type"]).toBe("image/jpeg");
   });
 });
 
-test("the bookings page isn't indexed", async ({ page }) => {
-  await page.goto("/bookings");
+const publicPages = {
+  "/mon-parcours": "Relaxa'Son - Mon portrait de sonothérapeute",
+  "/sonotherapie": "Relaxa'Son - Découvrez le pouvoir thérapeutique des sons",
+  "/soins": "Relaxa'Son - Les soins proposés",
+  "/contact": "Relaxa'Son - Contactez-moi pour prendre rendez-vous",
+};
 
-  await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
-    "content",
-    "noindex",
-  );
-});
+for (const [path, title] of Object.entries(publicPages)) {
+  test(`${path} has its own title and canonical URL, and may be indexed`, async ({
+    page,
+    baseURL,
+  }) => {
+    await page.goto(path);
+
+    await expect(page).toHaveTitle(title);
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+      "href",
+      `${baseURL}${path}`,
+    );
+    await expect(page.locator('meta[property="og:url"]')).toHaveAttribute(
+      "content",
+      `${baseURL}${path}`,
+    );
+    await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
+      "content",
+      title,
+    );
+    await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
+    await expect(page.locator("h1")).toHaveCount(1);
+  });
+}
 
 test.describe("signed out", () => {
   test.use({ storageState: { cookies: [], origins: [] } });
@@ -87,7 +122,9 @@ test("the sitemap lists public pages only", async ({ request, baseURL }) => {
   expect(response.status()).toBe(200);
   const sitemap = await response.text();
   expect(sitemap).toContain(`<loc>${baseURL}</loc>`);
-  expect(sitemap).not.toContain("/bookings");
+  for (const path of Object.keys(publicPages)) {
+    expect(sitemap).toContain(`<loc>${baseURL}${path}</loc>`);
+  }
   expect(sitemap).not.toContain("/sign-in");
 });
 
@@ -110,6 +147,8 @@ test("sends security headers", async ({ request }) => {
   expect(csp).not.toContain("unsafe-inline");
   expect(csp).toContain("frame-ancestors 'none'");
   expect(csp).toContain("object-src 'none'");
+  // The only third party: the video on the sonotherapy page.
+  expect(csp).toContain("frame-src https://www.youtube.com");
 });
 
 test("hashed assets are cached for a year, the page isn't", async ({

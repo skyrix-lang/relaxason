@@ -43,7 +43,7 @@ function createEnvFile() {
     content = setVariable(
       content,
       "DATABASE_URL",
-      `postgres://booking:booking@localhost:5432/${dev}`,
+      `postgres://relaxason:relaxason@localhost:5433/${dev}`,
     );
   }
   writeFileSync(".env", content);
@@ -89,8 +89,7 @@ async function main() {
   console.log(`
 Ready. Next:
   yarn dev                 ${process.env.PUBLIC_URL}
-  sign in as ada / ada     (Keycloak, http://localhost:8180)
-  yarn db:seed <email>     demo bookings for that user`);
+  sign in as ada / ada     (Keycloak, http://localhost:8181)`);
 }
 
 main().catch((error) => {

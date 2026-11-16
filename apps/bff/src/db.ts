@@ -1,4 +1,4 @@
-import { createDb, type Db } from "@booking/db";
+import { createDb, type Db } from "@relaxason/db";
 import { env } from "./env";
 
 let db: Db | undefined;

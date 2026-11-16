@@ -9,8 +9,13 @@ description: Create a new page or route in this project's React SPA (TanStack Ro
 
 Work out which type the page is from the request. Ask only if it's unclear.
 
-- **Public:** should appear in Google, such as a landing, pricing or article page.
+- **Public:** should appear in Google, such as a treatment, pricing or article
+  page. Every page of the site today is public.
 - **App:** a working screen, such as a dashboard, or anything behind a login.
+  There is none yet; the sign-in page exists but nothing links to it.
+
+Page text is French and the client's: ask for the copy rather than inventing
+it (see "The site and its owner" in `AGENTS.md`).
 
 The app is a client-rendered SPA: crawlers first see `apps/web/index.html`,
 then the page after JavaScript runs. A public page that must rank well without
@@ -35,12 +40,17 @@ export const Route = createFileRoute("/pricing")({
   `src/auth.ts` in `beforeLoad`. The BFF still checks every API call.
 - Wrap the page component in `pageFor(route, Page)` (`src/overrides.ts`) so a
   customer app can replace it.
-- Feature screens live in a `packages/feature-*` package; the route file only
-  wires them.
+- Wrap the content in `PageShell` (`src/components/page-shell.tsx`), the
+  centred column every page but the home page uses (the navbar comes from
+  `routes/__root.tsx`), and put the page's sections in
+  `src/components/<page>/`. Titles use `SectionTitle`; `Reveal` gives the
+  fade-in on scroll the other pages have.
+- Screens of a feature with its own data live in a `packages/feature-*`
+  package; the route file only wires them.
 
 |            | Public page                                          | App page                                |
 | ---------- | ---------------------------------------------------- | --------------------------------------- |
-| Meta       | `usePageMeta({ title })`                             | `usePageMeta({ title, noindex: true })` |
+| Meta       | `usePageMeta({ title, description })`                | `usePageMeta({ title, noindex: true })` |
 | Auth       | None                                                 | `requireUser` in `beforeLoad`           |
 | Sitemap    | Add to `PUBLIC_PATHS` in `packages/core/src/site.ts` | Leave out                               |
 | Loading UI | Avoid layout shift                                   | Skeleton with `role="status"`           |
@@ -48,10 +58,14 @@ export const Route = createFileRoute("/pricing")({
 ## 3. Check the structure
 
 - One `h1`, no skipped heading levels, meaningful `alt` text (or `alt=""` for
-  decoration), visible focus, WCAG 2.2 AA contrast. The e2e tests run axe.
-- Add it to `navLinks` in `apps/web/src/components/header.tsx` if needed.
-- Style with the theme's tokens (`bg-primary`, `text-muted-foreground`…), never
-  raw colours: branding is one CSS file per customer.
+  decoration), visible focus, WCAG 2.2 AA contrast for running text. The e2e
+  tests run axe, without its colour-contrast rule: the brand's white on teal is
+  kept on purpose (`docs/decisions.md`), so check the contrast of new text
+  yourself.
+- Add it to the navbar (`apps/web/src/components/navbar.tsx`, desktop menu and
+  mobile menu) if needed.
+- Style with the theme's tokens (`bg-primary`, `text-brand-700`, `text-body`…),
+  never raw colours: the brand is one CSS file.
 - Style a link as a button with `buttonVariants()`; never a `<button>` in a link.
 - Breakpoints are CSS; never read the screen size in render.
 

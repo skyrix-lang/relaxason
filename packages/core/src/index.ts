@@ -1,4 +1,3 @@
-export * from "./booking-schema";
+export * from "./contact-schema";
 export * from "./return-to";
 export * from "./site";
-export * from "./types";

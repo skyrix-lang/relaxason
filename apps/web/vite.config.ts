@@ -19,7 +19,7 @@ export default defineConfig(({ mode }) => {
       tanstackRouter({ target: "react", autoCodeSplitting: true }),
       react(),
       tailwindcss(),
-      devPublicUrl(publicUrl),
+      devPublicUrl(publicUrl, env.GA_MEASUREMENT_ID ?? ""),
     ],
     server: {
       port,
@@ -35,11 +35,14 @@ export default defineConfig(({ mode }) => {
   };
 });
 
-/** The BFF fills %PUBLIC_URL% in index.html when it serves it; in development, Vite does. */
-function devPublicUrl(url: string): Plugin {
+/** The BFF fills %PUBLIC_URL% and %GA_MEASUREMENT_ID% in index.html when it serves it; in development, Vite does. */
+function devPublicUrl(url: string, analyticsId: string): Plugin {
   return {
     name: "dev-public-url",
     apply: "serve",
-    transformIndexHtml: (html) => html.replaceAll("%PUBLIC_URL%", url),
+    transformIndexHtml: (html) =>
+      html
+        .replaceAll("%PUBLIC_URL%", url)
+        .replaceAll("%GA_MEASUREMENT_ID%", analyticsId),
   };
 }

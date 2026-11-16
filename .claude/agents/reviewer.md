@@ -25,8 +25,9 @@ rules you check against.
    that is only UX: the BFF check is the one that counts.
 2. **Input.** Everything from outside (JSON bodies, params, query, search
    params) goes through Zod. Bad input gives 400, not a 500. Anything that sends
-   email or costs money is rate limited. No secret, token or provider call
-   reaches the browser.
+   email or costs money is rate limited. Visitor text put into an email is
+   escaped (`escapeHtml` in `apps/bff/src/contact.ts`). No secret, token or
+   provider call reaches the browser.
 3. **Data.** A schema change has a new migration in `packages/db/drizzle/`, and
    the SQL keeps existing rows working. No committed migration was edited. New
    server variables are in `apps/bff/src/env.ts` and `.env.example`.
@@ -35,14 +36,15 @@ rules you check against.
 5. **Boundaries and UI.** Imports respect `scripts/check-boundaries.ts`.
    Components use theme tokens, not raw colours. One `h1`, no skipped heading
    levels, labelled controls, links styled with `buttonVariants()` rather than
-   buttons inside links. App pages set `noindex`; public pages are in
+   buttons inside links. Visible text is French, and existing copy, design and
+   order weren't changed unless the request asked for it. App pages set `noindex`; public pages are in
    `PUBLIC_PATHS`. New third-party origins are added to the CSP in
    `apps/bff/src/app.ts`.
 6. **Tests.** New behaviour has a Playwright test using `e2e/support.ts`, new
    components have Vitest tests with MSW handlers, and new pure logic has a unit
    test. Tests that change data create their own rows. No test-only code in the
    app. Ask: would these tests fail if the feature broke?
-7. **Fit.** It follows the bookings feature rather than inventing a new
+7. **Fit.** It follows the contact form rather than inventing a new
    pattern, adds no dependency the rules say to ask about, and doesn't reverse a
    recorded decision. README updated for new commands, variables or concepts.
 

@@ -6,12 +6,15 @@ import { databaseNames, e2ePort } from "./scripts/checkout";
 // database, so test runs in different checkouts can happen at once.
 const PORT = Number(process.env.E2E_PORT ?? e2ePort());
 const BASE_URL = `http://localhost:${PORT}`;
+// A fake Brevo (e2e/brevo-stub.ts) receives the contact form's emails.
+const BREVO_STUB_PORT = PORT + 3000;
+const BREVO_STUB_URL = `http://127.0.0.1:${BREVO_STUB_PORT}`;
 
 // Its own database, recreated on every run by e2e/reset-database.ts. Set on
 // process.env so the server, and the test workers, use it instead of .env.
 process.env.DATABASE_URL =
   process.env.E2E_DATABASE_URL ??
-  `postgres://booking:booking@localhost:5432/${databaseNames().e2e}`;
+  `postgres://relaxason:relaxason@localhost:5433/${databaseNames().e2e}`;
 
 // The server under test: the production build of the SPA, served by the
 // bundled BFF, signing in through the local Keycloak (`yarn keycloak:up`).
@@ -24,9 +27,15 @@ Object.assign(process.env, {
   // Production requires at least 32 characters (apps/bff/src/env.ts).
   SESSION_SECRET: "e2e-secret-not-for-production-0123456789",
   OIDC_ISSUER:
-    process.env.E2E_OIDC_ISSUER ?? "http://localhost:8180/realms/booking",
-  OIDC_CLIENT_ID: "booking-web",
-  OIDC_CLIENT_SECRET: "booking-web-dev-secret",
+    process.env.E2E_OIDC_ISSUER ?? "http://localhost:8181/realms/relaxason",
+  OIDC_CLIENT_ID: "relaxason-web",
+  OIDC_CLIENT_SECRET: "relaxason-web-dev-secret",
+  BREVO_API_KEY: "e2e-brevo-key",
+  BREVO_API_URL: `${BREVO_STUB_URL}/v3/smtp/email`,
+  BREVO_SENDER_EMAIL: "site@example.test",
+  RECIPIENT_EMAIL: "therapist@example.test",
+  BREVO_STUB_PORT: String(BREVO_STUB_PORT),
+  BREVO_STUB_URL,
 });
 
 export default defineConfig({
@@ -65,11 +74,18 @@ export default defineConfig({
   ],
   // Tests run against the production build, on their own port, so a running
   // `yarn dev` is left alone.
-  webServer: {
-    command:
-      "yarn db:up && yarn keycloak:up && yarn tsx e2e/reset-database.ts && yarn build && yarn start",
-    url: `${BASE_URL}/api/health`,
-    timeout: 240_000,
-    reuseExistingServer: false,
-  },
+  webServer: [
+    {
+      command: "yarn tsx e2e/brevo-stub.ts",
+      url: `${BREVO_STUB_URL}/sent`,
+      reuseExistingServer: false,
+    },
+    {
+      command:
+        "yarn db:up && yarn keycloak:up && yarn tsx e2e/reset-database.ts && yarn build && yarn start",
+      url: `${BASE_URL}/api/health`,
+      timeout: 240_000,
+      reuseExistingServer: false,
+    },
+  ],
 });

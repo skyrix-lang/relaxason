@@ -1,5 +1,5 @@
 {
-  "name": "@booking/web",
+  "name": "@relaxason/web",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -13,16 +13,19 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@booking/api": "workspace:^",
-    "@booking/core": "workspace:^",
-    "@booking/feature-bookings": "workspace:^",
-    "@booking/theme-default": "workspace:^",
-    "@booking/ui": "workspace:^",
+    "@fontsource/josefin-sans": "^5.3.0",
+    "@fontsource/source-sans-3": "^5.3.1",
+    "@hookform/resolvers": "^7.0.4",
+    "@relaxason/api": "workspace:^",
+    "@relaxason/core": "workspace:^",
+    "@relaxason/theme-relaxason": "workspace:^",
+    "@relaxason/ui": "workspace:^",
     "@tanstack/react-query": "^5.105.3",
     "@tanstack/react-router": "^1.170.46",
     "lucide-react": "^1.67.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
+    "react-hook-form": "^7.91.0",
     "zod": "^4.6.7"
   },
   "devDependencies": {

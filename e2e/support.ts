@@ -3,13 +3,11 @@ import AxeBuilder from "@axe-core/playwright";
 import {
   expect,
   test as base,
-  type APIRequestContext,
   type BrowserContext,
   type Page,
 } from "@playwright/test";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Client } from "pg";
-import type { Booking } from "@booking/core";
 import { createLocalSession, storageState } from "../scripts/local-session";
 
 /**
@@ -18,13 +16,30 @@ import { createLocalSession, storageState } from "../scripts/local-session";
  *   pages). Tests that trigger an error on purpose opt out with
  *   `test.use({ allowConsoleErrors: true })`.
  * - an accessibility violation (WCAG 2.2 AA, checked with axe) on the app
- *   page the test ends on.
+ *   page the test ends on. Colour contrast is left out: the brand's teal with
+ *   white text is below AA on purpose (docs/decisions.md).
  */
 export const test = base.extend<{
   allowConsoleErrors: boolean;
+  stubEmbeds: void;
   failOnConsoleError: void;
   checkAccessibility: void;
 }>({
+  // The sonotherapy page embeds a YouTube video. The tests don't depend on
+  // YouTube: an empty page stands in for the player. The frame is still
+  // subject to the app's content security policy.
+  stubEmbeds: [
+    async ({ context }, use) => {
+      await context.route("https://www.youtube.com/**", (route) =>
+        route.fulfill({
+          contentType: "text/html",
+          body: "<!doctype html><title>Video</title>",
+        }),
+      );
+      await use();
+    },
+    { auto: true },
+  ],
   // Sign-ins are rate limited per client address, which the app reads from
   // x-forwarded-for. Each test gets its own, as if from its own machine, so
   // parallel tests don't share a limit.
@@ -58,6 +73,7 @@ export const test = base.extend<{
       if (!page.url().startsWith(baseURL!)) return;
       const { violations } = await new AxeBuilder({ page })
         .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
+        .disableRules(["color-contrast"])
         .analyze();
       expect(
         violations.map(
@@ -77,39 +93,6 @@ function randomIp() {
   return `198.${18 + (a % 2)}.${b}.${c}`;
 }
 
-/**
- * Tests run in parallel against one database, so a test that changes data
- * creates its own booking, with a unique title, and leaves the seed data alone.
- */
-export async function createBooking(
-  request: APIRequestContext,
-  overrides: Partial<Booking> = {},
-): Promise<Booking> {
-  const response = await request.post("/api/bookings", {
-    data: {
-      title: `E2E ${randomUUID()}`,
-      description: "Created by a test",
-      date: "2030-01-15",
-      time: "10:30",
-      duration: 30,
-      ...overrides,
-    },
-  });
-  expect(response.status()).toBe(201);
-  return response.json();
-}
-
-export async function setBookingStatus(
-  request: APIRequestContext,
-  id: string,
-  status: Booking["status"],
-) {
-  const response = await request.patch(`/api/bookings/${id}`, {
-    data: { status },
-  });
-  expect(response.ok()).toBe(true);
-}
-
 async function withDatabase<T>(run: (db: Client) => Promise<T>) {
   const db = new Client({ connectionString: process.env.DATABASE_URL });
   await db.connect();
@@ -118,13 +101,6 @@ async function withDatabase<T>(run: (db: Client) => Promise<T>) {
   } finally {
     await db.end();
   }
-}
-
-/** Removes a row directly: the app has no delete, and this mimics another user. */
-export async function deleteBookingFromDatabase(id: string) {
-  await withDatabase((db) =>
-    db.query("DELETE FROM bookings WHERE id = $1", [id]),
-  );
 }
 
 /** Ends a user's sessions directly in the database, as if they had expired. */
@@ -159,6 +135,17 @@ export async function signInAsNewUser(
   return email;
 }
 
+/** Fills in the contact form, which must be open. Returns the subject used. */
+export async function fillContactForm(page: Page, subject = uniqueSubject()) {
+  await page.getByLabel("Nom complet").fill("Ada Lovelace");
+  await page.getByLabel("Email").fill("ada@example.test");
+  await page.getByLabel("Téléphone").fill("06 12 34 56 78");
+  await page.getByLabel("Raison du contact").selectOption("session");
+  await page.getByLabel("Sujet").fill(subject);
+  await page.getByLabel("Message").fill("Bonjour,\nje souhaite réserver.");
+  return subject;
+}
+
 /**
  * Opens a page and waits until the app has rendered it, for tests that depend
  * on client behaviour. Everything is rendered by JavaScript, so the header
@@ -167,12 +154,6 @@ export async function signInAsNewUser(
 export async function gotoHydrated(page: Page, url: string) {
   await page.goto(url);
   await expect(page.getByRole("banner")).toBeVisible();
-}
-
-export function bookingCard(page: Page, title: string) {
-  return page
-    .getByTestId("booking-card")
-    .filter({ has: page.getByRole("heading", { name: title, exact: true }) });
 }
 
 export function uniqueEmail(domain = "example.test") {
@@ -196,18 +177,43 @@ export const KEYCLOAK_USERS = {
   },
 } as const;
 
-/** A user created ahead of their first sign-in: an email, no identity, one booking. */
-export async function createUserWithBooking(email: string, title: string) {
-  await withDatabase(async (db) => {
-    const { rows } = await db.query<{ id: string }>(
-      "INSERT INTO users (email) VALUES ($1) RETURNING id",
+/** A user created ahead of their first sign-in: an email, no identity. */
+export async function createUserWithoutIdentity(email: string) {
+  await withDatabase((db) =>
+    db.query("INSERT INTO users (email) VALUES ($1)", [email]),
+  );
+}
+
+/** The users with this email, and whether a provider identity is linked. */
+export async function usersWithEmail(email: string) {
+  return withDatabase(async (db) => {
+    const { rows } = await db.query<{ linked: boolean }>(
+      "SELECT oidc_subject IS NOT NULL AS linked FROM users WHERE email = $1",
       [email],
     );
-    await db.query(
-      "INSERT INTO bookings (user_id, title, date, time, duration) VALUES ($1, $2, '2030-05-01', '10:00', 30)",
-      [rows[0]!.id, title],
-    );
+    return rows;
   });
+}
+
+/** What the fake Brevo (e2e/brevo-stub.ts) received. */
+export interface SentEmail {
+  to: { email: string }[];
+  sender: { name: string; email: string };
+  subject: string;
+  htmlContent: string;
+  replyTo: { email: string };
+}
+
+/** The emails the app sent whose subject contains `subject`. */
+export async function sentEmails(subject: string): Promise<SentEmail[]> {
+  const response = await fetch(`${process.env.BREVO_STUB_URL}/sent`);
+  const emails = (await response.json()) as SentEmail[];
+  return emails.filter((email) => email.subject.includes(subject));
+}
+
+/** A subject no other test uses, to find this test's email. */
+export function uniqueSubject() {
+  return `E2E ${randomUUID()}`;
 }
 
 /** Fills in Keycloak's login form, which must be open. */

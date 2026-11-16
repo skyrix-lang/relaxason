@@ -19,7 +19,6 @@
       "Bash(yarn keycloak:up)",
       "Bash(yarn db:generate:*)",
       "Bash(yarn db:migrate)",
-      "Bash(yarn db:seed:*)",
       "Bash(yarn dev:session:*)",
       "Bash(git status:*)",
       "Bash(git diff:*)",

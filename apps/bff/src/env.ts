@@ -15,7 +15,7 @@ export const envSchema = z
       .default("development"),
     PORT: z.coerce.number().int().positive().default(3001),
     HOST: z.string().default("0.0.0.0"),
-    /** The address people use, such as https://bookings.example.com. */
+    /** The address people use, such as https://relaxason.com. */
     PUBLIC_URL: z
       .url({ protocol: /^https?$/ })
       .transform((url) => url.replace(/\/$/, "")),
@@ -29,6 +29,25 @@ export const envSchema = z
     LOG_LEVEL: z.enum(logLevels).default("info"),
     /** The built SPA, served in production. Unset in development (Vite serves it). */
     STATIC_DIR: z.string().optional(),
+    /**
+     * Brevo sends the contact form's emails (src/contact.ts): its API key, the
+     * sender declared there, and who receives the messages. Required in
+     * production; without them in development, messages are only logged.
+     */
+    BREVO_API_KEY: z.string().min(1).optional(),
+    BREVO_SENDER_EMAIL: z.email().optional(),
+    RECIPIENT_EMAIL: z.email().optional(),
+    /** Brevo's endpoint. Only tests change it. */
+    BREVO_API_URL: z.url().default("https://api.brevo.com/v3/smtp/email"),
+    /** Google Analytics (GA4) measurement id, such as G-XXXXXXXXXX. Unset: no analytics. */
+    GA_MEASUREMENT_ID: z.preprocess(
+      // An empty value, as a compose file passes for an unset one, is unset.
+      (value) => (value === "" ? undefined : value),
+      z
+        .string()
+        .regex(/^G-[A-Z0-9]+$/)
+        .optional(),
+    ),
   })
   .superRefine((env, context) => {
     if (env.NODE_ENV !== "production") return;
@@ -38,6 +57,19 @@ export const envSchema = z
         message: "Use a random value of at least 32 characters",
         path: ["SESSION_SECRET"],
       });
+    }
+    for (const name of [
+      "BREVO_API_KEY",
+      "BREVO_SENDER_EMAIL",
+      "RECIPIENT_EMAIL",
+    ] as const) {
+      if (!env[name]) {
+        context.addIssue({
+          code: "custom",
+          message: "Required in production: the contact form sends email",
+          path: [name],
+        });
+      }
     }
     if (!env.PUBLIC_URL.startsWith("https://")) {
       const local = new URL(env.PUBLIC_URL).hostname === "localhost";

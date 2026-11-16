@@ -1,19 +1,18 @@
 {
-  "name": "@booking/db",
+  "name": "@relaxason/db",
   "version": "0.1.0",
   "private": true,
   "type": "module",
   "sideEffects": false,
   "exports": {
     ".": "./src/index.ts",
-    "./schema": "./src/schema.ts",
-    "./seed": "./src/seed.ts"
+    "./schema": "./src/schema.ts"
   },
   "scripts": {
     "check": "tsc --noEmit -p ."
   },
   "dependencies": {
-    "@booking/core": "workspace:^",
+    "@relaxason/core": "workspace:^",
     "drizzle-orm": "^0.45.4",
     "pg": "^8.23.1"
   },

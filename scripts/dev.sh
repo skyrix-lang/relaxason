@@ -4,8 +4,8 @@
 # Ctrl-C stops both.
 set -e
 
-yarn workspace @booking/bff dev &
+yarn workspace @relaxason/bff dev &
 bff=$!
 trap 'kill $bff 2>/dev/null' EXIT INT TERM
 
-yarn workspace @booking/web dev
+yarn workspace @relaxason/web dev

@@ -1,23 +1,43 @@
 # Project guide
 
-A full-stack starter for new projects, organized as **versioned packages plus a
-thin app per customer**: a client-only React 19 SPA (Vite,
+The website of **Relaxa'Son** (Denis Bensoussan, sonotherapist), in French:
+five public pages and a contact form. Built on the project starter, as
+**versioned packages plus a thin app**: a client-only React 19 SPA (Vite,
 TanStack Router and Query, shadcn/ui on Base UI, Tailwind v4, React Hook Form,
-Zod 4) and a small Hono backend-for-frontend (BFF) that owns sign-in (OpenID
-Connect), sessions, the JSON API and Postgres (Drizzle). One Docker image.
-See `README.md` for setup. The bookings feature is the reference
-implementation: copy its patterns.
+Zod 4) and a small Hono backend-for-frontend (BFF) that serves the site and the
+JSON API, sends the contact form's emails (Brevo), and keeps the sign-in
+plumbing (OpenID Connect, sessions, Postgres through Drizzle) for features to
+come. One Docker image. See `README.md` for setup. The contact form is the
+reference implementation of a feature: copy its patterns
+(`packages/core/src/contact-schema.ts`, `apps/bff/src/contact.ts`,
+`apps/bff/src/routes/api.ts`, `apps/web/src/components/contact/`).
 
 ```
-apps/web                 thin customer app: routes, theme, page overrides
-apps/bff                 Hono server: OIDC, sessions, /api, security headers, serves the SPA
-packages/core            Zod schemas and types shared by web and BFF
+apps/web                 the site: routes, page sections, theme import
+apps/bff                 Hono server: /api, contact emails, OIDC, sessions, security headers, serves the SPA
+packages/core            Zod schemas and constants shared by web and BFF
 packages/db              Drizzle schema, migrations (server only)
 packages/api             generated client, hooks and MSW mocks (never edit by hand)
 packages/ui              UI kit on theme tokens
-packages/theme-default   the brand: one CSS-variable file
-packages/feature-*       feature screens (bookings)
+packages/theme-relaxason the brand: one CSS-variable file
 ```
+
+## The site and its owner
+
+- Text is French, addressed to visitors with "vous", written in the
+  therapist's first person ("je propose…").
+- The pages reproduce the previous site, which the client knows: don't
+  restyle, reword or reorder without being asked. Decisions on content and
+  design are the client's: ask with a precise question first.
+- The treatments page (`/soins`) changes most. One component per treatment in
+  `apps/web/src/components/care/`, with its anchor (`massage`, `voyage`,
+  `seminaire`, `drainage`, `suedois`, `tarifs`). A new treatment also goes in
+  the navbar's menu (`components/navbar.tsx`) and, if priced, in
+  `pricing-section.tsx`. On small screens the text comes before the photo.
+- The seminar is led by Laura Ricciardelli and Denis Bensoussan. The former
+  workshop partner, Michelle Resse, must not be named anywhere.
+- The photos for the seminar and the drainage are still to come
+  (`components/image-placeholder.tsx`).
 
 Each package has a short `AGENTS.md` with its own rules: read it before
 changing that package. `scripts/check-boundaries.ts` enforces which package may
@@ -34,8 +54,8 @@ import which.
 3. **Build in small steps** with the workflow that fits, from
    `.claude/skills/<name>/SKILL.md` (plain Markdown, for any agent): `new-feature`,
    `new-page`, `seo-check`, `run-app`. Run `yarn verify` after each step.
-4. **See it work.** Tests prove it; also check the running app (`run-app`): sign
-   in with `yarn dev:session`, load the page, read the console and server output.
+4. **See it work.** Tests prove it; also check the running app (`run-app`):
+   load the page, read the console and server output.
 5. **Done means:** `yarn verify` and `yarn test` pass; new behaviour has tests
    that fail when the code is broken (break it once to check); README,
    `.env.example` and `docs/decisions.md` are updated where needed; and the
@@ -60,28 +80,31 @@ databases.
 - `yarn test e2e/<file>.spec.ts` runs one file, `yarn test:unit` the Vitest
   suites, `yarn test:watch` watches them.
 - `yarn api:generate` after changing an API route. `yarn setup`, `yarn dev`,
-  `yarn db:generate`, `yarn db:migrate`, `yarn db:seed <email>`,
-  `yarn dev:session` (sign in locally).
+  `yarn db:generate`, `yarn db:migrate`, `yarn dev:session` (sign in locally).
 - Change dependencies with `yarn workspace <name> add|remove`, never by editing
   `package.json`, so `yarn.lock` stays in sync. Install scripts are disabled and
   versions younger than 7 days are refused (`.yarnrc.yml`).
 
-## Frontend (`apps/web`, `packages/ui`, `packages/feature-*`)
+## Frontend (`apps/web`, `packages/ui`, future `packages/feature-*`)
 
 - Everything renders in the browser; there is no server rendering. Routes are
   TanStack Router file routes; links and search params are type-checked.
 - Read and write server data only through the generated hooks in
-  `@booking/api`. Pass `throwOnError: throwUnexpected(...)` so unexpected errors
+  `@relaxason/api`. Pass `throwOnError: throwUnexpected(...)` so unexpected errors
   reach the route's error page; invalidate query keys after a mutation.
 - URL state (filters, tabs) lives in validated search params. Client-only state
   goes in Zustand (not installed yet: ask when the first feature needs it).
-- Forms: React Hook Form + `zodResolver` with the schema from `@booking/core`,
-  and the `Field` components from `@booking/ui`.
-- Style with theme tokens only. A link styled as a button uses
+- Forms: React Hook Form + `zodResolver` with the schema from `@relaxason/core`,
+  and the `Field` components from `@relaxason/ui`.
+- Style with theme tokens only: the kit's (`bg-primary`…) and the site's
+  (`text-brand-700`, `bg-surface`, `text-body`, in `apps/web/src/styles.css`).
+  Breakpoints are the previous site's: `xs` 576, `sm` 768, `md` 992, `lg`
+  1200, `xl` 1408. A link styled as a button uses
   `buttonVariants()`: never put a `<button>` inside a link.
 - Accessibility is a requirement (WCAG 2.2 AA, European Accessibility Act):
   labelled controls, one `h1`, no skipped heading levels, visible focus. Every
-  e2e test runs axe on the page it ends on.
+  e2e test runs axe on the page it ends on (colour contrast excepted: see
+  `docs/decisions.md`).
 
 ## Rendering and SEO
 
@@ -97,13 +120,15 @@ databases.
   validated and appears in `/api/openapi.json`. Bad input is 400, someone else's
   or a missing record is 404. Run `yarn api:generate` after a change.
 - Routes on `userApi` check the session (401). A route outside it is public: say
-  why in a comment. Data is per user: pass `c.var.user.id` to every data
-  function, which filters by it, as `apps/bff/src/bookings.ts` does.
+  why in a comment, as the contact route does. Per-user data: pass
+  `c.var.user.id` to every data function, which filters by it.
 - Log with `log` from `apps/bff/src/log.ts`, never `console`: one line per
   event, with the request's id added for you. Never log a secret, a token, a
   cookie or a query string.
 - Limit anything that sends email or costs money with `hit()` from
   `apps/bff/src/rate-limit.ts`.
+- Email goes through Brevo's HTTP API (`apps/bff/src/contact.ts`), a recorded
+  decision: no SDK, no SMTP library. Escape visitor text with `escapeHtml`.
 - Migrations are like Flyway: edit `packages/db/src/schema.ts`, run
   `yarn db:generate`, review the SQL, commit it. Never edit an applied
   migration. The app never migrates on startup.
@@ -117,20 +142,21 @@ Sign-in is OpenID Connect, authorization code + PKCE, with the BFF as a
 confidential client: tokens and the client secret never reach the browser,
 which holds only an HttpOnly session cookie (`apps/bff/src/session.ts`). The
 CSRF check refuses cross-site form posts; JSON from other origins fails CORS.
-Third-party scripts, images or APIs need their origins added to the CSP in
-`apps/bff/src/app.ts`; never add `'unsafe-inline'` for scripts.
+Third-party scripts, images, frames or APIs need their origins added to the
+CSP in `apps/bff/src/app.ts` (today: YouTube's frame, and Google Analytics when
+configured); never add `'unsafe-inline'` for scripts.
 
 ## Tests
 
 - Pure logic and schemas: Vitest, next to the file (`*.test.ts`).
 - Components: Vitest + Testing Library in jsdom, with MSW handlers from
-  `@booking/api/mocks`; unhandled requests fail the test.
+  `@relaxason/api/mocks`; unhandled requests fail the test.
 - New behaviour gets a Playwright test in `e2e/`. Import `test` and `expect`
   from `e2e/support.ts`, so console errors and axe violations fail the test.
-- Tests run in parallel on one database. Tests that change data create their own
-  rows through a helper with a unique value, and never change seed data. Sign in
-  as a new user with `signInAsNewUser`; `auth.spec.ts` covers the real Keycloak
-  flow.
+- Tests run in parallel on one database. Tests that send a contact message use
+  a unique subject (`uniqueSubject`) and read what the fake Brevo received
+  with `sentEmails`. Sign in as a new user with `signInAsNewUser`;
+  `auth.spec.ts` covers the real Keycloak flow.
 - Prefer role-based locators, with `data-testid` for repeated cards.
 - Never add test-only routes or code to the app. Trigger failures from the test,
   with `page.route` or direct database access.

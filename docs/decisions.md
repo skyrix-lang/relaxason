@@ -132,7 +132,7 @@ package in `dependenciesMeta`, never globally.
 
 ## Each checkout is isolated
 
-The main checkout uses ports 3000 (Vite) and 3001 (BFF) and the `booking`
+The main checkout uses ports 3000 (Vite) and 3001 (BFF) and the `relaxason`
 database. A git worktree gets its own dev ports, dev database and e2e port and
 database (`scripts/checkout.ts`, `yarn setup`). Postgres and Keycloak are shared.
 **Why:** several agents can work in parallel worktrees without one's migrations or
@@ -168,3 +168,65 @@ development Keycloak, in deploy order. Keycloak is reached as
 the issuer must be one address for both.
 **Why:** the image is what ships, so there must be a one-command way to run it
 as it runs in production. Its secrets are public: it is not a deployment.
+
+## The public site needs no account; sign-in is kept
+
+The site is a showcase: five public pages and a contact form. The starter's
+sign-in (OIDC, sessions, users) stays in the BFF, with `/sign-in`, but nothing
+links to it. The starter's demo bookings feature was removed
+(`0001_drop_bookings`).
+**Why:** online booking and a client area are expected next, and the plumbing
+is tested and costs nothing at runtime.
+**Cost:** the BFF needs Postgres and an identity provider configured to start,
+for a site that doesn't use the provider yet.
+**Revisit when:** no signed-in feature is planned after all: remove the OIDC
+routes, sessions and users, and keep Postgres for the rate limits.
+
+## Contact emails through Brevo's HTTP API, without its SDK
+
+`apps/bff/src/contact.ts` posts to Brevo's transactional endpoint with `fetch`.
+The settings are required in production; in development a message is logged
+instead. Messages aren't stored: the email is the record.
+**Why:** one request doesn't justify a dependency, and the previous site
+already sent through this Brevo account. Nodemailer was considered and set
+aside: it needs an SMTP server, and Brevo's API gives the same delivery with
+nothing to run or secure on the VPS.
+**Revisit when:** messages must survive an outage of the email service: store
+them in Postgres first, then send.
+
+## The previous design, rebuilt on the kit, including its low-contrast teal
+
+The Mantine site was rebuilt with Tailwind and the UI kit so that visitors see
+the same pages: same colours, spacing, breakpoints and fonts. That includes
+white text on the brand's teal (`#1EB19E`, about 2.7:1) for buttons and badges,
+and teal accents on the mint page, which are below WCAG AA contrast (4.5:1).
+The e2e accessibility check therefore runs axe without its `color-contrast`
+rule (`e2e/support.ts`); every other rule still fails a test.
+**Why:** the client asked for the site they know, unchanged.
+**Revisit when:** the brand can be adjusted: darkening `--primary` to
+`--brand-700` (`#008577`, 4.6:1) for text-bearing surfaces would pass, and the
+rule can be switched back on.
+
+## Analytics load before consent, as on the previous site
+
+With `GA_MEASUREMENT_ID` set, Google Analytics starts on the first page and
+stops when the visitor refuses the cookie banner (`apps/web/src/analytics.ts`).
+**Why:** it's what the previous site did, and this migration changes nothing
+visitors or the owner would notice.
+**Revisit when:** before relying on it in production in France: the CNIL
+expects consent before audience cookies are set. Starting only after "Accepter"
+is a small change in `startAnalytics`.
+
+## Icons: lucide-react, plus a few Tabler paths
+
+The kit's icon set is lucide-react. The eight icons it has no equivalent for
+(massage, lungs, yoga, gong…) are inlined from Tabler Icons (MIT) in
+`apps/web/src/components/icons.tsx`.
+**Why:** the look of the previous site without a second icon dependency.
+
+## Local containers on their own ports
+
+The local Postgres listens on 5433 and Keycloak on 8181, not the starter's
+5432 and 8180.
+**Why:** another project started from the same starter runs on this machine,
+and both must be able to run at once.

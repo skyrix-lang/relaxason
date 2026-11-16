@@ -1,7 +1,7 @@
 import { Field as BaseField } from "@base-ui/react/field";
 import { Input as BaseInput } from "@base-ui/react/input";
 import type { ComponentProps } from "react";
-import { withBase } from "../lib/utils";
+import { cn, withBase } from "../lib/utils";
 
 // A labelled form control. Base UI links the label, description and error to
 // the control (for/aria-describedby), so screen readers announce them.
@@ -58,17 +58,35 @@ export function FieldError({
   );
 }
 
+const controlClass =
+  "bg-card w-full rounded-md border border-input px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring data-[invalid]:border-destructive";
+
 export function Input({
   className,
   ...props
 }: ComponentProps<typeof BaseInput>) {
+  return <BaseInput className={withBase(controlClass, className)} {...props} />;
+}
+
+/** A multi-line text control, linked to its Field like Input. */
+export function Textarea({ className, ...props }: ComponentProps<"textarea">) {
   return (
-    <BaseInput
-      className={withBase(
-        "bg-card w-full rounded-md border border-input px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring data-[invalid]:border-destructive",
-        className,
-      )}
-      {...props}
+    <BaseField.Control
+      render={<textarea className={cn(controlClass, className)} {...props} />}
+    />
+  );
+}
+
+/** A native select: the platform's own picker, on every device. */
+export function Select({ className, ...props }: ComponentProps<"select">) {
+  return (
+    <BaseField.Control
+      render={
+        <select
+          className={cn(controlClass, "cursor-pointer", className)}
+          {...props}
+        />
+      }
     />
   );
 }

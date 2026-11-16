@@ -4,7 +4,7 @@
  * when they parse a URL ("/\t/evil.example" becomes "//evil.example"), so any
  * control character is refused too.
  */
-export function safeReturnTo(value: unknown, fallback = "/bookings") {
+export function safeReturnTo(value: unknown, fallback = "/") {
   if (typeof value !== "string") return fallback;
   if (
     !value.startsWith("/") ||

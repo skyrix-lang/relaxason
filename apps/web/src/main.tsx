@@ -4,6 +4,10 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createQueryClient } from "./query-client";
 import { routeTree } from "./routeTree.gen";
+import "@fontsource/source-sans-3/400.css";
+import "@fontsource/source-sans-3/500.css";
+import "@fontsource/source-sans-3/600.css";
+import "@fontsource/josefin-sans/600.css";
 import "./styles.css";
 
 const queryClient = createQueryClient(() => {
@@ -23,6 +27,8 @@ const router = createRouter({
   // TanStack Query caches the data; the router only decides when to load it.
   defaultPreloadStaleTime: 0,
   scrollRestoration: true,
+  // Section links (/soins#tarifs) glide to their section.
+  defaultHashScrollIntoView: { behavior: "smooth" },
 });
 
 declare module "@tanstack/react-router" {

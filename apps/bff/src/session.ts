@@ -6,7 +6,7 @@ import {
   sessionTokenHash as hashToken,
   userSessions,
   users,
-} from "@booking/db";
+} from "@relaxason/db";
 import { getDb } from "./db";
 import { env } from "./env";
 

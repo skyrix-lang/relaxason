@@ -1,8 +1,9 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { z } from "zod";
-import { getGetMeQueryOptions } from "@booking/api";
-import { safeReturnTo } from "@booking/core";
-import { buttonVariants, Card } from "@booking/ui";
+import { getGetMeQueryOptions } from "@relaxason/api";
+import { safeReturnTo } from "@relaxason/core";
+import { buttonVariants, Card } from "@relaxason/ui";
+import { PageShell } from "../components/page-shell";
 import { usePageMeta } from "../page-meta";
 
 // The BFF sends people back here with ?error=<code> when sign-in fails
@@ -42,26 +43,28 @@ function SignInPage() {
   })}`;
 
   return (
-    <div className="max-w-sm mx-auto py-8">
-      <Card className="space-y-6">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold">Sign in</h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            You'll sign in with your organization's account.
-          </p>
-        </div>
-        {error && (
-          <p
-            role="alert"
-            className="rounded-md bg-destructive-soft px-3 py-2 text-sm text-destructive-soft-foreground"
-          >
-            {errorMessages[error] ?? defaultError}
-          </p>
-        )}
-        <a href={loginUrl} className={`w-full ${buttonVariants()}`}>
-          Continue to sign in
-        </a>
-      </Card>
-    </div>
+    <PageShell>
+      <div className="max-w-sm mx-auto py-8">
+        <Card className="space-y-6">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold">Sign in</h1>
+            <p className="text-sm text-muted-foreground mt-1">
+              You'll sign in with your organization's account.
+            </p>
+          </div>
+          {error && (
+            <p
+              role="alert"
+              className="rounded-md bg-destructive-soft px-3 py-2 text-sm text-destructive-soft-foreground"
+            >
+              {errorMessages[error] ?? defaultError}
+            </p>
+          )}
+          <a href={loginUrl} className={`w-full ${buttonVariants()}`}>
+            Continue to sign in
+          </a>
+        </Card>
+      </div>
+    </PageShell>
   );
 }

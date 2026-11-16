@@ -21,18 +21,21 @@ finish with `yarn verify` and `yarn test`.
 
 ## 2. Sign in
 
-`yarn dev:session [email] [--seed]` creates a session directly in the local
+The site's pages are all public: skip this unless you are working on the
+sign-in itself or on a signed-in feature.
+
+`yarn dev:session [email]` creates a session directly in the local
 database and prints the cookie. The default user is `agent@example.test`;
-`--seed` gives it the demo bookings. It refuses non-local databases.
+It refuses non-local databases.
 
 ```bash
-yarn dev:session --seed
-curl -H 'Cookie: session=<token>' http://localhost:3000/api/bookings
+yarn dev:session
+curl -H 'Cookie: session=<token>' http://localhost:3000/api/me
 ```
 
 For a browser, use `storageState: "e2e/.auth/dev-session.json"` in a Playwright
 script. For the real flow, open `/sign-in` and log in on Keycloak as `ada` /
-`ada` or `grace` / `grace` (admin console http://localhost:8180, admin/admin).
+`ada` or `grace` / `grace` (admin console http://localhost:8181, admin/admin).
 
 ## 3. Look
 
@@ -41,6 +44,9 @@ script. For the real flow, open `/sign-in` and log in on Keycloak as `ada` /
   React errors and failed requests show there, and fail the e2e tests.
 - **API:** `curl` with the cookie and `-H 'content-type: application/json'`.
   The contract is `GET /api/openapi.json`.
+- **Contact form:** without Brevo settings in `.env`, a message isn't sent:
+  the BFF logs "Contact message not sent" and answers 200, so the form shows
+  its success state. Five messages an hour per address, then 429.
 - **Server output:** wherever `yarn dev` writes, for both processes. Read it
   after each request: warnings there are bugs too.
 

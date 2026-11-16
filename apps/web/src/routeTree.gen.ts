@@ -10,17 +10,25 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as BookingsRouteImport } from './routes/bookings'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as MonParcoursRouteImport } from './routes/mon-parcours'
 import { Route as SignInRouteImport } from './routes/sign-in'
+import { Route as SoinsRouteImport } from './routes/soins'
+import { Route as SonotherapieRouteImport } from './routes/sonotherapie'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const BookingsRoute = BookingsRouteImport.update({
-  id: '/bookings',
-  path: '/bookings',
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MonParcoursRoute = MonParcoursRouteImport.update({
+  id: '/mon-parcours',
+  path: '/mon-parcours',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SignInRoute = SignInRouteImport.update({
@@ -28,35 +36,66 @@ const SignInRoute = SignInRouteImport.update({
   path: '/sign-in',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SoinsRoute = SoinsRouteImport.update({
+  id: '/soins',
+  path: '/soins',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SonotherapieRoute = SonotherapieRouteImport.update({
+  id: '/sonotherapie',
+  path: '/sonotherapie',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/bookings': typeof BookingsRoute
+  '/contact': typeof ContactRoute
+  '/mon-parcours': typeof MonParcoursRoute
   '/sign-in': typeof SignInRoute
+  '/soins': typeof SoinsRoute
+  '/sonotherapie': typeof SonotherapieRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/bookings': typeof BookingsRoute
+  '/contact': typeof ContactRoute
+  '/mon-parcours': typeof MonParcoursRoute
   '/sign-in': typeof SignInRoute
+  '/soins': typeof SoinsRoute
+  '/sonotherapie': typeof SonotherapieRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/bookings': typeof BookingsRoute
+  '/contact': typeof ContactRoute
+  '/mon-parcours': typeof MonParcoursRoute
   '/sign-in': typeof SignInRoute
+  '/soins': typeof SoinsRoute
+  '/sonotherapie': typeof SonotherapieRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/bookings' | '/sign-in'
+  fullPaths:
+    '/' | '/contact' | '/mon-parcours' | '/sign-in' | '/soins' | '/sonotherapie'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/bookings' | '/sign-in'
-  id: '__root__' | '/' | '/bookings' | '/sign-in'
+  to:
+    '/' | '/contact' | '/mon-parcours' | '/sign-in' | '/soins' | '/sonotherapie'
+  id:
+    | '__root__'
+    | '/'
+    | '/contact'
+    | '/mon-parcours'
+    | '/sign-in'
+    | '/soins'
+    | '/sonotherapie'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  BookingsRoute: typeof BookingsRoute
+  ContactRoute: typeof ContactRoute
+  MonParcoursRoute: typeof MonParcoursRoute
   SignInRoute: typeof SignInRoute
+  SoinsRoute: typeof SoinsRoute
+  SonotherapieRoute: typeof SonotherapieRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -68,11 +107,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/bookings': {
-      id: '/bookings'
-      path: '/bookings'
-      fullPath: '/bookings'
-      preLoaderRoute: typeof BookingsRouteImport
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mon-parcours': {
+      id: '/mon-parcours'
+      path: '/mon-parcours'
+      fullPath: '/mon-parcours'
+      preLoaderRoute: typeof MonParcoursRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sign-in': {
@@ -82,13 +128,30 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignInRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/soins': {
+      id: '/soins'
+      path: '/soins'
+      fullPath: '/soins'
+      preLoaderRoute: typeof SoinsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sonotherapie': {
+      id: '/sonotherapie'
+      path: '/sonotherapie'
+      fullPath: '/sonotherapie'
+      preLoaderRoute: typeof SonotherapieRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  BookingsRoute: BookingsRoute,
+  ContactRoute: ContactRoute,
+  MonParcoursRoute: MonParcoursRoute,
   SignInRoute: SignInRoute,
+  SoinsRoute: SoinsRoute,
+  SonotherapieRoute: SonotherapieRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

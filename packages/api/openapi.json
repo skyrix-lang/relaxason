@@ -1,7 +1,7 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "BookingHub API",
+    "title": "Relaxason API",
     "version": "1.0.0"
   },
   "components": {
@@ -38,52 +38,6 @@
           "user"
         ]
       },
-      "Booking": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "title": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "date": {
-            "type": "string",
-            "format": "date"
-          },
-          "time": {
-            "type": "string",
-            "example": "09:30"
-          },
-          "duration": {
-            "type": "integer"
-          },
-          "status": {
-            "$ref": "#/components/schemas/BookingStatus"
-          }
-        },
-        "required": [
-          "id",
-          "title",
-          "description",
-          "date",
-          "time",
-          "duration",
-          "status"
-        ]
-      },
-      "BookingStatus": {
-        "type": "string",
-        "enum": [
-          "pending",
-          "confirmed",
-          "cancelled"
-        ]
-      },
       "ApiErrorBody": {
         "type": "object",
         "properties": {
@@ -99,49 +53,49 @@
           "error"
         ]
       },
-      "CreateBooking": {
+      "ContactMessage": {
         "type": "object",
         "properties": {
-          "title": {
+          "name": {
             "type": "string",
             "minLength": 1,
             "maxLength": 200
           },
-          "description": {
+          "email": {
             "type": "string",
-            "maxLength": 2000,
+            "maxLength": 320,
+            "format": "email"
+          },
+          "phone": {
+            "type": "string",
+            "maxLength": 50,
             "default": ""
           },
-          "date": {
+          "reason": {
             "type": "string",
-            "format": "date"
+            "enum": [
+              "information",
+              "session",
+              "workshop",
+              "other"
+            ]
           },
-          "time": {
+          "subject": {
             "type": "string",
-            "format": "time"
+            "maxLength": 200,
+            "default": ""
           },
-          "duration": {
-            "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 1440
+          "message": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 5000
           }
         },
         "required": [
-          "title",
-          "date",
-          "time",
-          "duration"
-        ]
-      },
-      "UpdateBooking": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "$ref": "#/components/schemas/BookingStatus"
-          }
-        },
-        "required": [
-          "status"
+          "name",
+          "email",
+          "reason",
+          "message"
         ]
       }
     },
@@ -214,131 +168,37 @@
         }
       }
     },
-    "/api/bookings": {
-      "get": {
-        "operationId": "listBookings",
-        "parameters": [
-          {
-            "schema": {
-              "$ref": "#/components/schemas/BookingStatus"
-            },
-            "required": false,
-            "name": "status",
-            "in": "query"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The user's bookings, in date order",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Booking"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorBody"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Not signed in",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorBody"
-                }
-              }
-            }
-          }
-        }
-      },
+    "/api/contact": {
       "post": {
-        "operationId": "createBooking",
+        "operationId": "sendContactMessage",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateBooking"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "The new booking, always pending",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Booking"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorBody"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Not signed in",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorBody"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/bookings/{id}": {
-      "patch": {
-        "operationId": "updateBooking",
-        "parameters": [
-          {
-            "schema": {
-              "type": "string"
-            },
-            "required": true,
-            "name": "id",
-            "in": "path"
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateBooking"
+                "$ref": "#/components/schemas/ContactMessage"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "The updated booking",
+            "description": "The message was sent",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Booking"
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "sent"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status"
+                  ]
                 }
               }
             }
@@ -353,8 +213,8 @@
               }
             }
           },
-          "401": {
-            "description": "Not signed in",
+          "429": {
+            "description": "Too many messages from this client",
             "content": {
               "application/json": {
                 "schema": {
@@ -363,8 +223,8 @@
               }
             }
           },
-          "404": {
-            "description": "No such booking for this user",
+          "502": {
+            "description": "The email service refused the message",
             "content": {
               "application/json": {
                 "schema": {

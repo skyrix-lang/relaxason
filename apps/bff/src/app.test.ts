@@ -7,11 +7,11 @@ import type { createApp as CreateApp } from "./app";
 let app: ReturnType<typeof CreateApp>;
 
 beforeAll(async () => {
-  vi.stubEnv("PUBLIC_URL", "https://bookings.example.com");
+  vi.stubEnv("PUBLIC_URL", "https://relaxason.example.com");
   vi.stubEnv("DATABASE_URL", "postgres://unused@localhost:1/unused");
   vi.stubEnv("SESSION_SECRET", "test-secret");
-  vi.stubEnv("OIDC_ISSUER", "https://id.example.com/realms/booking");
-  vi.stubEnv("OIDC_CLIENT_ID", "booking-web");
+  vi.stubEnv("OIDC_ISSUER", "https://id.example.com/realms/relaxason");
+  vi.stubEnv("OIDC_CLIENT_ID", "relaxason-web");
   vi.stubEnv("OIDC_CLIENT_SECRET", "secret");
   const { createApp } = await import("./app");
   app = createApp();
@@ -79,29 +79,24 @@ describe("the request log", () => {
 });
 
 describe("the API", () => {
-  for (const [method, path] of [
-    ["GET", "/api/bookings"],
-    ["POST", "/api/bookings"],
-    ["PATCH", "/api/bookings/00000000-0000-4000-8000-000000000000"],
-  ] as const) {
-    it(`refuses ${method} ${path} without a session`, async () => {
-      const response = await app.request(path, {
-        method,
-        headers: { "content-type": "application/json" },
-        body: method === "GET" ? undefined : "{}",
-      });
-      expect(response.status).toBe(401);
+  it("refuses an invalid contact message before sending anything", async () => {
+    const response = await app.request("/api/contact", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ name: "", email: "nope", message: "" }),
     });
-  }
+
+    expect(response.status).toBe(400);
+    const body = (await response.json()) as { issues: { path: string[] }[] };
+    expect(body.issues.map((issue) => issue.path[0])).toEqual(
+      expect.arrayContaining(["name", "email", "reason", "message"]),
+    );
+  });
 
   it("serves its OpenAPI document", async () => {
     const { openApiDocument } = await import("./routes/api");
     expect(Object.keys(openApiDocument().paths ?? {})).toEqual(
-      expect.arrayContaining([
-        "/api/bookings",
-        "/api/bookings/{id}",
-        "/api/me",
-      ]),
+      expect.arrayContaining(["/api/contact", "/api/health", "/api/me"]),
     );
   });
 });
@@ -114,6 +109,9 @@ describe("security", () => {
     expect(csp).not.toContain("unsafe-inline");
     expect(csp).toContain("frame-ancestors 'none'");
     expect(csp).toContain("form-action 'self' https://id.example.com");
+    expect(csp).toContain("frame-src https://www.youtube.com");
+    // No analytics id is configured, so no analytics origin is allowed.
+    expect(csp).not.toContain("googletagmanager");
     expect(response.headers.get("x-frame-options")).toBe("DENY");
     expect(response.headers.get("strict-transport-security")).toContain(
       "max-age=",
@@ -137,11 +135,12 @@ describe("SEO files", () => {
     const robots = await (await app.request("/robots.txt")).text();
     expect(robots).toContain("Disallow: /api/");
     expect(robots).toContain(
-      "Sitemap: https://bookings.example.com/sitemap.xml",
+      "Sitemap: https://relaxason.example.com/sitemap.xml",
     );
 
     const sitemap = await (await app.request("/sitemap.xml")).text();
-    expect(sitemap).toContain("<loc>https://bookings.example.com</loc>");
-    expect(sitemap).not.toContain("/bookings<");
+    expect(sitemap).toContain("<loc>https://relaxason.example.com</loc>");
+    expect(sitemap).toContain("<loc>https://relaxason.example.com/soins</loc>");
+    expect(sitemap).not.toContain("/sign-in<");
   });
 });

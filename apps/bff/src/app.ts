@@ -17,7 +17,23 @@ import { robotsTxt, sitemapXml } from "./seo";
  * production, the built SPA. Tests call `createApp().request(...)`.
  */
 export function createApp() {
-  const { PUBLIC_URL, OIDC_ISSUER, STATIC_DIR } = env();
+  const { PUBLIC_URL, OIDC_ISSUER, STATIC_DIR, GA_MEASUREMENT_ID } = env();
+  // Google Analytics loads its script from one origin and reports to others.
+  // Allowed only when a measurement id is configured.
+  const analytics = GA_MEASUREMENT_ID
+    ? {
+        script: ["https://www.googletagmanager.com"],
+        connect: [
+          "https://*.google-analytics.com",
+          "https://*.analytics.google.com",
+          "https://*.googletagmanager.com",
+        ],
+        img: [
+          "https://*.google-analytics.com",
+          "https://*.googletagmanager.com",
+        ],
+      }
+    : { script: [], connect: [], img: [] };
   const app = new Hono<{ Variables: RequestIdVariables }>();
 
   // Every request gets an id (the proxy's `x-request-id` when it sent one),
@@ -46,11 +62,13 @@ export function createApp() {
       // Add the origins of any third-party script, image or API here.
       contentSecurityPolicy: {
         defaultSrc: ["'self'"],
-        scriptSrc: ["'self'"],
+        scriptSrc: ["'self'", ...analytics.script],
         styleSrc: ["'self'"],
-        imgSrc: ["'self'", "data:"],
+        imgSrc: ["'self'", "data:", ...analytics.img],
         fontSrc: ["'self'"],
-        connectSrc: ["'self'"],
+        connectSrc: ["'self'", ...analytics.connect],
+        // The Télématin report on the sonotherapy page.
+        frameSrc: ["https://www.youtube.com"],
         objectSrc: ["'none'"],
         baseUri: ["'self'"],
         // Signing out is a form whose response redirects to the provider.
@@ -84,10 +102,9 @@ export function createApp() {
   if (STATIC_DIR) {
     // The page's canonical URL and social metadata need the public address,
     // which is set when the container starts, not when it was built.
-    const index = readFileSync(
-      join(STATIC_DIR, "index.html"),
-      "utf8",
-    ).replaceAll("%PUBLIC_URL%", PUBLIC_URL);
+    const index = readFileSync(join(STATIC_DIR, "index.html"), "utf8")
+      .replaceAll("%PUBLIC_URL%", PUBLIC_URL)
+      .replaceAll("%GA_MEASUREMENT_ID%", GA_MEASUREMENT_ID ?? "");
     // Hashed file names never change, so they're cached for a year.
     app.use(
       "/assets/*",
@@ -98,7 +115,7 @@ export function createApp() {
         },
       }),
     );
-    // Other files of the build (logo.svg, icon.svg), by name. A path without an
+    // Other files of the build (logo.png, og-image.jpg), by name. A path without an
     // extension is a client route, handled below.
     // index.html only through the route below, with PUBLIC_URL filled in; a
     // missing file is a 404, not the app's page.

@@ -10,10 +10,11 @@ product questions, write a spec in `docs/specs/` first and get the open question
 answered.
 
 Work from the database up, and include only the layers the feature needs. The
-bookings feature shows every layer: `packages/db/src/schema.ts`,
-`packages/core/src/booking-schema.ts`, `apps/bff/src/bookings.ts`,
-`apps/bff/src/routes/api.ts`, `packages/feature-bookings/` and
-`apps/web/src/routes/bookings.tsx`.
+contact form shows the layers from the schema up:
+`packages/core/src/contact-schema.ts`, `apps/bff/src/contact.ts`,
+`apps/bff/src/routes/api.ts`, `apps/web/src/components/contact/` and
+`apps/web/src/routes/contact.tsx`. It stores nothing; `packages/db/src/schema.ts`
+shows tables (users, sessions, rate limits).
 
 ## 1. Database (`packages/db`)
 
@@ -36,7 +37,7 @@ them next to the file with Vitest.
 
 Small async functions using `getDb()`, no HTTP code. For per-user data, give
 the table a `user_id` and make each function take the user's id and filter by
-it, as `apps/bff/src/bookings.ts` does: another user's row then behaves as if
+it: another user's row then behaves as if
 it doesn't exist. Return only public columns, not the owner.
 
 ## 4. API routes (`apps/bff/src/routes/api.ts`)
@@ -44,8 +45,12 @@ it doesn't exist. Return only public columns, not the owner.
 Declare each route with `createRoute` (method, path, `operationId`, request
 schemas, every response status), and register it on `userApi`, which checks
 the session (401). Bad input gets 400 from the default hook; an unknown or
-someone else's record is 404. Limit anything that sends email or costs money
-with `hit()` from `apps/bff/src/rate-limit.ts`.
+someone else's record is 404. A route visitors call without an account, like
+`POST /api/contact`, goes on the public router with a comment saying why. Limit
+anything that sends email or costs money with `hit()` from
+`apps/bff/src/rate-limit.ts`. Email goes through Brevo with
+`apps/bff/src/contact.ts` as the model: don't add another email service or
+library without asking.
 
 ## 5. Client (`packages/api`)
 
@@ -53,17 +58,21 @@ Run `yarn api:generate`. It writes `packages/api/openapi.json` from the routes
 and regenerates the typed client, TanStack Query hooks and MSW mocks. Commit
 the result; `yarn verify` fails if it's stale. Never write API types by hand.
 
-## 6. UI (`packages/feature-<name>`)
+## 6. UI
 
-- A new feature package gets its own `package.json` (deps on `@booking/core`,
-  `@booking/api`, `@booking/ui` only), a short `AGENTS.md`, and an entry in
-  `scripts/check-boundaries.ts` if its name doesn't match `@booking/feature-*`.
+The site's own pages and sections live in `apps/web/src/components/<page>/`,
+like the contact form. A feature with its own screens and data (online booking,
+a client area) goes in a `packages/feature-<name>` package; there is none yet.
+
+- A new feature package gets its own `package.json` (deps on `@relaxason/core`,
+  `@relaxason/api`, `@relaxason/ui` only), a short `AGENTS.md`, and an entry in
+  `scripts/check-boundaries.ts` if its name doesn't match `@relaxason/feature-*`.
 - Read with the generated `useX` hooks; pass `throwOnError: throwUnexpected()`
   so unexpected errors reach the route's error page.
 - Mutate with the generated mutation hooks, then invalidate the list's query
   key (`getXQueryKey()`).
 - Forms: React Hook Form with `zodResolver(<schema from core>)` and the
-  `Field`, `FieldLabel`, `FieldError`, `Input` components from `@booking/ui`.
+  `Field`, `FieldLabel`, `FieldError`, `Input` components from `@relaxason/ui`.
 - URL state, such as filters, lives in the route's search params, not React
   state. Client state that isn't server data goes in Zustand (ask first: it
   isn't installed yet).
@@ -72,12 +81,13 @@ the result; `yarn verify` fails if it's stale. Never write API types by hand.
 ## 7. Tests
 
 - Component tests next to the component (`*.test.tsx`, Vitest + Testing
-  Library), with handlers from `@booking/api/mocks` fixed to known data.
+  Library), with handlers from `@relaxason/api/mocks` fixed to known data.
 - API cases in `e2e/api.spec.ts`, including invalid input and unknown records.
 - Browser tests for the user flow, the pending state and the failure path.
   They also run axe: fix any violation.
-- A `createX` helper in `e2e/support.ts` that produces unique values.
-- Update `packages/db/src/seed.ts` if demo data helps.
+- A `createX` helper in `e2e/support.ts` that produces unique values. For
+  email, read what the fake Brevo (`e2e/brevo-stub.ts`) received with
+  `sentEmails`.
 
 ## 8. Finish
 
@@ -85,5 +95,6 @@ the result; `yarn verify` fails if it's stale. Never write API types by hand.
 - Break the feature once to confirm the new tests fail, then revert.
 - Check it in the running app with the `run-app` skill.
 - Have the change reviewed (the `reviewer` subagent in Claude Code).
-- Update the README for new commands, variables or concepts.
+- Update the README for new commands, variables or concepts, and
+  `docs/decisions.md` for a choice someone could later want to reverse.
 - Say plainly whether the new data is per user or shared by everyone.

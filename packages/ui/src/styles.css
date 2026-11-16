@@ -19,6 +19,7 @@
   --color-ring: var(--ring);
   --color-primary: var(--primary);
   --color-primary-hover: var(--primary-hover);
+  --color-primary-strong: var(--primary-strong);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary-soft: var(--primary-soft);
   --color-primary-soft-foreground: var(--primary-soft-foreground);

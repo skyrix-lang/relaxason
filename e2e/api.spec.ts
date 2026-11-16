@@ -1,194 +1,116 @@
-import type { Booking } from "@booking/core";
-import { createBooking, expect, test } from "./support";
+import { expect, sentEmails, test, uniqueSubject } from "./support";
 
-const validBooking = {
-  title: "Dentist",
-  date: "2030-02-01",
-  time: "16:45",
-  duration: 20,
+const validMessage = {
+  name: "Ada Lovelace",
+  email: "ada@example.test",
+  phone: "06 12 34 56 78",
+  reason: "session",
+  message: "Bonjour,\nje souhaite réserver une séance.",
 };
 
-test.describe("GET /api/bookings", () => {
-  test("lists bookings", async ({ request }) => {
-    const response = await request.get("/api/bookings");
+test.describe("POST /api/contact", () => {
+  // The contact form is for visitors: no session.
+  test.use({ storageState: { cookies: [], origins: [] } });
+
+  test("sends the message to the therapist, with the visitor to reply to", async ({
+    request,
+  }) => {
+    const subject = uniqueSubject();
+
+    const response = await request.post("/api/contact", {
+      data: { ...validMessage, subject },
+    });
 
     expect(response.status()).toBe(200);
-    const bookings: Booking[] = await response.json();
-    expect(bookings.map((booking) => booking.title)).toEqual(
-      expect.arrayContaining(["Team Sync", "Project Review", "Client Call"]),
-    );
-  });
-
-  test("filters by status", async ({ request }) => {
-    const response = await request.get("/api/bookings?status=pending");
-
-    const bookings: Booking[] = await response.json();
-    expect(bookings.length).toBeGreaterThan(0);
-    expect(bookings.every((booking) => booking.status === "pending")).toBe(
-      true,
-    );
-  });
-
-  test("rejects an unknown status", async ({ request }) => {
-    const response = await request.get("/api/bookings?status=bogus");
-
-    expect(response.status()).toBe(400);
-  });
-
-  test("isn't cached", async ({ request }) => {
-    const response = await request.get("/api/bookings");
-
+    expect(await response.json()).toEqual({ status: "sent" });
     expect(response.headers()["cache-control"]).toContain("no-store");
+    const [email, ...others] = await sentEmails(subject);
+    expect(others).toEqual([]);
+    expect(email).toMatchObject({
+      to: [{ email: "therapist@example.test" }],
+      sender: { name: "Contact Sonothérapie", email: "site@example.test" },
+      subject: `[Site Web] ${subject}`,
+      replyTo: { email: "ada@example.test" },
+    });
+    expect(email!.htmlContent).toContain("Ada Lovelace");
+    expect(email!.htmlContent).toContain("Prise de rendez-vous");
+    expect(email!.htmlContent).toContain("Bonjour,<br/>je souhaite réserver");
   });
-});
 
-test.describe("POST /api/bookings", () => {
-  test("creates a pending booking", async ({ request }) => {
-    const response = await request.post("/api/bookings", {
-      data: validBooking,
+  test("escapes what the visitor wrote", async ({ request }) => {
+    const subject = uniqueSubject();
+
+    await request.post("/api/contact", {
+      data: { ...validMessage, subject, name: "<b>Ada</b>" },
     });
 
-    expect(response.status()).toBe(201);
-    const booking: Booking = await response.json();
-    expect(booking).toMatchObject({
-      ...validBooking,
-      description: "",
-      status: "pending",
+    const [email] = await sentEmails(subject);
+    expect(email!.htmlContent).toContain("&lt;b&gt;Ada&lt;/b&gt;");
+    expect(email!.htmlContent).not.toContain("<b>Ada</b>");
+  });
+
+  const invalidMessages = {
+    "a missing name": { name: "" },
+    "an invalid email": { email: "not-an-email" },
+    "an unknown reason": { reason: "spam" },
+    "an empty message": { message: "  " },
+    "a message that is too long": { message: "x".repeat(5001) },
+  };
+  for (const [name, override] of Object.entries(invalidMessages)) {
+    test(`rejects ${name}, and sends nothing`, async ({ request }) => {
+      const subject = uniqueSubject();
+
+      const response = await request.post("/api/contact", {
+        data: { ...validMessage, subject, ...override },
+      });
+
+      expect(response.status()).toBe(400);
+      expect((await response.json()).error).toBe("Invalid request");
+      expect(await sentEmails(subject)).toEqual([]);
     });
-    expect(booking.id).toBeTruthy();
-  });
+  }
 
-  test("ignores a client-supplied status", async ({ request }) => {
-    const booking = await createBooking(request, { status: "confirmed" });
-
-    expect(booking.status).toBe("pending");
-  });
-
-  test("rejects malformed JSON", async ({ request }) => {
-    const response = await request.post("/api/bookings", {
-      headers: { "content-type": "application/json" },
-      data: "{not json",
-    });
-
-    expect(response.status()).toBe(400);
-  });
-
-  test("rejects a body that isn't JSON", async ({ request, baseURL }) => {
-    const response = await request.post("/api/bookings", {
-      headers: { "content-type": "text/plain", origin: baseURL! },
-      data: JSON.stringify(validBooking),
-    });
-
-    expect(response.status()).toBe(415);
-  });
-
-  // text/plain is a type that a form on another site can send without CORS.
-  test("refuses a cross-site form-like post", async ({ request }) => {
-    const response = await request.post("/api/bookings", {
-      headers: { "content-type": "text/plain", origin: "https://evil.example" },
-      data: JSON.stringify(validBooking),
+  test("refuses a form posted from another site", async ({ request }) => {
+    const response = await request.post("/api/contact", {
+      headers: { origin: "https://evil.example" },
+      form: validMessage,
     });
 
     expect(response.status()).toBe(403);
   });
 
-  const invalidBookings = {
-    "an empty title": { title: "   " },
-    "an invalid date": { date: "2030-13-45" },
-    "an invalid time": { time: "25:00" },
-    "a zero duration": { duration: 0 },
-    "a fractional duration": { duration: 1.5 },
-    "a duration over a day": { duration: 1441 },
-  };
-
-  for (const [name, override] of Object.entries(invalidBookings)) {
-    test(`rejects ${name}`, async ({ request }) => {
-      const response = await request.post("/api/bookings", {
-        data: { ...validBooking, ...override },
-      });
-
-      expect(response.status()).toBe(400);
-      expect(await response.json()).toMatchObject({
-        error: "Invalid request",
-      });
-    });
-  }
-});
-
-test.describe("PATCH /api/bookings/:id", () => {
-  test("updates the status", async ({ request }) => {
-    const { id } = await createBooking(request);
-
-    const response = await request.patch(`/api/bookings/${id}`, {
-      data: { status: "confirmed" },
+  test("answers 502 when the email service refuses the message", async ({
+    request,
+  }) => {
+    const response = await request.post("/api/contact", {
+      data: { ...validMessage, subject: `FAIL ${uniqueSubject()}` },
     });
 
-    expect(response.status()).toBe(200);
-    expect((await response.json()).status).toBe("confirmed");
+    expect(response.status()).toBe(502);
   });
 
-  test("rejects an unknown status", async ({ request }) => {
-    const { id } = await createBooking(request);
-
-    const response = await request.patch(`/api/bookings/${id}`, {
-      data: { status: "bogus" },
-    });
-
-    expect(response.status()).toBe(400);
-  });
-
-  test("rejects malformed JSON", async ({ request }) => {
-    const { id } = await createBooking(request);
-
-    const response = await request.patch(`/api/bookings/${id}`, {
-      headers: { "content-type": "application/json" },
-      data: "{not json",
-    });
-
-    expect(response.status()).toBe(400);
-  });
-
-  const unknownIds = {
-    "an unknown booking": "00000000-0000-4000-8000-000000000000",
-    "an id that isn't a UUID": "does-not-exist",
-  };
-
-  for (const [name, id] of Object.entries(unknownIds)) {
-    test(`returns 404 for ${name}`, async ({ request }) => {
-      const response = await request.patch(`/api/bookings/${id}`, {
-        data: { status: "confirmed" },
+  test("accepts at most 5 messages per client in an hour", async ({
+    request,
+  }) => {
+    const subject = uniqueSubject();
+    for (let sent = 0; sent < 5; sent++) {
+      const response = await request.post("/api/contact", {
+        data: { ...validMessage, subject },
       });
+      expect(response.status()).toBe(200);
+    }
 
-      expect(response.status()).toBe(404);
+    const refused = await request.post("/api/contact", {
+      data: { ...validMessage, subject },
     });
-  }
+
+    expect(refused.status()).toBe(429);
+    expect(await sentEmails(subject)).toHaveLength(5);
+  });
 });
 
 test.describe("without a session", () => {
   test.use({ storageState: { cookies: [], origins: [] } });
-
-  test("GET returns 401", async ({ request }) => {
-    const response = await request.get("/api/bookings");
-
-    expect(response.status()).toBe(401);
-  });
-
-  test("POST returns 401 and creates nothing", async ({ request }) => {
-    const response = await request.post("/api/bookings", {
-      data: validBooking,
-    });
-
-    expect(response.status()).toBe(401);
-  });
-
-  test("PATCH returns 401", async ({ request }) => {
-    const response = await request.patch(
-      "/api/bookings/00000000-0000-4000-8000-000000000000",
-      { data: { status: "confirmed" } },
-    );
-
-    expect(response.status()).toBe(401);
-  });
 
   test("/api/me says nobody is signed in", async ({ request }) => {
     const response = await request.get("/api/me");
@@ -212,20 +134,6 @@ test.describe("GET /api/health", () => {
   });
 });
 
-test("bookings in the API don't expose their owner", async ({ request }) => {
-  const booking = await createBooking(request);
-
-  expect(Object.keys(booking).sort()).toEqual([
-    "date",
-    "description",
-    "duration",
-    "id",
-    "status",
-    "time",
-    "title",
-  ]);
-});
-
 test("/api/me holds no token or id", async ({ request }) => {
   const me = await (await request.get("/api/me")).json();
 
@@ -238,8 +146,7 @@ test("the API document lists every route", async ({ request }) => {
   const document = await (await request.get("/api/openapi.json")).json();
 
   expect(Object.keys(document.paths).sort()).toEqual([
-    "/api/bookings",
-    "/api/bookings/{id}",
+    "/api/contact",
     "/api/health",
     "/api/me",
   ]);

@@ -7,5 +7,7 @@ export {
   FieldError,
   FieldLabel,
   Input,
+  Select,
+  Textarea,
 } from "./components/field";
 export { cn } from "./lib/utils";

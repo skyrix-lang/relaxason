@@ -1,58 +1,12 @@
 import {
-  customType,
-  date,
   index,
   integer,
-  pgEnum,
   pgTable,
   text,
   timestamp,
   uniqueIndex,
   uuid,
 } from "drizzle-orm/pg-core";
-import { BOOKING_STATUSES } from "@booking/core";
-
-export const bookingStatus = pgEnum("booking_status", BOOKING_STATUSES);
-
-// Postgres returns "09:00:00"; the app works with "09:00".
-const timeOfDay = customType<{ data: string; driverData: string }>({
-  dataType: () => "time(0)",
-  fromDriver: (value) => value.slice(0, 5),
-});
-
-// Each booking belongs to the user who created it, and only they can see or
-// change it (apps/bff/src/bookings.ts).
-export const bookings = pgTable(
-  "bookings",
-  {
-    id: uuid().primaryKey().defaultRandom(),
-    userId: uuid("user_id")
-      .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
-    title: text().notNull(),
-    description: text().notNull().default(""),
-    date: date({ mode: "string" }).notNull(),
-    time: timeOfDay().notNull(),
-    duration: integer().notNull(),
-    status: bookingStatus().notNull().default("pending"),
-    createdAt: timestamp("created_at", { withTimezone: true })
-      .notNull()
-      .defaultNow(),
-    // Set by Drizzle on every update made through it, not by the database.
-    updatedAt: timestamp("updated_at", { withTimezone: true })
-      .notNull()
-      .defaultNow()
-      .$onUpdate(() => new Date()),
-  },
-  // Serves the list: one user's bookings, in date order.
-  (booking) => [
-    index("bookings_user_id_date_time_idx").on(
-      booking.userId,
-      booking.date,
-      booking.time,
-    ),
-  ],
-);
 
 // Fixed-window counters for apps/bff/src/rate-limit.ts, such as sign-in emails per
 // address. A row is reused when its window has passed, and deleted later.

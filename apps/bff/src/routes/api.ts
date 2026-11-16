@@ -1,20 +1,19 @@
-import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
+import { createRoute, OpenAPIHono, type Hook } from "@hono/zod-openapi";
+import type { Env } from "hono";
 import { z } from "zod";
-import {
-  bookingIdSchema,
-  bookingSchema,
-  bookingStatusSchema,
-  createBookingSchema,
-  updateBookingSchema,
-} from "@booking/core";
-import { createBooking, getBookings, updateBookingStatus } from "../bookings";
+import { contactMessageSchema } from "@relaxason/core";
+import { clientIp } from "../client-ip";
+import { sendContactEmail } from "../contact";
 import { isDatabaseReachable } from "../health";
+import { log } from "../log";
+import { hit, type RateLimit } from "../rate-limit";
 import { getSessionUser, type SessionUser } from "../session";
 
 // The JSON API. Every route is declared with its schemas, which validate the
 // request and make up the OpenAPI document (/api/openapi.json) that
-// packages/api generates the web client from. Data is per user: every call
-// passes user.id to the data layer, which filters by it.
+// packages/api generates the web client from. The site is public, so its routes
+// are too; routes for signed-in users go on `userApi`, and pass user.id to the
+// data layer, which filters by it.
 
 export type ApiEnv = { Variables: { user: SessionUser } };
 
@@ -32,8 +31,6 @@ const json = <T extends z.ZodType>(schema: T, description: string) => ({
   content: { "application/json": { schema } },
 });
 
-const unauthorized = errorResponse("Not signed in");
-
 const meSchema = z
   .object({
     user: z
@@ -42,52 +39,27 @@ const meSchema = z
   })
   .meta({ id: "Me" });
 
-const listBookings = createRoute({
-  method: "get",
-  path: "/bookings",
-  operationId: "listBookings",
-  request: { query: z.object({ status: bookingStatusSchema.optional() }) },
-  responses: {
-    200: json(z.array(bookingSchema), "The user's bookings, in date order"),
-    400: errorResponse("Invalid request"),
-    401: unauthorized,
-  },
-});
+// Each message is an email through a paid service, so one client can't flood it.
+const CONTACT_MESSAGES_PER_CLIENT: RateLimit = {
+  limit: 5,
+  windowSeconds: 60 * 60,
+};
 
-const createBookingRoute = createRoute({
+const sendContactMessageRoute = createRoute({
   method: "post",
-  path: "/bookings",
-  operationId: "createBooking",
+  path: "/contact",
+  operationId: "sendContactMessage",
   request: {
     body: {
       required: true,
-      content: { "application/json": { schema: createBookingSchema } },
+      content: { "application/json": { schema: contactMessageSchema } },
     },
   },
   responses: {
-    201: json(bookingSchema, "The new booking, always pending"),
+    200: json(z.object({ status: z.literal("sent") }), "The message was sent"),
     400: errorResponse("Invalid request"),
-    401: unauthorized,
-  },
-});
-
-const updateBookingRoute = createRoute({
-  method: "patch",
-  path: "/bookings/{id}",
-  operationId: "updateBooking",
-  request: {
-    // Any string: an id that isn't a UUID is a booking that doesn't exist (404).
-    params: z.object({ id: z.string() }),
-    body: {
-      required: true,
-      content: { "application/json": { schema: updateBookingSchema } },
-    },
-  },
-  responses: {
-    200: json(bookingSchema, "The updated booking"),
-    400: errorResponse("Invalid request"),
-    401: unauthorized,
-    404: errorResponse("No such booking for this user"),
+    429: errorResponse("Too many messages from this client"),
+    502: errorResponse("The email service refused the message"),
   },
 });
 
@@ -112,7 +84,19 @@ const healthRoute = createRoute({
   },
 });
 
-const publicApi = new OpenAPIHono()
+// A request that fails its schema gets this API's error shape.
+const invalidRequest =
+  <E extends Env>(): Hook<unknown, E, string, unknown> =>
+  (result, c) => {
+    if (!result.success) {
+      return c.json(
+        { error: "Invalid request", issues: result.error.issues },
+        400,
+      );
+    }
+  };
+
+const publicApi = new OpenAPIHono({ defaultHook: invalidRequest() })
   // Public on purpose, for load balancers and uptime checks: it says only
   // whether the app can reach its database. 503 tells them to stop sending traffic.
   .openapi(healthRoute, async (c) => {
@@ -128,18 +112,28 @@ const publicApi = new OpenAPIHono()
       { user: user ? { email: user.email, name: user.name } : null },
       200,
     );
+  })
+  // Public on purpose: the contact form is for visitors, who have no account.
+  // Limited per client address, since each message is an email.
+  .openapi(sendContactMessageRoute, async (c) => {
+    c.header("Cache-Control", "no-store");
+    const message = c.req.valid("json");
+    const ip = clientIp(c.req.raw.headers) ?? "unknown";
+    if (!(await hit(`contact:client:${ip}`, CONTACT_MESSAGES_PER_CLIENT))) {
+      return c.json({ error: "Too many messages" }, 429);
+    }
+    try {
+      await sendContactEmail(message);
+    } catch (error) {
+      log.error("Contact message: sending failed", { error });
+      return c.json({ error: "The message couldn't be sent" }, 502);
+    }
+    return c.json({ status: "sent" as const }, 200);
   });
 
+// Routes for signed-in users. None yet: add them here with `.openapi(...)`.
 const userApi = new OpenAPIHono<ApiEnv>({
-  // A request that fails its schema gets this API's error shape.
-  defaultHook: (result, c) => {
-    if (!result.success) {
-      return c.json(
-        { error: "Invalid request", issues: result.error.issues },
-        400,
-      );
-    }
-  },
+  defaultHook: invalidRequest<ApiEnv>(),
 });
 
 // Each route checks the session: every one of them is a public endpoint.
@@ -151,26 +145,6 @@ userApi.use(async (c, next) => {
   await next();
 });
 
-userApi
-  .openapi(listBookings, async (c) => {
-    const { status } = c.req.valid("query");
-    return c.json(await getBookings(c.var.user.id, status), 200);
-  })
-  .openapi(createBookingRoute, async (c) => {
-    const booking = await createBooking(c.var.user.id, c.req.valid("json"));
-    return c.json(booking, 201);
-  })
-  .openapi(updateBookingRoute, async (c) => {
-    const { id } = c.req.valid("param");
-    const { status } = c.req.valid("json");
-    const bookingId = bookingIdSchema.safeParse(id);
-    const booking = bookingId.success
-      ? await updateBookingStatus(c.var.user.id, bookingId.data, status)
-      : undefined;
-    if (!booking) return c.json({ error: "Booking not found" }, 404);
-    return c.json(booking, 200);
-  });
-
 export const api = new OpenAPIHono();
 api.route("/", publicApi);
 api.route("/", userApi);
@@ -181,6 +155,6 @@ export function openApiDocument() {
   document.route("/api", api);
   return document.getOpenAPI31Document({
     openapi: "3.1.0",
-    info: { title: "BookingHub API", version: "1.0.0" },
+    info: { title: "Relaxason API", version: "1.0.0" },
   });
 }

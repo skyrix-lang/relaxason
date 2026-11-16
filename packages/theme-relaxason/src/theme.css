@@ -1,0 +1,57 @@
+/*
+ * The Relaxa'Son brand. Components only use these tokens: the UI kit's
+ * (packages/ui/src/styles.css) and the site's own (apps/web/src/styles.css).
+ */
+:root {
+  --font-sans: "Source Sans 3", Helvetica, sans-serif;
+  /* The site's name in the header. */
+  --font-display: "Josefin Sans", sans-serif;
+  --radius: 0.5rem;
+
+  /* The teal scale every other token is picked from, light to dark. */
+  --brand-50: #e6f9f7;
+  --brand-100: #b0eae4;
+  --brand-200: #7adfd2;
+  --brand-300: #4fd1c0;
+  --brand-400: #30c1ae;
+  --brand-500: #1eb19e;
+  --brand-600: #0d9d8a;
+  --brand-700: #008577;
+  --brand-800: #00705f;
+  --brand-900: #005c4b;
+
+  /* Mint cream page, with a slightly cooler tint for panels. */
+  --background: #f5fffa;
+  --surface: #f8fdfc;
+  --foreground: #000000;
+  /* Running text. */
+  --body: #495057;
+  --card: #ffffff;
+  --card-foreground: #000000;
+  --muted: #f8fdfc;
+  --muted-foreground: #5f6b75;
+  --border: #dee2e6;
+  --input: #ced4da;
+  --ring: #1eb19e;
+
+  --primary: #1eb19e;
+  --primary-hover: #0d9d8a;
+  --primary-strong: #008577;
+  --primary-foreground: #ffffff;
+  --primary-soft: #e6f9f7;
+  --primary-soft-foreground: #00705f;
+
+  --secondary: #ffffff;
+  --secondary-foreground: #495057;
+
+  /* The purple of the "precautions" notice. */
+  --accent: #7d53ed;
+  --success: #3f9542;
+  --success-soft: #e8f5e9;
+  --success-soft-foreground: #236127;
+  --warning-soft: #fef3c7;
+  --warning-soft-foreground: #b45309;
+  --destructive: #fa5252;
+  --destructive-soft: #fff5f5;
+  --destructive-soft-foreground: #c92a2a;
+}
