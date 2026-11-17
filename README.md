@@ -61,6 +61,16 @@ docs/decisions.md           decisions and their reasons
 
 Each package has a short `AGENTS.md` with its rules.
 
+## Keeping up to date with project-starter
+
+This project was made from `skyrix-lang/project-starter`. Renovate updates
+versions with the starter's shared policy (`renovate.json` extends its
+`default.json`). For everything else the starter changes (scripts, CI, Docker,
+configs), run `yarn sync-from-starter --dry-run`, then `yarn sync-from-starter`:
+it merges the starter's changes since the commit in `.starter.json` with this
+project's own, then review the diff, `yarn verify`, and commit. Paths this
+project owns go in `.starter.json`'s `ignore`.
+
 ## Getting started
 
 Requires Node 24 (`.nvmrc`), Corepack (`corepack enable`) and Docker.
@@ -90,6 +100,7 @@ only logged by the BFF.
 | `yarn test:unit` / `yarn test:watch`              | Vitest                                                                    |
 | `yarn api:generate`                               | OpenAPI document from the BFF's routes, then client, hooks and mocks      |
 | `yarn setup`                                      | prepare a checkout or worktree                                            |
+| `yarn sync-from-starter [--dry-run]`              | in a project: merge in what changed in the starter since the last sync    |
 | `yarn dev:session [email]`                        | sign in locally without Keycloak, print the cookie                        |
 | `yarn db:generate --name=<x>` / `yarn db:migrate` | new migration / apply migrations                                          |
 | `yarn db:up` / `yarn keycloak:up`                 | start the local containers                                                |
@@ -207,7 +218,7 @@ docker run -p 3000:3000 -e PUBLIC_URL=https://relaxason.com \
 
 The runtime image holds Node, a single bundled `server.js` and the static
 files: no `node_modules`, no package manager, and it runs as a non-root user.
-Its base image is pinned by digest, and Dependabot updates it. The image has a
+Its base image is pinned by digest, and Renovate updates it. The image has a
 `HEALTHCHECK` on `GET /api/health` (503 when the database is unreachable), and
 on `SIGTERM` the server finishes the requests in progress before it exits.
 
@@ -254,7 +265,7 @@ needs prerendering (see `docs/decisions.md`).
 - Sign-in uses OIDC with PKCE through a confidential client. Sessions are
   server-side, the cookie is HttpOnly and SameSite=Lax (`__Host-` on https).
 - Supply chain: install scripts are disabled, versions younger than 7 days are
-  refused, CI installs from the lockfile only, and Dependabot has a cooldown.
+  refused, CI installs from the lockfile only, and Renovate waits 7 days too.
 
 ## Working with AI agents
 
