@@ -9,6 +9,7 @@ import {
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Client } from "pg";
 import { createLocalSession, storageState } from "../scripts/local-session";
+import type { SentEmail } from "./smtp-stub";
 
 /**
  * Every test also fails on:
@@ -193,18 +194,9 @@ export async function usersWithEmail(email: string) {
   });
 }
 
-/** What the fake Brevo (e2e/brevo-stub.ts) received. */
-export interface SentEmail {
-  to: { email: string }[];
-  sender: { name: string; email: string };
-  subject: string;
-  htmlContent: string;
-  replyTo: { email: string };
-}
-
-/** The emails the app sent whose subject contains `subject`. */
+/** The emails the app sent (to e2e/smtp-stub.ts) whose subject contains `subject`. */
 export async function sentEmails(subject: string): Promise<SentEmail[]> {
-  const response = await fetch(`${process.env.BREVO_STUB_URL}/sent`);
+  const response = await fetch(`${process.env.SMTP_STUB_URL}/sent`);
   const emails = (await response.json()) as SentEmail[];
   return emails.filter((email) => email.subject.includes(subject));
 }

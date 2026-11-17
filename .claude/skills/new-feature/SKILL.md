@@ -48,9 +48,9 @@ the session (401). Bad input gets 400 from the default hook; an unknown or
 someone else's record is 404. A route visitors call without an account, like
 `POST /api/contact`, goes on the public router with a comment saying why. Limit
 anything that sends email or costs money with `hit()` from
-`apps/bff/src/rate-limit.ts`. Email goes through Brevo with
-`apps/bff/src/contact.ts` as the model: don't add another email service or
-library without asking.
+`apps/bff/src/rate-limit.ts`. Email goes through `mailer().send()`
+(`apps/bff/src/mail.ts`), with `apps/bff/src/contact.ts` as the model: don't
+add another email service or library without asking.
 
 ## 5. Client (`packages/api`)
 
@@ -86,7 +86,7 @@ a client area) goes in a `packages/feature-<name>` package; there is none yet.
 - Browser tests for the user flow, the pending state and the failure path.
   They also run axe: fix any violation.
 - A `createX` helper in `e2e/support.ts` that produces unique values. For
-  email, read what the fake Brevo (`e2e/brevo-stub.ts`) received with
+  email, read what the fake SMTP server (`e2e/smtp-stub.ts`) received with
   `sentEmails`.
 
 ## 8. Finish

@@ -15,8 +15,10 @@ const production = {
   NODE_ENV: "production",
   PUBLIC_URL: "https://relaxason.example.com",
   SESSION_SECRET: "x".repeat(32),
-  BREVO_API_KEY: "xkeysib-test",
-  BREVO_SENDER_EMAIL: "site@example.test",
+  SMTP_HOST: "smtp.tem.scaleway.com",
+  SMTP_USER: "project-id",
+  SMTP_PASSWORD: "secret-key",
+  MAIL_FROM: "Contact Sonothérapie <contact@relaxason.example.com>",
   RECIPIENT_EMAIL: "therapist@example.test",
 };
 
@@ -56,9 +58,12 @@ describe("parseEnv", () => {
   });
 
   it("requires the email settings in production", () => {
-    expect(() => parseEnv({ ...production, BREVO_API_KEY: undefined })).toThrow(
-      /BREVO_API_KEY/,
+    expect(() => parseEnv({ ...production, SMTP_HOST: undefined })).toThrow(
+      /SMTP_HOST/,
     );
+    expect(() =>
+      parseEnv({ ...production, RECIPIENT_EMAIL: undefined }),
+    ).toThrow(/RECIPIENT_EMAIL/);
     expect(() =>
       parseEnv({ ...production, RECIPIENT_EMAIL: "not-an-email" }),
     ).toThrow(/RECIPIENT_EMAIL/);
@@ -83,5 +88,25 @@ describe("parseEnv", () => {
     expect(() =>
       parseEnv({ ...production, PUBLIC_URL: "http://localhost:3100" }),
     ).not.toThrow();
+  });
+
+  it("needs credentials and a sender once an SMTP server is set", () => {
+    expect(() =>
+      parseEnv({ ...development, SMTP_HOST: "smtp.tem.scaleway.com" }),
+    ).toThrow(/SMTP_USER[\s\S]*SMTP_PASSWORD[\s\S]*MAIL_FROM/);
+    const env = parseEnv({
+      ...development,
+      SMTP_HOST: "smtp.tem.scaleway.com",
+      SMTP_USER: "project-id",
+      SMTP_PASSWORD: "secret-key",
+      MAIL_FROM: "no-reply@acme.example",
+    });
+    expect(env.SMTP_PORT).toBe(465);
+  });
+
+  it("treats an empty SMTP_HOST as unset", () => {
+    expect(
+      parseEnv({ ...development, SMTP_HOST: "" }).SMTP_HOST,
+    ).toBeUndefined();
   });
 });

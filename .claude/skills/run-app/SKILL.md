@@ -44,8 +44,8 @@ script. For the real flow, open `/sign-in` and log in on Keycloak as `ada` /
   React errors and failed requests show there, and fail the e2e tests.
 - **API:** `curl` with the cookie and `-H 'content-type: application/json'`.
   The contract is `GET /api/openapi.json`.
-- **Contact form:** without Brevo settings in `.env`, a message isn't sent:
-  the BFF logs "Contact message not sent" and answers 200, so the form shows
+- **Contact form:** without SMTP settings in `.env`, a message isn't sent:
+  the BFF logs "Mail not sent: SMTP_HOST is unset" and answers 200, so the form shows
   its success state. Five messages an hour per address, then 429.
 - **Server output:** wherever `yarn dev` writes, for both processes. Read it
   after each request: warnings there are bugs too.

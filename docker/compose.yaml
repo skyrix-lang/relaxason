@@ -73,10 +73,13 @@ services:
       OIDC_ISSUER: http://keycloak.localhost:8280/realms/relaxason
       OIDC_CLIENT_ID: relaxason-web
       OIDC_CLIENT_SECRET: relaxason-web-dev-secret
-      # The contact form's emails go through Brevo. With these placeholders the
+      # The contact form's emails go over SMTP. With these placeholders the
       # form answers with an error; export real values to try it for real.
-      BREVO_API_KEY: ${BREVO_API_KEY:-not-configured}
-      BREVO_SENDER_EMAIL: ${BREVO_SENDER_EMAIL:-site@example.test}
+      SMTP_HOST: ${SMTP_HOST:-smtp.invalid}
+      SMTP_PORT: ${SMTP_PORT:-465}
+      SMTP_USER: ${SMTP_USER:-not-configured}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-not-configured}
+      MAIL_FROM: ${MAIL_FROM:-Contact Sonothérapie <site@example.test>}
       RECIPIENT_EMAIL: ${RECIPIENT_EMAIL:-therapist@example.test}
       GA_MEASUREMENT_ID: ${GA_MEASUREMENT_ID:-}
     ports:

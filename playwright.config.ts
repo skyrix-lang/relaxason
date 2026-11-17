@@ -1,3 +1,4 @@
+import { resolve } from "node:path";
 import { defineConfig, devices } from "@playwright/test";
 import { SIGNED_IN_STATE } from "./e2e/auth-state";
 import { databaseNames, e2ePort } from "./scripts/checkout";
@@ -6,9 +7,11 @@ import { databaseNames, e2ePort } from "./scripts/checkout";
 // database, so test runs in different checkouts can happen at once.
 const PORT = Number(process.env.E2E_PORT ?? e2ePort());
 const BASE_URL = `http://localhost:${PORT}`;
-// A fake Brevo (e2e/brevo-stub.ts) receives the contact form's emails.
-const BREVO_STUB_PORT = PORT + 3000;
-const BREVO_STUB_URL = `http://127.0.0.1:${BREVO_STUB_PORT}`;
+// A fake SMTP server (e2e/smtp-stub.ts) receives the contact form's emails,
+// and lists them over HTTP for the tests.
+const SMTP_STUB_PORT = PORT + 3000;
+const SMTP_STUB_HTTP_PORT = PORT + 4000;
+const SMTP_STUB_URL = `http://127.0.0.1:${SMTP_STUB_HTTP_PORT}`;
 
 // Its own database, recreated on every run by e2e/reset-database.ts. Set on
 // process.env so the server, and the test workers, use it instead of .env.
@@ -30,12 +33,19 @@ Object.assign(process.env, {
     process.env.E2E_OIDC_ISSUER ?? "http://localhost:8181/realms/relaxason",
   OIDC_CLIENT_ID: "relaxason-web",
   OIDC_CLIENT_SECRET: "relaxason-web-dev-secret",
-  BREVO_API_KEY: "e2e-brevo-key",
-  BREVO_API_URL: `${BREVO_STUB_URL}/v3/smtp/email`,
-  BREVO_SENDER_EMAIL: "site@example.test",
+  // Mail goes to the fake SMTP server, never a real one, even with SMTP
+  // settings in .env. Its test-only certificate is trusted for STARTTLS.
+  SMTP_HOST: "localhost",
+  SMTP_PORT: String(SMTP_STUB_PORT),
+  SMTP_USER: "e2e",
+  SMTP_PASSWORD: "e2e-password",
+  MAIL_FROM: "Contact Sonothérapie <site@example.test>",
   RECIPIENT_EMAIL: "therapist@example.test",
-  BREVO_STUB_PORT: String(BREVO_STUB_PORT),
-  BREVO_STUB_URL,
+  // Absolute: the build steps run from the workspaces' own directories.
+  NODE_EXTRA_CA_CERTS: resolve("e2e/smtp-stub/cert.pem"),
+  SMTP_STUB_PORT: String(SMTP_STUB_PORT),
+  SMTP_STUB_HTTP_PORT: String(SMTP_STUB_HTTP_PORT),
+  SMTP_STUB_URL,
 });
 
 export default defineConfig({
@@ -78,8 +88,8 @@ export default defineConfig({
   // `yarn dev` is left alone.
   webServer: [
     {
-      command: "yarn tsx e2e/brevo-stub.ts",
-      url: `${BREVO_STUB_URL}/sent`,
+      command: "yarn tsx e2e/smtp-stub.ts",
+      url: `${SMTP_STUB_URL}/sent`,
       reuseExistingServer: false,
     },
     {

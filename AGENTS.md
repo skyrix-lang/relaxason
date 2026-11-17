@@ -5,7 +5,7 @@ five public pages and a contact form. Built on the project starter, as
 **versioned packages plus a thin app**: a client-only React 19 SPA (Vite,
 TanStack Router and Query, shadcn/ui on Base UI, Tailwind v4, React Hook Form,
 Zod 4) and a small Hono backend-for-frontend (BFF) that serves the site and the
-JSON API, sends the contact form's emails (Brevo), and keeps the sign-in
+JSON API, sends the contact form's emails (SMTP), and keeps the sign-in
 plumbing (OpenID Connect, sessions, Postgres through Drizzle) for features to
 come. One Docker image. See `README.md` for setup. The contact form is the
 reference implementation of a feature: copy its patterns
@@ -129,10 +129,14 @@ databases.
 - Log with `log` from `apps/bff/src/log.ts`, never `console`: one line per
   event, with the request's id added for you. Never log a secret, a token, a
   cookie or a query string.
+- Send mail with `mailer().send()` from `apps/bff/src/mail.ts`, never by
+  creating a Nodemailer transport. Without `SMTP_HOST` mail is only logged, and
+  the e2e tests send to a fake SMTP server (`e2e/smtp-stub.ts`): never point
+  a test at a real one.
 - Limit anything that sends email or costs money with `hit()` from
   `apps/bff/src/rate-limit.ts`.
-- Email goes through Brevo's HTTP API (`apps/bff/src/contact.ts`), a recorded
-  decision: no SDK, no SMTP library. Escape visitor text with `escapeHtml`.
+- The contact form's email (`apps/bff/src/contact.ts`) goes through the
+  mailer, over SMTP (Scaleway). Escape visitor text with `escapeHtml`.
 - Migrations are like Flyway: edit `packages/db/src/schema.ts`, run
   `yarn db:generate`, review the SQL, commit it. Never edit an applied
   migration. The app never migrates on startup.
@@ -158,8 +162,8 @@ configured); never add `'unsafe-inline'` for scripts.
 - New behaviour gets a Playwright test in `e2e/`. Import `test` and `expect`
   from `e2e/support.ts`, so console errors and axe violations fail the test.
 - Tests run in parallel on one database. Tests that send a contact message use
-  a unique subject (`uniqueSubject`) and read what the fake Brevo received
-  with `sentEmails`. Sign in as a new user with `signInAsNewUser`;
+  a unique subject (`uniqueSubject`) and read what the fake SMTP server
+  received with `sentEmails`. Sign in as a new user with `signInAsNewUser`;
   `auth.spec.ts` covers the real Keycloak flow.
 - Prefer role-based locators, with `data-testid` for repeated cards.
 - Never add test-only routes or code to the app. Trigger failures from the test,

@@ -182,15 +182,17 @@ for a site that doesn't use the provider yet.
 **Revisit when:** no signed-in feature is planned after all: remove the OIDC
 routes, sessions and users, and keep Postgres for the rate limits.
 
-## Contact emails through Brevo's HTTP API, without its SDK
+## Contact emails over SMTP (Scaleway), like the starter
 
-`apps/bff/src/contact.ts` posts to Brevo's transactional endpoint with `fetch`.
-The settings are required in production; in development a message is logged
-instead. Messages aren't stored: the email is the record.
-**Why:** one request doesn't justify a dependency, and the previous site
-already sent through this Brevo account. Nodemailer was considered and set
-aside: it needs an SMTP server, and Brevo's API gives the same delivery with
-nothing to run or secure on the VPS.
+`apps/bff/src/contact.ts` sends through the starter's mailer
+(`apps/bff/src/mail.ts`, Nodemailer over SMTP), to Scaleway Transactional
+Email. The settings are required in production; in development a message is
+logged instead. Messages aren't stored: the email is the record. The e2e tests
+send to a fake SMTP server (`e2e/smtp-stub.ts`), with STARTTLS and a test-only
+certificate, so they check the email that would really leave.
+**Why:** this replaced Brevo's HTTP API (decided on 2026-11-18): Brevo wasn't
+needed any more, and using the starter's mailer keeps the site on the same
+code as the other projects, updated by `yarn sync-from-starter`.
 **Revisit when:** messages must survive an outage of the email service: store
 them in Postgres first, then send.
 
@@ -248,3 +250,16 @@ Dependabot can't share a config between repositories.
 **Revisit when:** there are more than about five active projects, or parts of
 the starter (`ui`, `core`) stop changing per project: publish those as
 packages.
+
+## Mail over SMTP, logged when unconfigured
+
+The BFF sends mail with Nodemailer through any SMTP server (Scaleway
+Transactional Email for now), configured by `SMTP_*` and `MAIL_FROM` at
+start. Without `SMTP_HOST` mail is logged and dropped; Vitest and the e2e
+run empty it, so tests can't reach a real inbox.
+**Why:** SMTP keeps the provider swappable without code changes, and one
+switch (is a server set?) is simpler to trust than a per-environment rule.
+**Revisit when:** a test must read a mail's content (a sign-in or invitation
+link): add a local catcher such as Mailpit to the dev containers and point
+the e2e run's `SMTP_HOST` at it, or when a provider's HTTP API is needed
+(templates, bounces, webhooks).

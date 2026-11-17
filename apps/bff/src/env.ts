@@ -8,6 +8,13 @@ import { z } from "zod";
 export const logLevels = ["debug", "info", "warn", "error", "silent"] as const;
 export type LogLevel = (typeof logLevels)[number];
 
+/** An empty value (`SMTP_HOST=` in .env) counts as unset. */
+const optional = <T extends z.ZodType>(schema: T) =>
+  z.preprocess(
+    (value) => (value === "" ? undefined : value),
+    schema.optional(),
+  );
+
 export const envSchema = z
   .object({
     NODE_ENV: z
@@ -30,15 +37,18 @@ export const envSchema = z
     /** The built SPA, served in production. Unset in development (Vite serves it). */
     STATIC_DIR: z.string().optional(),
     /**
-     * Brevo sends the contact form's emails (src/contact.ts): its API key, the
-     * sender declared there, and who receives the messages. Required in
-     * production; without them in development, messages are only logged.
+     * The SMTP server mail is sent through (src/mail.ts). Unset, mail is only
+     * logged, as in tests: nothing reaches anyone.
      */
-    BREVO_API_KEY: z.string().min(1).optional(),
-    BREVO_SENDER_EMAIL: z.email().optional(),
+    SMTP_HOST: optional(z.string()),
+    /** 465 or 2465 use TLS from the start; 587, 2587 or 25 must upgrade with STARTTLS. */
+    SMTP_PORT: optional(z.coerce.number().int().positive()).default(465),
+    SMTP_USER: optional(z.string()),
+    SMTP_PASSWORD: optional(z.string()),
+    /** The sender, such as `Acme <no-reply@acme.example>`: a domain the server may send for. */
+    MAIL_FROM: optional(z.string()),
+    /** Who receives the contact form's messages (src/contact.ts). Required in production. */
     RECIPIENT_EMAIL: z.email().optional(),
-    /** Brevo's endpoint. Only tests change it. */
-    BREVO_API_URL: z.url().default("https://api.brevo.com/v3/smtp/email"),
     /** Google Analytics (GA4) measurement id, such as G-XXXXXXXXXX. Unset: no analytics. */
     GA_MEASUREMENT_ID: z.preprocess(
       // An empty value, as a compose file passes for an unset one, is unset.
@@ -50,6 +60,17 @@ export const envSchema = z
     ),
   })
   .superRefine((env, context) => {
+    if (env.SMTP_HOST) {
+      for (const key of ["SMTP_USER", "SMTP_PASSWORD", "MAIL_FROM"] as const) {
+        if (!env[key]) {
+          context.addIssue({
+            code: "custom",
+            message: "Required when SMTP_HOST is set",
+            path: [key],
+          });
+        }
+      }
+    }
     if (env.NODE_ENV !== "production") return;
     if (env.SESSION_SECRET.length < 32 || env.SESSION_SECRET === "change-me") {
       context.addIssue({
@@ -58,11 +79,7 @@ export const envSchema = z
         path: ["SESSION_SECRET"],
       });
     }
-    for (const name of [
-      "BREVO_API_KEY",
-      "BREVO_SENDER_EMAIL",
-      "RECIPIENT_EMAIL",
-    ] as const) {
+    for (const name of ["SMTP_HOST", "RECIPIENT_EMAIL"] as const) {
       if (!env[name]) {
         context.addIssue({
           code: "custom",

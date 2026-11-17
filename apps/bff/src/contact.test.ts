@@ -27,6 +27,14 @@ describe("contactEmail", () => {
     expect(html).not.toContain("Sujet:");
   });
 
+  it("has a plain-text body with the same details", () => {
+    const { text } = contactEmail({ ...message, subject: "Carte cadeau" });
+    expect(text).toContain("Nom: Ada Lovelace");
+    expect(text).toContain("Téléphone: Non renseigné");
+    expect(text).toContain("Sujet: Carte cadeau");
+    expect(text).toContain("Bonjour,\nje souhaite réserver.");
+  });
+
   it("never lets the visitor's text become markup", () => {
     const { html } = contactEmail({
       ...message,
