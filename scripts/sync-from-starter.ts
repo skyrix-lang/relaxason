@@ -36,13 +36,14 @@ export const CONFIG_FILE = ".starter.json";
  * and this project's own record belong to one repository each. */
 export const ALWAYS_IGNORED = ["yarn.lock", "default.json", CONFIG_FILE];
 
-/** The sync tooling itself: always the starter's, copied as it is (these hold
- * the starter's names on purpose, and the sync script needs rename.ts). */
+/** The sync tooling and its guide: always the starter's, copied as they are
+ * (they hold the starter's names on purpose; the sync script needs rename.ts). */
 export const VERBATIM = new Set([
   "scripts/rename.ts",
   "scripts/rename.test.ts",
   "scripts/sync-from-starter.ts",
   "scripts/sync-from-starter.test.ts",
+  "docs/starter-sync.md",
 ]);
 
 export type Config = Names & {
@@ -259,6 +260,43 @@ function main() {
       });
     const mode = (rev: string, path: string) =>
       git("ls-tree", rev, "--", path).split(" ")[0];
+
+    // A newer starter may sync differently: run its version of this script
+    // (and of rename.ts, which holds the naming rules) instead of this one.
+    const self = ["scripts/sync-from-starter.ts", "scripts/rename.ts"];
+    const stale = self.some(
+      (path) =>
+        !existsSync(path) || !readFileSync(path).equals(show(target, path)),
+    );
+    if (stale && !process.env.STARTER_SYNC_HANDOFF) {
+      const scripts = join(tmp, "scripts");
+      mkdirSync(scripts);
+      for (const path of self)
+        writeFileSync(join(tmp, path), show(target, path));
+      console.log("• The starter's sync script changed: running its version.");
+      const handoff = spawnSync(
+        "yarn",
+        [
+          "tsx",
+          join(tmp, self[0]!),
+          ...process.argv.slice(2),
+          "--from",
+          starter.dir,
+          "--ref",
+          target,
+          "--base",
+          base,
+          "--title",
+          config.title,
+        ],
+        {
+          stdio: "inherit",
+          env: { ...process.env, STARTER_SYNC_HANDOFF: "1" },
+        },
+      );
+      process.exitCode = handoff.status ?? 1;
+      return;
+    }
 
     const log = git("log", "--oneline", "--no-merges", `${base}..${target}`);
     console.log(

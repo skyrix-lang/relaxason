@@ -81,6 +81,9 @@ databases.
   suites, `yarn test:watch` watches them.
 - `yarn api:generate` after changing an API route. `yarn setup`, `yarn dev`,
   `yarn db:generate`, `yarn db:migrate`, `yarn dev:session` (sign in locally).
+- `yarn sync-from-starter` (in a project made from the starter) merges in
+  the starter's changes since `.starter.json`; Renovate updates versions. Run
+  it only when asked, and see `docs/starter-sync.md`.
 - Change dependencies with `yarn workspace <name> add|remove`, never by editing
   `package.json`, so `yarn.lock` stays in sync. Install scripts are disabled and
   versions younger than 7 days are refused (`.yarnrc.yml`).
