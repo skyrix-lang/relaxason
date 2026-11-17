@@ -10,7 +10,7 @@ docker start relaxason-keycloak >/dev/null 2>&1 || docker run -d --name relaxaso
   -e KC_BOOTSTRAP_ADMIN_USERNAME=admin \
   -e KC_BOOTSTRAP_ADMIN_PASSWORD=admin \
   -v "$(pwd)/docker/keycloak:/opt/keycloak/data/import:ro" \
-  quay.io/keycloak/keycloak:26.4 start-dev --import-realm >/dev/null
+  quay.io/keycloak/keycloak:26.8 start-dev --import-realm >/dev/null
 
 until curl -sf http://localhost:8181/realms/relaxason/.well-known/openid-configuration >/dev/null; do
   sleep 1
