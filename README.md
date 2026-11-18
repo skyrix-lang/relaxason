@@ -63,7 +63,6 @@ docs/decisions.md           decisions and their reasons
 
 Each package has a short `AGENTS.md` with its rules.
 
-<<<<<<< project
 ## Keeping up to date with project-starter
 
 This project was made from `skyrix-lang/project-starter`. Renovate updates
@@ -73,43 +72,12 @@ configs), run `yarn sync-from-starter --dry-run`, then `yarn sync-from-starter`:
 it merges the starter's changes since the commit in `.starter.json` with this
 project's own, then review the diff, `yarn verify`, and commit. Paths this
 project owns go in `.starter.json`'s `ignore`.
-A workflow also runs the sync every Monday (or from the Actions tab) and opens
-a pull request, with Claude resolving conflicts and adapting what came from the
-starter; Claude reviews every pull request too. The whole process, its setup,
-conflicts and the rules for changing the starter:
-=======
-## Starting a project from this starter
-
-```bash
-yarn install
-yarn rename acme-portal "Acme Portal"
-```
-
-`yarn rename` replaces the starter's name wherever it's an identifier: the
-`@relaxason/*` package scope, the root package and image, the local containers,
-database, Keycloak realm and client, and the site name. It leaves the bookings
-feature alone: keep it to copy from, and remove it when the project has its
-own. Review the diff, then continue below. It also writes `.starter.json`:
-commit it, it's where `yarn sync-from-starter` starts from.
-
-## Keeping a project up to date with the starter
-
-- **Versions:** Renovate updates every repository with one policy, the
-  starter's `default.json`; each `renovate.json` only extends it. Install the
-  Renovate GitHub app on each repository.
-- **Everything else** (scripts, CI, Docker, configs, packages): in the project,
-  `yarn sync-from-starter --dry-run`, then `yarn sync-from-starter`. It merges
-  what changed in the starter since the commit in `.starter.json` with the
-  project's own changes, as `git merge` would. Review, `yarn verify`, commit.
-- **Automatically:** a workflow does that when the starter's `main` changes,
-  every Monday, or on demand from the Actions tab, and opens a pull request,
-  with Claude resolving conflicts. Clean syncs and Renovate's non-major
-  updates merge themselves once CI passes (`scripts/setup-github.sh`).
-  Claude also reviews every pull request, and `@claude` in an issue or pull
-  request asks it for any other work. All need a few secrets: see the guide.
-
-The whole process, conflicts and the rules for changing the starter:
->>>>>>> starter 831d16e
+A workflow also runs the sync when the starter's `main` changes, every Monday,
+or from the Actions tab, and opens a pull request, with Claude resolving
+conflicts and adapting what came from the starter; Claude reviews every pull
+request too. Clean syncs and Renovate's non-major updates merge themselves once
+CI passes (`scripts/setup-github.sh`). The whole process, its setup, conflicts
+and the rules for changing the starter:
 [docs/starter-sync.md](docs/starter-sync.md).
 
 ## Getting started
