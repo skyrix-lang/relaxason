@@ -72,10 +72,12 @@ configs), run `yarn sync-from-starter --dry-run`, then `yarn sync-from-starter`:
 it merges the starter's changes since the commit in `.starter.json` with this
 project's own, then review the diff, `yarn verify`, and commit. Paths this
 project owns go in `.starter.json`'s `ignore`.
-A workflow also runs the sync every Monday (or from the Actions tab) and opens
-a pull request, with Claude resolving conflicts and adapting what came from the
-starter; Claude reviews every pull request too. The whole process, its setup,
-conflicts and the rules for changing the starter:
+A workflow also runs the sync when the starter's `main` changes, every Monday,
+or from the Actions tab, and opens a pull request, with Claude resolving
+conflicts and adapting what came from the starter; Claude reviews every pull
+request too. Clean syncs and Renovate's non-major updates merge themselves once
+CI passes (`scripts/setup-github.sh`). The whole process, its setup, conflicts
+and the rules for changing the starter:
 [docs/starter-sync.md](docs/starter-sync.md).
 
 ## Getting started
