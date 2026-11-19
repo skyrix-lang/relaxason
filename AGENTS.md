@@ -7,9 +7,10 @@ TanStack Router and Query, shadcn/ui on Base UI, Tailwind v4, React Hook Form,
 Zod 4) and a small Hono backend-for-frontend (BFF) that serves the site and the
 JSON API, sends the contact form's emails (SMTP), and keeps the sign-in
 plumbing (OpenID Connect, sessions, Postgres through Drizzle) for features to
-come. One Docker image. See `README.md` for setup. The contact form is the
-reference implementation of a feature: copy its patterns
-(`packages/core/src/contact-schema.ts`, `apps/bff/src/contact.ts`,
+come. One Docker image. `README.md` is the short overview, with the guides in
+`docs/` (setup in `docs/development.md`, settings in `docs/configuration.md`).
+The contact form is the reference implementation of a feature: copy its
+patterns (`packages/core/src/contact-schema.ts`, `apps/bff/src/contact.ts`,
 `apps/bff/src/routes/api.ts`, `apps/web/src/components/contact/`).
 
 ```
@@ -57,8 +58,8 @@ import which.
 4. **See it work.** Tests prove it; also check the running app (`run-app`):
    load the page, read the console and server output.
 5. **Done means:** `yarn verify` and `yarn test` pass; new behaviour has tests
-   that fail when the code is broken (break it once to check); README,
-   `.env.example` and `docs/decisions.md` are updated where needed; and the
+   that fail when the code is broken (break it once to check); the docs
+   (`docs/<topic>.md`), `.env.example` and `docs/decisions.md` are updated where needed; and the
    change has been reviewed against these rules.
 6. **Report** what changed, how it was checked, and anything skipped or failing.
 
@@ -156,7 +157,7 @@ databases.
   `yarn db:generate`, review the SQL, commit it. Never edit an applied
   migration. The app never migrates on startup.
 - New server variables go in `apps/bff/src/env.ts` (read with `env()`), in
-  `.env.example`, and in the README if they need explaining. There are no
+  `.env.example`, and in `docs/configuration.md` if they need explaining. There are no
   build-time variables: the image is configured when it starts.
 
 ## Security
