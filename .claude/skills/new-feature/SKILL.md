@@ -74,8 +74,14 @@ a client area) goes in a `packages/feature-<name>` package; there is none yet.
 - Forms: React Hook Form with `zodResolver(<schema from core>)` and the
   `Field`, `FieldLabel`, `FieldError`, `Input` components from `@relaxason/ui`.
 - URL state, such as filters, lives in the route's search params, not React
-  state. Client state that isn't server data goes in Zustand (ask first: it
-  isn't installed yet).
+  state. Client state that isn't server data goes in Zustand, persisted
+  (`persist` middleware, with a `version` and Zod-checked values) when it must
+  survive a reload.
+- Texts go in `src/locales/<language>.json` (one file per language in
+  `LANGUAGES`), exported from `src/messages.ts` with the package's namespace
+  and registered in `apps/web/src/i18n.ts`.
+  Components use `useTranslation(NAMESPACE)`.
+- Confirm a finished action with `toast()` from `@relaxason/ui`.
 - Use the `new-page` skill to add the route in `apps/web`.
 
 ## 7. Tests

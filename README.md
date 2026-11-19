@@ -241,6 +241,11 @@ Link previews and icons: `apps/web/public/og-image.jpg` (1200 × 630),
 `logo.png`, `favicon.ico` (48, 32 and 16 px) and `apple-touch-icon.png` (180 px),
 and the name, URL and logo in `index.html`'s JSON-LD.
 
+Texts: the pages' French copy is written in the components. The starter's own
+screens (sign-in) read `apps/web/src/locales/fr.json` through react-i18next;
+`LANGUAGES` in `packages/core/src/site.ts` has French only, so no language
+picker is shown. There is no dark mode: the previous site had none.
+
 ## Tests
 
 - **Unit tests** (`yarn test:unit`) live next to the code: the contact schema,

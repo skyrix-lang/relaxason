@@ -70,6 +70,8 @@ type for the content (`Event`, `Product`, `FAQPage`, `Article`).
   mobile menu) if needed.
 - Style with the theme's tokens (`bg-primary`, `text-brand-700`, `text-body`…),
   never raw colours: the brand is one CSS file.
+- Texts that are not the site's own French copy (the starter's screens) come
+  from `apps/web/src/locales/fr.json` through `t()`.
 - Style a link as a button with `buttonVariants()`; never a `<button>` in a link.
 - Breakpoints are CSS; never read the screen size in render.
 

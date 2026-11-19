@@ -1,0 +1,14 @@
+{
+  "signIn": {
+    "title": "Connexion",
+    "text": "Vous vous connecterez avec le compte de votre organisation.",
+    "continue": "Continuer vers la connexion",
+    "errors": {
+      "AccessDenied": "La connexion a été annulée ou refusée.",
+      "Expired": "La connexion a pris trop de temps. Veuillez recommencer.",
+      "RateLimited": "Trop de tentatives de connexion. Patientez quelques minutes, puis réessayez.",
+      "Unavailable": "Le service de connexion est indisponible pour le moment. Réessayez plus tard.",
+      "default": "La connexion a échoué. Veuillez réessayer."
+    }
+  }
+}

@@ -339,6 +339,33 @@ Text sized as "large" (3:1) isn't assumed, so every text pair is held to 4.5:1.
 **Revisit when:** the UI kit draws a new pair (a new token, or a token on a
 new background): add it to `scripts/theme-contrast.ts`.
 
+## Texts in react-i18next, French only, for the starter's screens
+
+The starter moved every text into messages files read through react-i18next
+(`apps/web/src/i18n.ts`, `apps/web/src/locales/fr.json`, `LANGUAGES` in
+`packages/core/src/site.ts`). Here only the starter's own screens use it
+(sign-in); the pages' French copy stays in the components, as the client's
+content. The site is French only: `LANGUAGES` is `["fr"]`, so there is no
+language picker, and the starter's English files, its bookings messages and
+its stored-preferences store (language and theme) were not adopted.
+**Why:** the site reproduces the previous one and has no other language; the
+starter's header, footer and home page, with their texts, don't exist here.
+**Revisit when:** a second language is wanted: add it to `LANGUAGES`, move the
+pages' copy into the messages files, restore a language choice (stored
+preference or address per language, see the starter's decision), and add
+`hreflang` if pages must rank in both.
+
+## No dark mode, no toasts yet
+
+The starter's dark mode (the theme's `.dark` block, a header button,
+`public/theme.js`) was not adopted: the theme has no dark palette and the
+previous site had none. `toast()` and `<Toaster>` from `@relaxason/ui` are
+available, but nothing uses them (the contact form shows its result in the
+page).
+**Revisit when:** the client asks for a dark theme: add a `.dark` block to
+`packages/theme-relaxason` (the contrast test checks it) and bring back the
+starter's `theme.js`, `theme.ts` and preferences store.
+
 ## Real 404s for an SPA, from the route tree
 
 The build writes the app's route paths to `routes.json`, read from TanStack
