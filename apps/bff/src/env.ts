@@ -49,14 +49,14 @@ export const envSchema = z
     MAIL_FROM: optional(z.string()),
     /** Who receives the contact form's messages (src/contact.ts). Required in production. */
     RECIPIENT_EMAIL: z.email().optional(),
-    /** Google Analytics (GA4) measurement id, such as G-XXXXXXXXXX. Unset: no analytics. */
-    GA_MEASUREMENT_ID: z.preprocess(
-      // An empty value, as a compose file passes for an unset one, is unset.
-      (value) => (value === "" ? undefined : value),
+    /**
+     * Google Analytics 4's measurement id, such as G-XXXXXXXXXX. Unset, there
+     * is no analytics: no script, no consent banner, nothing added to the CSP.
+     */
+    GA_MEASUREMENT_ID: optional(
       z
         .string()
-        .regex(/^G-[A-Z0-9]+$/)
-        .optional(),
+        .regex(/^G-[A-Z0-9]{4,20}$/, "Expected an id like G-XXXXXXXXXX"),
     ),
   })
   .superRefine((env, context) => {

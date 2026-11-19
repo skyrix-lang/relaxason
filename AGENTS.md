@@ -103,7 +103,15 @@ databases.
   `@relaxason/api`. Pass `throwOnError: throwUnexpected(...)` so unexpected errors
   reach the route's error page; invalidate query keys after a mutation.
 - URL state (filters, tabs) lives in validated search params. Client-only state
-  goes in Zustand (not installed yet: ask when the first feature needs it).
+  goes in Zustand; what must survive a reload uses its `persist` middleware
+  with a `version` and Zod-checked values. Never keep personal data or secrets in `localStorage`.
+- The pages' French copy is written in the components (the client's content).
+  The starter's own screens (sign-in) read `apps/web/src/locales/fr.json`
+  (react-i18next: `useTranslation()`, `t("key")`, type-checked keys). The site
+  has one language (`LANGUAGES` in `packages/core/src/site.ts`) and no dark
+  mode; see `docs/decisions.md`.
+- Feedback on something that just happened ("Booking saved") is a `toast()`
+  from `@relaxason/ui`; errors the visitor must act on stay in the page.
 - Forms: React Hook Form + `zodResolver` with the schema from `@relaxason/core`,
   and the `Field` components from `@relaxason/ui`.
 - Style with theme tokens only: the kit's (`bg-primary`…) and the site's

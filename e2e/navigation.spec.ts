@@ -215,8 +215,8 @@ test.describe("the sonotherapy page", () => {
 
 test.describe("unknown pages", () => {
   test("show the not-found page, which isn't indexed", async ({ page }) => {
-    // The server can't tell which paths the SPA knows, so it answers 200 and
-    // the page asks search engines not to index it.
+    // The server answers 404 (seo.spec.ts) and the page also asks search
+    // engines not to index it.
     await page.goto("/does-not-exist");
 
     await expect(page).toHaveTitle("Page non trouvée | Relaxa'Son");

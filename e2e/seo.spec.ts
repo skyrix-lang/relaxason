@@ -22,6 +22,22 @@ test.describe("home page", () => {
       `<meta property="og:image" content="${baseURL}/og-image.jpg" />`,
     );
     expect(html).toContain(`<meta property="og:url" content="${baseURL}/" />`);
+    expect(html).toContain(
+      `<meta property="og:site_name" content="Relaxa'Son" />`,
+    );
+    // The site's language, such as en_US or fr_FR.
+    expect(html).toMatch(
+      /<meta property="og:locale" content="[a-z]{2,3}_[A-Z]{2}" \/>/,
+    );
+    expect(html).toContain(
+      `<meta property="og:image" content="${baseURL}/og-image.jpg" />`,
+    );
+    expect(html).toContain(
+      '<meta name="twitter:card" content="summary_large_image" />',
+    );
+    expect(html).toContain(
+      `<meta name="twitter:image" content="${baseURL}/og-image.jpg" />`,
+    );
     expect(html).not.toContain("%PUBLIC_URL%");
     expect(html).not.toContain("%GA_MEASUREMENT_ID%");
     expect(html).not.toContain('name="robots"');
@@ -33,15 +49,27 @@ test.describe("home page", () => {
   }) => {
     const html = await (await request.get("/")).text();
 
-    const json = html.match(
-      /<script type="application\/ld\+json">([\s\S]*?)<\/script>/,
-    )?.[1];
-    expect(JSON.parse(json!)).toMatchObject({
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      name: "Relaxa'Son",
-      url: baseURL,
-    });
+    const json = JSON.parse(
+      html.match(
+        /<script type="application\/ld\+json">([\s\S]*?)<\/script>/,
+      )![1]!,
+    );
+    expect(json["@context"]).toBe("https://schema.org");
+    // One item, or several in an @graph.
+    const items: Record<string, unknown>[] = json["@graph"] ?? [json];
+    expect(items).toContainEqual(
+      expect.objectContaining({
+        "@type": "WebSite",
+        name: "Relaxa'Son",
+        url: `${baseURL}/`,
+      }),
+    );
+    const organization = items.find((item) => item["@type"] === "Organization");
+    if (organization) {
+      // Its logo must be a file the site serves.
+      const logo = await request.get(String(organization.logo));
+      expect(logo.status()).toBe(200);
+    }
   });
 
   test("has one h1 and doesn't skip heading levels", async ({ page }) => {
@@ -121,7 +149,7 @@ test("the sitemap lists public pages only", async ({ request, baseURL }) => {
 
   expect(response.status()).toBe(200);
   const sitemap = await response.text();
-  expect(sitemap).toContain(`<loc>${baseURL}</loc>`);
+  expect(sitemap).toContain(`<loc>${baseURL}/</loc>`);
   for (const path of Object.keys(publicPages)) {
     expect(sitemap).toContain(`<loc>${baseURL}${path}</loc>`);
   }
@@ -160,4 +188,67 @@ test("hashed assets are cached for a year, the page isn't", async ({
   const script = (await page.text()).match(/src="(\/assets\/[^"]+\.js)"/)?.[1];
   const asset = await request.get(script!);
   expect(asset.headers()["cache-control"]).toContain("immutable");
+});
+
+test("the share image is served", async ({ request }) => {
+  const image = await request.get("/og-image.jpg");
+
+  expect(image.status()).toBe(200);
+  expect(image.headers()["content-type"]).toBe("image/jpeg");
+});
+
+test("sends the build's brotli and gzip files to browsers that accept them", async ({
+  request,
+}) => {
+  const html = await (await request.get("/")).text();
+  const script = html.match(/src="(\/assets\/[^"]+\.js)"/)?.[1];
+  const plain = await request.get(script!, {
+    headers: { "Accept-Encoding": "identity" },
+  });
+  expect(plain.headers()["content-encoding"]).toBeUndefined();
+  expect(plain.headers()["vary"]).toBe("Accept-Encoding");
+
+  for (const encoding of ["br", "gzip"]) {
+    const compressed = await request.get(script!, {
+      headers: { "Accept-Encoding": encoding },
+    });
+    expect(compressed.headers()["content-encoding"]).toBe(encoding);
+    expect(compressed.headers()["vary"]).toBe("Accept-Encoding");
+    expect(Number(compressed.headers()["content-length"])).toBeLessThan(
+      (await plain.body()).length / 2,
+    );
+    // Playwright decodes it: the same file.
+    expect(await compressed.body()).toEqual(await plain.body());
+  }
+
+  const page = await request.get("/", { headers: { "Accept-Encoding": "br" } });
+  expect(page.headers()["content-encoding"]).toBe("br");
+  expect(await page.text()).toBe(html);
+});
+
+test("an unknown address answers 404, with the app's not-found page", async ({
+  page,
+}) => {
+  const response = await page.goto("/no-such-page");
+
+  expect(response!.status()).toBe(404);
+  await expect(
+    page.getByRole("heading", {
+      level: 1,
+      name: "Oups... Quelque chose ne va pas !",
+    }),
+  ).toBeVisible();
+});
+
+test("serves the icons search results and phones ask for", async ({
+  request,
+}) => {
+  for (const [path, type] of [
+    ["/favicon.ico", "image/x-icon"],
+    ["/apple-touch-icon.png", "image/png"],
+  ]) {
+    const response = await request.get(path!);
+    expect(response.status(), path).toBe(200);
+    expect(response.headers()["content-type"], path).toBe(type);
+  }
 });

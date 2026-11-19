@@ -16,9 +16,13 @@ test.describe("signed out", () => {
     page,
   }) => {
     await page.goto("/sign-in?returnTo=%2Fsoins");
-    await expect(page.getByRole("heading", { name: "Sign in" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Connexion" }),
+    ).toBeVisible();
 
-    await page.getByRole("link", { name: "Continue to sign in" }).click();
+    await page
+      .getByRole("link", { name: "Continuer vers la connexion" })
+      .click();
     await logInOnKeycloak(page, KEYCLOAK_USERS.ada);
 
     await expect(page).toHaveURL("/soins");
@@ -28,7 +32,9 @@ test.describe("signed out", () => {
 
   test("ignores a return address on another site", async ({ page }) => {
     await page.goto("/sign-in?returnTo=https%3A%2F%2Fevil.example");
-    await page.getByRole("link", { name: "Continue to sign in" }).click();
+    await page
+      .getByRole("link", { name: "Continuer vers la connexion" })
+      .click();
     await logInOnKeycloak(page, KEYCLOAK_USERS.grace);
 
     await expect(page).toHaveURL("/");
@@ -47,7 +53,7 @@ test.describe("signed out", () => {
     await page.goto("/auth/callback?code=forged&state=forged");
 
     await expect(page).toHaveURL("/sign-in?error=Expired");
-    await expect(page.getByRole("alert")).toContainText("took too long");
+    await expect(page.getByRole("alert")).toContainText("a pris trop de temps");
   });
 
   test("the session cookie is HttpOnly and SameSite", async ({

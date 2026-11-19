@@ -10,4 +10,5 @@ export {
   Select,
   Textarea,
 } from "./components/field";
+export { toast, Toaster, type ToastOptions } from "./components/toast";
 export { cn } from "./lib/utils";

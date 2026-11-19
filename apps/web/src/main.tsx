@@ -2,6 +2,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { startI18n } from "./i18n";
 import { createQueryClient } from "./query-client";
 import { routeTree } from "./routeTree.gen";
 import "@fontsource/source-sans-3/400.css";
@@ -30,6 +31,9 @@ const router = createRouter({
   // Section links (/soins#tarifs) glide to their section.
   defaultHashScrollIntoView: { behavior: "smooth" },
 });
+
+// Before the first render.
+startI18n();
 
 declare module "@tanstack/react-router" {
   interface Register {

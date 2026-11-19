@@ -211,6 +211,10 @@ that blocks which fade in on scroll are checked too.
 **Why:** accessibility is a requirement of the starter (WCAG 2.2 AA, European
 Accessibility Act), and the owner chose it over keeping the exact colours.
 **Cost:** buttons and teal text are noticeably darker than on the previous site.
+**Later (starter sync, 2026-11):** the theme-contrast unit test also required
+the form fields' border (`--input`, `#ced4da` → `#868e96`, 3:1) and the red
+(`--destructive`, `#fa5252` → `#c92a2a`, 4.5:1 under white and as text) to be
+darker.
 
 ## Analytics only after consent
 
@@ -291,3 +295,90 @@ fees and an S3 API. Building on the server needs no registry.
 **Revisit when:** a project is used at night or its database takes minutes
 to dump (migrate without stopping, point-in-time recovery), or a project
 deploys somewhere other than one Docker server.
+
+## Google Analytics behind a consent banner, off by default
+
+**In this project:** the starter's banner (English, Consent Mode v2, a
+six-month expiry and a footer's "Cookie settings" to change the answer) was
+not adopted. The site keeps its own French banner
+(`components/cookie-consent.tsx`, see "Analytics only after consent" above):
+it asks once, loads Google's library only after "Accepter", and sends page
+views from the router. From the starter it takes the server side: GA is off
+unless `GA_MEASUREMENT_ID` is set, and only then does the BFF write the id
+into `index.html` and add Google's origins to the CSP.
+**Open:** the CNIL expects a way to withdraw consent and a renewed question
+after about six months; the site offers neither. Adopting the starter's
+banner, or adding a "Gérer les cookies" link, is the client's decision (the
+site has no footer).
+
+## Precompressed assets, served by the BFF
+
+A small Vite plugin (`precompress` in `apps/web/vite.config.ts`, on
+`node:zlib`) writes brotli and gzip copies of the build's text files at
+maximum compression; the BFF serves them with `serveStatic`'s `precompressed`
+option and compresses `index.html` once at startup. Every static response
+carries `Vary: Accept-Encoding`.
+**Why:** compressing at build time costs nothing per request and allows
+brotli's strongest level (about 13% smaller than gzip's best on this build), which is
+too slow to run per request. Writing the plugin took 40 lines and no new
+dependency.
+**Revisit when:** a CDN or proxy in front compresses and caches on its own:
+the copies then only cost image size.
+
+## Theme contrast checked by a unit test
+
+`scripts/theme-contrast.test.ts` computes WCAG 2.2 contrast for each token
+pair the components use (text 4.5:1; input borders, the focus ring, buttons
+and invalid borders 3:1), in every `packages/theme-*` package, for light mode
+and each dark mode a theme defines (`prefers-color-scheme: dark`, `.dark` or
+`[data-theme]`). Its pair lists name the pairs the UI kit draws. The default
+theme's `--input` became `#7c8aa0` (3.3:1), from `#cbd5e1` (1.4:1).
+**Why:** axe only sees the states the e2e tests reach, in the theme the app
+imports; a customer theme, a dark mode or a hover colour isn't checked there.
+Text sized as "large" (3:1) isn't assumed, so every text pair is held to 4.5:1.
+**Revisit when:** the UI kit draws a new pair (a new token, or a token on a
+new background): add it to `scripts/theme-contrast.ts`.
+
+## Texts in react-i18next, French only, for the starter's screens
+
+The starter moved every text into messages files read through react-i18next
+(`apps/web/src/i18n.ts`, `apps/web/src/locales/fr.json`, `LANGUAGES` in
+`packages/core/src/site.ts`). Here only the starter's own screens use it
+(sign-in); the pages' French copy stays in the components, as the client's
+content. The site is French only: `LANGUAGES` is `["fr"]`, so there is no
+language picker, and the starter's English files, its bookings messages and
+its stored-preferences store (language and theme) were not adopted.
+**Why:** the site reproduces the previous one and has no other language; the
+starter's header, footer and home page, with their texts, don't exist here.
+**Revisit when:** a second language is wanted: add it to `LANGUAGES`, move the
+pages' copy into the messages files, restore a language choice (stored
+preference or address per language, see the starter's decision), and add
+`hreflang` if pages must rank in both.
+
+## No dark mode, no toasts yet
+
+The starter's dark mode (the theme's `.dark` block, a header button,
+`public/theme.js`) was not adopted: the theme has no dark palette and the
+previous site had none. `toast()` and `<Toaster>` from `@relaxason/ui` are
+available, but nothing uses them (the contact form shows its result in the
+page).
+**Revisit when:** the client asks for a dark theme: add a `.dark` block to
+`packages/theme-relaxason` (the contrast test checks it) and bring back the
+starter's `theme.js`, `theme.ts` and preferences store.
+
+## Real 404s for an SPA, from the route tree
+
+The build writes the app's route paths to `routes.json`, read from TanStack
+Router's generated route tree (`routesManifest` in `apps/web/vite.config.ts`),
+and the BFF answers 404 for any path that matches none, with the app's own
+page, which renders "Oups... Quelque chose ne va pas !". Without the file it answers 200
+everywhere, as before. The `www.` twin of `PUBLIC_URL`'s host redirects to
+`PUBLIC_URL` (301), and only that host: a proxy that passes its upstream name
+(`app:3000`) or an address must not loop.
+**Why:** a 200 for an unknown address is a "soft 404" to Google, and a typo
+or an old link looks like a page. The route tree is the single source of
+routes, so nothing is listed twice. Redirecting only the `www.` twin covers
+the usual duplicate without trusting the `Host` header beyond it.
+**Revisit when:** routes are prerendered (see "Client-only SPA"): the static
+pages then carry their own status. Or a route can tell from the URL alone
+that its record doesn't exist (a slug list known at build time).
