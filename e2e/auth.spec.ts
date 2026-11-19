@@ -53,7 +53,7 @@ test.describe("signed out", () => {
     await page.goto("/auth/callback?code=forged&state=forged");
 
     await expect(page).toHaveURL("/sign-in?error=Expired");
-    await expect(page.getByRole("alert")).toContainText("took too long");
+    await expect(page.getByRole("alert")).toContainText("a pris trop de temps");
   });
 
   test("the session cookie is HttpOnly and SameSite", async ({
