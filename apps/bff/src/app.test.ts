@@ -139,7 +139,7 @@ describe("SEO files", () => {
     );
 
     const sitemap = await (await app.request("/sitemap.xml")).text();
-    expect(sitemap).toContain("<loc>https://relaxason.example.com</loc>");
+    expect(sitemap).toContain("<loc>https://relaxason.example.com/</loc>");
     expect(sitemap).toContain("<loc>https://relaxason.example.com/soins</loc>");
     expect(sitemap).not.toContain("/sign-in<");
   });

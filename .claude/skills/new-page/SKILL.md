@@ -55,6 +55,11 @@ export const Route = createFileRoute("/pricing")({
 | Sitemap    | Add to `PUBLIC_PATHS` in `packages/core/src/site.ts` | Leave out                               |
 | Loading UI | Avoid layout shift                                   | Skeleton with `role="status"`           |
 
+A public page gives `usePageMeta` its own `description` (about 150
+characters), and an `image` (1200 × 630) with `imageAlt` when it has one: they
+become its link preview (Open Graph and X). Add `jsonLd` when schema.org has a
+type for the content (`Event`, `Product`, `FAQPage`, `Article`).
+
 ## 3. Check the structure
 
 - One `h1`, no skipped heading levels, meaningful `alt` text (or `alt=""` for

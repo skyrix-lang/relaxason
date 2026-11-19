@@ -2,66 +2,135 @@ import { useEffect } from "react";
 import { site } from "@relaxason/core";
 
 export interface PageMeta {
-  /** Shown as "<title> | Relaxa'Son". */
+  /** Shown as "<title> | Relaxa'Son"; the site's name alone when unset. */
   title?: string;
   /** The whole title, for public pages that word their own. */
   fullTitle?: string;
+  /** About 150 characters, for search results and link previews. */
   description?: string;
-  /** A path on this site, or an absolute URL. */
+  /** The link preview's image: a path on this site or an absolute URL, 1200 × 630. */
   image?: string;
+  /** What the image shows, for people who can't see it. */
+  imageAlt?: string;
+  /** Open Graph's type: `article` for a dated piece of content. */
   type?: "website" | "article";
   /** App screens and error pages: ask search engines not to index them. */
   noindex?: boolean;
+  /** Structured data for this page (schema.org), such as an `Event` or `FAQPage`. */
+  jsonLd?: Record<string, unknown>;
 }
 
-function setMeta(key: "name" | "property", name: string, content: string) {
+export const DEFAULT_IMAGE = "/og-image.jpg";
+
+/**
+ * The public address, from the canonical link the BFF filled in with
+ * PUBLIC_URL: the address a proxy serves may differ from the one that ranks.
+ */
+function publicOrigin() {
+  const canonical = document.head.querySelector<HTMLLinkElement>(
+    'link[rel="canonical"]',
+  );
+  try {
+    return new URL(canonical?.href ?? "").origin;
+  } catch {
+    return window.location.origin;
+  }
+}
+
+function setMeta(attribute: "name" | "property", key: string, value: string) {
   let meta = document.head.querySelector<HTMLMetaElement>(
-    `meta[${key}="${name}"]`,
+    `meta[${attribute}="${key}"]`,
   );
   if (!meta) {
     meta = document.createElement("meta");
-    meta.setAttribute(key, name);
+    meta.setAttribute(attribute, key);
     document.head.append(meta);
   }
-  meta.content = content;
+  meta.content = value;
 }
 
+/** JSON for a script element: `<` escaped, so no value can close the element. */
+export const jsonForScript = (data: unknown) =>
+  JSON.stringify(data).replace(/</g, "\\u003c");
+
 /**
- * Sets the page's title, description, canonical URL and social metadata, and
- * asks search engines not to index app screens. index.html holds the defaults
- * that crawlers see first: the home page's.
+ * Sets the page's title, description, canonical URL, link-preview metadata
+ * (Open Graph and X) and structured data, and asks search engines not to index
+ * app screens. Every page calls it, so each sets every value: what it leaves
+ * out falls back to the site's defaults, never to the previous page's.
+ * index.html holds the home page's values, which crawlers see first.
  */
 export function usePageMeta({
   title,
   fullTitle,
   description = site.description,
-  image = "/og-image.jpg",
+  image = DEFAULT_IMAGE,
+  imageAlt = `Logo de ${site.name}`,
   type = "website",
   noindex = false,
+  jsonLd,
 }: PageMeta) {
+  // An object literal is new on every render: compare its content instead.
+  const structuredData = jsonLd ? jsonForScript(jsonLd) : undefined;
+
   useEffect(() => {
+    const origin = publicOrigin();
     const pageTitle =
       fullTitle ?? (title ? `${title} | ${site.name}` : site.name);
-    const url = `${window.location.origin}${window.location.pathname}`;
-    const imageUrl = new URL(image, window.location.origin).href;
+    const url = origin + window.location.pathname;
+    const imageUrl = new URL(image, origin).href;
 
     document.title = pageTitle;
+    document.head
+      .querySelector<HTMLLinkElement>('link[rel="canonical"]')
+      ?.setAttribute("href", url);
     setMeta("name", "description", description);
     setMeta("property", "og:type", type);
     setMeta("property", "og:title", pageTitle);
     setMeta("property", "og:description", description);
     setMeta("property", "og:url", url);
     setMeta("property", "og:image", imageUrl);
+    setMeta("property", "og:image:alt", imageAlt);
+    setMeta("name", "twitter:title", pageTitle);
+    setMeta("name", "twitter:description", description);
     setMeta("name", "twitter:image", imageUrl);
-    document.head
-      .querySelector<HTMLLinkElement>('link[rel="canonical"]')
-      ?.setAttribute("href", url);
+    setMeta("name", "twitter:image:alt", imageAlt);
+    // The default image's size and type are known; a page's own may differ.
+    const size = { width: "1200", height: "630", type: "image/jpeg" };
+    for (const [key, value] of Object.entries(size)) {
+      if (image === DEFAULT_IMAGE)
+        setMeta("property", `og:image:${key}`, value);
+      else
+        document.head
+          .querySelector(`meta[property="og:image:${key}"]`)
+          ?.remove();
+    }
 
-    if (!noindex) return;
-    const robots = document.createElement("meta");
-    robots.name = "robots";
-    robots.content = "noindex";
-    document.head.append(robots);
-    return () => robots.remove();
-  }, [title, fullTitle, description, image, type, noindex]);
+    const added: HTMLElement[] = [];
+    if (noindex) {
+      const robots = document.createElement("meta");
+      robots.name = "robots";
+      robots.content = "noindex";
+      added.push(robots);
+    }
+    if (structuredData) {
+      const script = document.createElement("script");
+      script.type = "application/ld+json";
+      script.textContent = structuredData;
+      added.push(script);
+    }
+    document.head.append(...added);
+    return () => {
+      for (const element of added) element.remove();
+    };
+  }, [
+    title,
+    fullTitle,
+    description,
+    image,
+    imageAlt,
+    type,
+    noindex,
+    structuredData,
+  ]);
 }

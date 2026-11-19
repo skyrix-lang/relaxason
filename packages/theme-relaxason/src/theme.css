@@ -35,7 +35,7 @@
   --muted: #f8fdfc;
   --muted-foreground: #5f6b75;
   --border: #dee2e6;
-  --input: #ced4da;
+  --input: #868e96;
   --ring: #00776a;
 
   --primary: #00776a;
@@ -55,7 +55,7 @@
   --success-soft-foreground: #236127;
   --warning-soft: #fef3c7;
   --warning-soft-foreground: #b45309;
-  --destructive: #fa5252;
+  --destructive: #c92a2a;
   --destructive-soft: #fff5f5;
   --destructive-soft-foreground: #c92a2a;
 }
