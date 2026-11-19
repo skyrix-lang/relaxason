@@ -56,7 +56,8 @@
     "db:studio": "yarn workspace @relaxason/db drizzle-kit studio",
     "docker:build": "docker build -t $npm_package_name:$npm_package_version -f docker/Dockerfile .",
     "docker:up": "docker compose -f docker/compose.yaml up --build",
-    "docker:down": "docker compose -f docker/compose.yaml down"
+    "docker:down": "docker compose -f docker/compose.yaml down",
+    "deploy": "sh scripts/deploy.sh"
   },
   "workspaces": [
     "apps/*",
