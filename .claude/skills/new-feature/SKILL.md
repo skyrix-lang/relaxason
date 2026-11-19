@@ -101,6 +101,7 @@ a client area) goes in a `packages/feature-<name>` package; there is none yet.
 - Break the feature once to confirm the new tests fail, then revert.
 - Check it in the running app with the `run-app` skill.
 - Have the change reviewed (the `reviewer` subagent in Claude Code).
-- Update the README for new commands, variables or concepts, and
-  `docs/decisions.md` for a choice someone could later want to reverse.
+- Document new commands, variables or concepts in the topic's page in `docs/`
+  (`docs/configuration.md` for a variable, `docs/development.md` for a command),
+  and `docs/decisions.md` for a choice someone could later want to reverse.
 - Say plainly whether the new data is per user or shared by everyone.
