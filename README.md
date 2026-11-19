@@ -20,17 +20,6 @@ shipped as one Docker image.
 - **Quality:** oxlint (type-aware) and oxfmt from [oxc.rs](https://oxc.rs),
   Vitest, Playwright with axe, and dependency rules between packages.
 
-## Pages
-
-| Path            | Page                                                                                                      |
-| --------------- | --------------------------------------------------------------------------------------------------------- |
-| `/`             | Home: hero, sonotherapy, benefits, services, testimonials                                                 |
-| `/mon-parcours` | The therapist's background and training                                                                   |
-| `/sonotherapie` | What sonotherapy is, its benefits, a television report (YouTube)                                          |
-| `/soins`        | Every treatment (`#massage`, `#voyage`, `#seminaire`, `#drainage`, `#suedois`) and the prices (`#tarifs`) |
-| `/contact`      | Contact details, the contact form, frequent questions                                                     |
-| `/sign-in`      | Sign-in, for future screens: not linked from the site, not indexed                                        |
-
 ## Quick start
 
 Requires Node 24 (`.nvmrc`), Corepack (`corepack enable`) and Docker.
@@ -41,25 +30,31 @@ yarn setup        # .env, Postgres, Keycloak, database and migrations
 yarn dev          # http://localhost:3000
 ```
 
-Sign in as `ada` / `ada` on the local Keycloak. `yarn verify` checks
-everything in seconds (format, types, lint, boundaries, API contract, unit
-tests); `yarn test` runs the end-to-end tests. Every command:
-[docs/development.md](docs/development.md#scripts).
+The local Postgres listens on 5433 and Keycloak on 8181. `yarn verify` checks everything in seconds (format, types, lint,
+boundaries, API contract, unit tests); `yarn test` runs the end-to-end tests.
+Every command: [docs/development.md](docs/development.md#scripts).
+
+## Keeping up to date with the starter
+
+Renovate updates versions, and a workflow brings in the starter's changes as
+pull requests (`yarn sync-from-starter` does the same by hand), merged with
+this project's own: [docs/starter-sync.md](docs/starter-sync.md).
 
 ## Documentation
 
 | Guide                                                       | What's in it                                                              |
 | ----------------------------------------------------------- | ------------------------------------------------------------------------- |
 | [Architecture](docs/architecture.md)                        | the folders and packages, the JSON API                                    |
+| [Pages](docs/pages.md)                                      | every page and its address                                                |
 | [Development](docs/development.md)                          | running it locally, every command, the tests                              |
 | [Configuration](docs/configuration.md)                      | the server's variables, sign-in (OpenID Connect), mail                    |
-| [Customizing for a customer](docs/customizing.md)           | brand and dark mode, languages, icons, pages, features                    |
+| [Design](docs/customizing.md)                               | the brand, photos, icons and texts                                        |
 | [SEO, analytics and compression](docs/seo-and-analytics.md) | metadata, sitemap, 404s, link previews, Google Analytics, gzip and brotli |
 | [Security](docs/security.md)                                | sessions, headers and CSP, CSRF, rate limits, supply chain                |
 | [Deployment](docs/deployment.md)                            | the Docker image, deploying, rollback, backups, logs                      |
 | [New project](docs/new-project.md)                          | from a clone to a GitHub repository with CI and auto-merge                |
 | [Automatic deploys](docs/auto-deploy.md)                    | deploying `main` every night, backup first                                |
-| [Starter sync](docs/starter-sync.md)                        | keeping a project up to date with the starter                             |
+| [Starter sync](docs/starter-sync.md)                        | keeping this project up to date with the starter                          |
 | [Decisions](docs/decisions.md)                              | what was decided, and why                                                 |
 
 ## Working with AI agents

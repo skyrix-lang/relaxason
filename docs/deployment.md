@@ -9,9 +9,12 @@ yarn docker:build
 # Apply migrations (a deploy step, never at startup), then start the app
 docker build --target migrate -t relaxason-migrate -f docker/Dockerfile .
 docker run --rm -e DATABASE_URL=... relaxason-migrate
-docker run -p 3000:3000 -e PUBLIC_URL=https://bookings.example.com \
+docker run -p 3000:3000 -e PUBLIC_URL=https://relaxason.com \
   -e DATABASE_URL=... -e SESSION_SECRET=... \
   -e OIDC_ISSUER=... -e OIDC_CLIENT_ID=... -e OIDC_CLIENT_SECRET=... \
+  -e SMTP_HOST=smtp.tem.scaleway.com -e SMTP_USER=... -e SMTP_PASSWORD=... \
+  -e MAIL_FROM="Contact Sonothérapie <contact@relaxason.com>" -e RECIPIENT_EMAIL=... \
+  -e GA_MEASUREMENT_ID=G-XXXXXXXXXX \
   relaxason:1.0.0
 ```
 
@@ -21,17 +24,20 @@ Its base image is pinned by digest, and Renovate updates it. The image has a
 `HEALTHCHECK` on `GET /api/health` (503 when the database is unreachable), and
 on `SIGTERM` the server finishes the requests in progress before it exits.
 
+Deploy it behind a reverse proxy that terminates TLS and sets
+`x-forwarded-for`: the rate limits count per client address.
+
 To try the image with everything around it, `yarn docker:up` runs
 `docker/compose.yaml`: Postgres, the migrations, a development Keycloak and
-the app at http://localhost:8080 (ada / ada). It's for local use only, and
-needs a browser that treats `keycloak.localhost` as this machine (Chrome and
-Firefox do; Safari needs a line in `/etc/hosts`).
+the app at http://localhost:8080. It's for local use only: its secrets are
+public. Export `SMTP_HOST`, `SMTP_USER`, `SMTP_PASSWORD`, `MAIL_FROM` and
+`RECIPIENT_EMAIL` first to send real emails from it.
 
 ## Deploying
 
 Off until a project turns it on: the starter ships the scripts, and nothing
 deploys anywhere until you run `yarn deploy` or set the Deploy workflow's
-`DEPLOY_SSH` variable. [auto-deploy.md](auto-deploy.md) is the
+`DEPLOY_SSH` variable. [docs/auto-deploy.md](auto-deploy.md) is the
 step-by-step setup (Claude can follow it).
 
 `docker/compose.production.yaml` runs the image on a server (a VPS with
@@ -52,7 +58,7 @@ in the deploy user's home by default; `DEPLOY_DIR` changes it):
    mkdir -p ~/apps/relaxason && install -m 600 /dev/null ~/apps/relaxason/.env.production && nano ~/apps/relaxason/.env.production
    ```
 
-3. `backup.env`, for the backups (see [Backups](#backups)): no deploy runs
+3. `backup.env`, for the backups (see "Backups" below): no deploy runs
    without it.
 
 Then, for each release, from a checkout of the commit to ship:
@@ -147,18 +153,15 @@ and otherwise backs the database up. **Run workflow** in the Actions tab
 deploys `main` at once. It does nothing, in the starter and in any project,
 until the `DEPLOY_SSH` repository variable is set. Turning it on (a deploy
 key, the `production` environment, two secrets and a variable):
-[auto-deploy.md](auto-deploy.md).
+[docs/auto-deploy.md](auto-deploy.md).
 
 ## Logs
 
 The BFF writes one line per event to stdout, and warnings and errors to
 stderr: JSON in the image, readable text in development. Each request is one
 line with its method, path (never the query string), status and duration,
-except health checks that succeed. Its id is returned as `x-request-id` and
-added to everything logged while handling it; a proxy that sends
-`x-request-id` keeps its own id. Errors are logged with their message, code
-and stack only: query parameters and whatever a library attached to them are
-dropped. Log with `log` from `apps/bff/src/log.ts`; lint refuses `console`.
+except health checks that succeed. Its id is returned as `x-request-id`. Log
+with `log` from `apps/bff/src/log.ts`; lint refuses `console`.
 
 CI builds the image on `main` and on tags, with an SBOM and build provenance,
 and signs release tags with cosign. See `SECURITY.md`.

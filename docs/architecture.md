@@ -16,8 +16,8 @@ apps/
     src/app.ts              security headers, CSRF, routes, static SPA
     src/routes/api.ts       JSON API, declared with Zod (OpenAPI)
     src/contact.ts          the contact form's email
+    src/mail.ts             sends mail over SMTP (Nodemailer)
     src/routes/auth.ts      /auth/login, /auth/callback, /auth/logout
-    src/session.ts          server-side sessions (HttpOnly cookie)
     src/env.ts              settings, checked at startup
     src/mail.ts             mail over SMTP (logged when unconfigured)
 packages/
@@ -29,7 +29,7 @@ packages/
 e2e/                        Playwright tests
 scripts/                    setup, dev, session, API generation, boundary check
 docker/                     Dockerfile, compose file, Keycloak development realm
-docs/                       guides (this folder), decisions.md, specs/
+docs/decisions.md           decisions and their reasons
 ```
 
 Each package has a short `AGENTS.md` with its rules.
