@@ -237,6 +237,10 @@ The breakpoints are the previous site's: 576, 768, 992, 1200 and 1408 pixels.
 Two photos are still missing, for the seminar and the manual drainage: a grey
 placeholder stands in (`apps/web/src/components/image-placeholder.tsx`).
 
+Link previews and icons: `apps/web/public/og-image.jpg` (1200 × 630),
+`logo.png`, `favicon.ico` (48, 32 and 16 px) and `apple-touch-icon.png` (180 px),
+and the name, URL and logo in `index.html`'s JSON-LD.
+
 ## Tests
 
 - **Unit tests** (`yarn test:unit`) live next to the code: the contact schema,
@@ -420,6 +424,21 @@ page then sets its own once loaded (`apps/web/src/page-meta.ts`). `robots.txt`
 and `sitemap.xml` are built from `PUBLIC_URL` and `PUBLIC_PATHS`
 (`packages/core/src/site.ts`). A page that has to rank on its own content
 needs prerendering (see `docs/decisions.md`).
+
+Unknown addresses answer 404: the build writes the app's routes to
+`routes.json` (from TanStack Router's route tree), and the BFF sends the
+app's page, which shows its French not-found page, with a 404 status for any path that
+matches none. A route that exists but finds nothing (a missing record) still
+answers 200, so its page says `noindex` too.
+
+The `www.` twin of `PUBLIC_URL`'s host (or the bare domain, when
+`PUBLIC_URL` has `www.`) redirects to `PUBLIC_URL` with a 301, so the site
+isn't indexed twice. Point both names at the server, through a proxy that
+keeps the request's `Host` header (nginx-proxy does): other hosts are left
+alone, since a proxy may pass its own name.
+
+`index.html`'s JSON-LD describes the site and the organisation behind it,
+with its logo (`apple-touch-icon.png`), which search results may show.
 
 Link previews use Open Graph and X's card tags: title, description, URL, site
 name, locale and a share image (`apps/web/public/og-image.jpg`, 1200 × 630).
