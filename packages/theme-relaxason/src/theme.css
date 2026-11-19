@@ -35,6 +35,10 @@
   --muted: #f8fdfc;
   --muted-foreground: #5f6b75;
   --border: #dee2e6;
+  /*
+   * Grey 6 of the site's grey scale (Open Color, like --body and --border):
+   * the lightest that keeps a field's border at 3:1 on the page (WCAG 2.2 AA).
+   */
   --input: #868e96;
   --ring: #00776a;
 
@@ -55,6 +59,10 @@
   --success-soft-foreground: #236127;
   --warning-soft: #fef3c7;
   --warning-soft-foreground: #b45309;
+  /*
+   * The red of the error text (--destructive-soft-foreground): the lightest
+   * of the site's reds that is readable as text on the page (4.5:1).
+   */
   --destructive: #c92a2a;
   --destructive-soft: #fff5f5;
   --destructive-soft-foreground: #c92a2a;

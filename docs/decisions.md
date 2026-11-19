@@ -298,39 +298,18 @@ deploys somewhere other than one Docker server.
 
 ## Google Analytics behind a consent banner, off by default
 
-**In this project:** the starter's banner (English, with a footer's "Cookie
-settings") was not adopted: the site has no footer and keeps its own French
-banner (`components/cookie-consent.tsx`, see "Analytics only after consent"
-above), which asks once and has no six-month expiry, withdrawal button or
-Consent Mode, and sends page views from the router. Adopting the starter's
-needs a footer, which is the client's decision.
-
-GA4 is turned on by setting `GA_MEASUREMENT_ID` when the server starts; the
-BFF writes it into `index.html` (a `meta` tag, no extra request) and only then
-adds Google's origins to the CSP. Google's library is loaded by the app's own
-script once a visitor accepts in the banner, never before, so there is no
-inline script and no cookie or request to Google without consent. It starts
-with Consent Mode v2 denying everything, then grants `analytics_storage`
-only. The choice is kept in `localStorage` for six months, then asked again;
-"Cookie settings" in the footer reopens the banner, and declining after
-accepting stops measuring and deletes Google's cookies. Declining is a button
-like accepting, next to it. Page views of client-side navigations are left to
-GA4's enhanced measurement.
-**Why:** the ePrivacy rules as the CNIL applies them require consent before
-audience-measurement cookies, refusal as easy as acceptance and a way to
-withdraw; six months is the CNIL's recommended lifetime for the choice. Loading
-the script only after consent (Consent Mode's "basic" setup) sends Google
-nothing for visitors who refuse, unlike the "advanced" setup's cookieless
-pings. Enhanced measurement already counts history changes; sending page
-views from the router as well would count each one twice, unless every
-project remembered to turn the history option off in GA's admin. The cost:
-such a page view may carry the previous page's title, since the router
-changes the address before the page sets its title; its URL is right.
-**Revisit when:** a project needs another measurement tool, or one exempt
-from consent (a self-hosted, cookieless one such as Matomo configured per the
-CNIL's exemption): the banner and the store in `apps/web/src/analytics.ts`
-then become generic. Or when advertising needs ad storage: ask for it
-separately in the banner.
+**In this project:** the starter's banner (English, Consent Mode v2, a
+six-month expiry and a footer's "Cookie settings" to change the answer) was
+not adopted. The site keeps its own French banner
+(`components/cookie-consent.tsx`, see "Analytics only after consent" above):
+it asks once, loads Google's library only after "Accepter", and sends page
+views from the router. From the starter it takes the server side: GA is off
+unless `GA_MEASUREMENT_ID` is set, and only then does the BFF write the id
+into `index.html` and add Google's origins to the CSP.
+**Open:** the CNIL expects a way to withdraw consent and a renewed question
+after about six months; the site offers neither. Adopting the starter's
+banner, or adding a "Gérer les cookies" link, is the client's decision (the
+site has no footer).
 
 ## Precompressed assets, served by the BFF
 
