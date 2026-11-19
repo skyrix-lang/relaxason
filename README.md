@@ -78,8 +78,7 @@ conflicts and adapting what came from the starter; Claude reviews every pull
 request too. Clean syncs and Renovate's non-major updates merge themselves once
 CI passes (`scripts/setup-github.sh`). Setting up a project's repository,
 secrets and auto-merge: [docs/new-project.md](docs/new-project.md). Deploying
-each merge into `main` to a server automatically:
-each merge into `main` to a server automatically:
+`main` to a server every night, with a database backup first:
 [docs/auto-deploy.md](docs/auto-deploy.md). The whole process, its setup,
 conflicts and the rules for changing the starter:
 [docs/starter-sync.md](docs/starter-sync.md).
