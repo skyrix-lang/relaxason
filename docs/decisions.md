@@ -433,14 +433,15 @@ and the real pages, not in mockup files. **Revisit when:** projects keep
 design records elsewhere (a design tool), or several brands share one
 repository.
 
-## This site keeps the previous site's heading scale
+## This site uses the kit's heading scale
 
-The site's pages size their headings with the `.h1` to `.h4` classes and
-`.section-title` in `apps/web/src/styles.css` (34, 26, 22 and 18px), not the
-kit's `text-h1`…; the theme's type and layout tokens are set so the kit's
-utilities match the rest (`--font-heading` is the body font, weight 700, no
-tracking, a 76rem container, 6rem sections). Only the starter's screens
-(sign-in) use `text-h2`. **Why:** the pages reproduce the previous site, which
-the client knows, and the kit's sizes differ (its `text-h1` is 48px on
-desktop): moving to them would restyle every page. **Revisit when:** the client
-asks for a new look, through the `design` skill.
+The previous site's own heading classes (`.h1` to `.h4`: 34, 26, 22 and 18px)
+are gone: headings use `text-h1`, `text-h2` and `text-h3`, and every home
+section keeps its content in the one 1152px column (the intro, services and
+call to action used to span the full width). The theme's type and layout
+tokens: `--font-heading` is the body font, weight 700, no tracking, a 76rem
+container, 6rem sections. **Why:** asked for by the site's owner after the
+starter brought the scale: one vocabulary for every page, and a calmer, more
+even layout on wide screens. Titles are larger on desktop (a page title 48px
+instead of 34px). **Revisit when:** the client asks for a new look, through
+the `design` skill.

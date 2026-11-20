@@ -14,7 +14,7 @@ export function HeroSection() {
       className="bg-hero relative -mt-[70px] flex min-h-[calc(100vh-70px)] items-center overflow-hidden pt-[70px]"
     >
       <div className="relative z-[2] w-full">
-        <div className="page-container grid grid-cols-1 gap-5 py-6 [--content-width:75rem] max-sm:px-3 sm:gap-[30px] md:grid-cols-2 md:gap-10 lg:py-[58px]">
+        <div className="page-container grid grid-cols-1 gap-5 py-6 max-sm:px-6 sm:gap-[30px] md:grid-cols-2 md:gap-10 lg:py-[58px]">
           <div data-visible={visible} className="reveal mt-3 lg:mt-[68px]">
             {/* The logo sits above the text on small screens. */}
             <div
@@ -32,7 +32,7 @@ export function HeroSection() {
             <p className="mt-6 mb-4 text-lg font-medium text-brand-700">
               Bienvenue chez Relaxa'Son
             </p>
-            <h1 className="mb-6 text-[2.5rem] leading-[1.2] font-bold">
+            <h1 className="text-h1 mb-6">
               Découvrez le pouvoir <br />
               <span className="text-brand-700">thérapeutique des sons</span>
             </h1>

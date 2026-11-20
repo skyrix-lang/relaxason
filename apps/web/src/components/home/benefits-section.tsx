@@ -33,7 +33,7 @@ export function BenefitsSection() {
       id="benefits"
       className="bg-benefits page-section scroll-mt-[100px] [--section-space:5rem]"
     >
-      <div className="page-container [--content-width:75rem] max-sm:px-6 lg:px-6">
+      <div className="page-container max-sm:px-6">
         <div className="mb-12 text-center">
           <SectionTitle className="[--rule-left:20%]">
             Les Bienfaits
@@ -49,7 +49,7 @@ export function BenefitsSection() {
           {benefits.map((benefit) => (
             <div key={benefit.title} className="service-card p-6 text-center">
               <div className="mb-4 text-brand-500">{benefit.icon}</div>
-              <h3 className="h3 mb-6 text-brand-700">{benefit.title}</h3>
+              <h3 className="text-h3 mb-6 text-brand-700">{benefit.title}</h3>
               <p className="text-body">{benefit.text}</p>
             </div>
           ))}

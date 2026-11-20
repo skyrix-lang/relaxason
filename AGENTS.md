@@ -142,11 +142,9 @@ a page to design first, goes through the `design` skill.
   Pick by size, not by tag: the level follows the outline (one `h1`, no skipped
   levels), so an app screen's `h1` is usually `text-h2` and a card's `h2`
   `text-h3`. The paragraph under a title is `text-lead`.
-- This site's pages keep the previous site's type: the `.h1` to `.h4`
-  classes and `.section-title` in `apps/web/src/styles.css` for headings,
-  `text-lg text-body` for intros, and the widths they have today (all in
-  `docs/design.md`). Use those on its pages; `text-h1`…, `text-lead` and
-  `prose-width` are for the starter's screens (sign-in) and new app screens.
+- This site's intros are `text-lg text-body` rather than `text-lead`, and a
+  section title is `<SectionTitle>` (`text-h2` with the teal rule): see
+  `docs/design.md`.
 - At most one `text-display` per page, and only on a public page (its hero).
 - A page is `page-section` > `page-container`: the section gives the vertical
   space (and can carry a full-width background), the container the width and

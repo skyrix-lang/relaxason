@@ -65,7 +65,7 @@ function SuccessMessage() {
             <div className="icon-circle" />
           </div>
         </div>
-        <p className="h3 mt-6 text-brand-700">Message Envoyé !</p>
+        <p className="text-h3 mt-6 text-brand-700">Message Envoyé !</p>
         <p className="mt-4 text-center text-lg text-body">
           Merci pour votre message. Je vous répondrai dès que possible.
         </p>
@@ -147,7 +147,7 @@ export function ContactForm() {
           inert={submitted}
           className={submitted ? "opacity-0" : "opacity-100"}
         >
-          <h2 className="h3 mb-8 text-brand-700">
+          <h2 className="text-h3 mb-8 text-brand-700">
             <MessageCircle
               aria-hidden="true"
               size={24}

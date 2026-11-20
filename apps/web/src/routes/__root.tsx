@@ -63,7 +63,7 @@ function ErrorPage({ error, reset }: ErrorComponentProps) {
       <div className="page-container">
         <PageShell>
           <div className="py-20 text-center">
-            <h1 className="h1 text-brand-700">Une erreur est survenue</h1>
+            <h1 className="text-h2 text-brand-700">Une erreur est survenue</h1>
             <p className="mt-2 text-body">Merci de réessayer.</p>
             <Button
               variant="cta"
@@ -101,7 +101,7 @@ function NotFoundPage() {
               />
             </div>
             <div className="mt-6 flex flex-col">
-              <SectionTitle as="h1" className="h2 self-start">
+              <SectionTitle as="h1" className="text-h2 self-start">
                 Oups... Quelque chose ne va pas !
               </SectionTitle>
               <p className="mt-6 mb-6 p-2.5 text-lg text-body">

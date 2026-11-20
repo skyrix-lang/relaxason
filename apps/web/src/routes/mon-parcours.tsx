@@ -58,7 +58,7 @@ function AboutPage() {
               </div>
 
               <div className="md:col-span-7">
-                <SectionTitle as="h1" className="h2">
+                <SectionTitle as="h1" className="text-h2">
                   Mon Parcours
                 </SectionTitle>
                 <p className="mt-8 text-lg text-body">

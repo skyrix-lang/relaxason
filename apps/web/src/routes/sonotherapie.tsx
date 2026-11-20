@@ -36,7 +36,7 @@ function SonotherapyPage() {
       <div className="page-container">
         <PageShell>
           <Reveal id="sonotherapie" className="scroll-mt-[100px]">
-            <SectionTitle as="h1" className="h2 mb-8">
+            <SectionTitle as="h1" className="text-h2 mb-8">
               La Sonothérapie
             </SectionTitle>
             <div className="mt-8 mb-10 grid grid-cols-1 gap-12 md:grid-cols-2">
@@ -81,7 +81,7 @@ function SonotherapyPage() {
 
           <Reveal id="bienfaits" className="scroll-mt-[90px]">
             <div className="bg-soft-panel mb-[60px] rounded-2xl border p-12 shadow-md">
-              <h2 className="h3 mb-12 text-brand-700">
+              <h2 className="text-h3 mb-12 text-brand-700">
                 Les Bienfaits de la Sonothérapie
               </h2>
               <p className="mb-6 font-bold text-body">
@@ -124,7 +124,7 @@ function SonotherapyPage() {
 
           <Reveal id="video" className="scroll-mt-[90px]">
             <div className="mb-[60px] rounded-2xl border bg-surface p-12 shadow-sm">
-              <h2 className="h2 mb-8 text-center text-brand-700">
+              <h2 className="text-h2 mb-8 text-center text-brand-700">
                 Découvrez la Sonothérapie
               </h2>
               <p className="mb-12 text-center text-lg text-body">
@@ -145,7 +145,7 @@ function SonotherapyPage() {
 
           <div className="my-12 text-center">
             <div className="bg-wash rounded-2xl border p-12">
-              <h2 className="h3 mb-6 text-brand-700">
+              <h2 className="text-h3 mb-6 text-brand-700">
                 Prêt à découvrir les bienfaits de la sonothérapie ?
               </h2>
               <p className="mb-12 text-lg text-body">

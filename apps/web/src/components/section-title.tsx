@@ -13,7 +13,11 @@ export function SectionTitle({
 }) {
   return (
     <Heading
-      className={cn(Heading === "h1" ? "h1" : "h2", "section-title", className)}
+      className={cn(
+        Heading === "h1" ? "text-h1" : "text-h2",
+        "section-title",
+        className,
+      )}
     >
       {children}
     </Heading>
