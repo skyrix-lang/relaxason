@@ -62,6 +62,9 @@ type for the content (`Event`, `Product`, `FAQPage`, `Article`).
 
 ## 3. Check the structure
 
+- Follow `docs/design.md`: the brand's section patterns, type and do's and
+  don'ts. If it still describes the starter's default brand while the site
+  has its own, or the page's look isn't settled, run the `design` skill first.
 - One `h1`, no skipped heading levels, meaningful `alt` text (or `alt=""` for
   decoration), visible focus, WCAG 2.2 AA contrast. The e2e tests run axe,
   contrast included: teal text and fills under white text use `brand-700` or
@@ -70,6 +73,10 @@ type for the content (`Event`, `Product`, `FAQPage`, `Article`).
   mobile menu) if needed.
 - Style with the theme's tokens (`bg-primary`, `text-brand-700`, `text-body`…),
   never raw colours: the brand is one CSS file.
+- Lay the page out as `page-section` > `page-container`, size headings with
+  `text-display` (public hero only), `text-h1`, `text-h2`, `text-h3`, never raw
+  `text-2xl` and up, and keep long text in `prose-width`: AGENTS.md,
+  "Typography and layout".
 - Texts that are not the site's own French copy (the starter's screens) come
   from `apps/web/src/locales/fr.json` through `t()`.
 - Style a link as a button with `buttonVariants()`; never a `<button>` in a link.

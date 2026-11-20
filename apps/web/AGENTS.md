@@ -14,3 +14,5 @@ from a `packages/feature-*` package; there is none yet.
   the visitor has accepted the cookie banner (`src/analytics.ts`). Nothing
   that sets a cookie or calls a third party for measurement may run before.
 - Never import `@relaxason/db` or anything server-side.
+- The root layout (`src/routes/__root.tsx`) has no container: each page is
+  `page-section` > `page-container` (AGENTS.md, "Typography and layout").

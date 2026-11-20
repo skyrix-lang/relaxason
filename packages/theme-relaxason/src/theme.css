@@ -9,6 +9,21 @@
   --radius: 0.5rem;
 
   /*
+   * Type and layout (packages/ui's text-h1…, page-container, page-section).
+   * Headings are in the body font, bold, with no extra letter spacing; Josefin
+   * Sans is only the site's name. The site's own heading sizes are the .h1 to
+   * .h4 classes in apps/web/src/styles.css.
+   */
+  --font-heading: var(--font-sans);
+  --heading-weight: 700;
+  --heading-tracking: normal;
+  /* The previous site's 1152px column plus page-container's 32px gutters. */
+  --content-width: 76rem;
+  --prose-width: 65ch;
+  /* The 96px above and below most of the previous site's sections. */
+  --section-space: 6rem;
+
+  /*
    * The teal scale every other token is picked from, light to dark. 700 and
    * darker pass WCAG AA (4.5:1) as text on the light backgrounds and under
    * white text; 600 and lighter are for decoration only (rules, borders, icons).

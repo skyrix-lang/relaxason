@@ -3,10 +3,14 @@
 The brand, the photos, the icons and the texts.
 
 The brand is `packages/theme-relaxason/src/theme.css`: the teal scale, the mint
-page, the fonts (Source Sans 3 for text, Josefin Sans for the site's name).
-Components use only these tokens, through Tailwind utilities and a few classes
-in `apps/web/src/styles.css` (section titles, cards, the fade-in of sections).
+page, the fonts (Source Sans 3 for text, Josefin Sans for the site's name), and the typography and layout tokens (`--font-heading`,
+`--heading-weight`, `--content-width`…). Components use only these tokens,
+through Tailwind utilities, the kit's typography and layout classes
+(`text-h1`, `page-section`, `page-container`…) and a few classes in
+`apps/web/src/styles.css` (section titles, cards, the fade-in of sections).
 The breakpoints are the previous site's: 576, 768, 992, 1200 and 1408 pixels.
+What the site looks like and why is in [design.md](design.md); the `design`
+skill keeps the two in step.
 
 Two photos are still missing, for the seminar and the manual drainage: a grey
 placeholder stands in (`apps/web/src/components/image-placeholder.tsx`).

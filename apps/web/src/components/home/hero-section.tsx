@@ -11,10 +11,10 @@ export function HeroSection() {
     <section
       ref={ref}
       id="hero"
-      className="bg-hero relative -mx-6 -mt-[70px] flex min-h-[calc(100vh-70px)] items-center overflow-hidden pt-[70px]"
+      className="bg-hero relative -mt-[70px] flex min-h-[calc(100vh-70px)] items-center overflow-hidden pt-[70px]"
     >
       <div className="relative z-[2] w-full">
-        <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-5 px-3 py-6 sm:gap-[30px] sm:px-6 md:grid-cols-2 md:gap-10 lg:px-8 lg:py-[58px]">
+        <div className="page-container grid grid-cols-1 gap-5 py-6 [--content-width:75rem] max-sm:px-3 sm:gap-[30px] md:grid-cols-2 md:gap-10 lg:py-[58px]">
           <div data-visible={visible} className="reveal mt-3 lg:mt-[68px]">
             {/* The logo sits above the text on small screens. */}
             <div
