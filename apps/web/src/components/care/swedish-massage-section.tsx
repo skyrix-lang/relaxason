@@ -37,7 +37,7 @@ export function SwedishMassageSection() {
               circulation et favorise une meilleure oxygénation des muscles.
             </p>
             <div className="mb-12 rounded-md border bg-surface p-8 shadow-sm">
-              <h3 className="h4 mb-6 text-brand-700">L'Expérience</h3>
+              <h3 className="text-h3 mb-6 text-brand-700">L'Expérience</h3>
               <p className="text-body">
                 Chaque séance commence par une consultation pour déterminer vos
                 besoins spécifiques. Dans une ambiance apaisante enrichie

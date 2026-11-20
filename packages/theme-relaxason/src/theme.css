@@ -11,8 +11,7 @@
   /*
    * Type and layout (packages/ui's text-h1…, page-container, page-section).
    * Headings are in the body font, bold, with no extra letter spacing; Josefin
-   * Sans is only the site's name. The site's own heading sizes are the .h1 to
-   * .h4 classes in apps/web/src/styles.css.
+   * Sans is only the site's name.
    */
   --font-heading: var(--font-sans);
   --heading-weight: 700;

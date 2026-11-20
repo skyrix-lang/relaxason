@@ -24,7 +24,7 @@ const questions = [
 export function FaqSection() {
   return (
     <section className="bg-wash mt-12 rounded-2xl border p-6 shadow-sm sm:p-12">
-      <h2 className="h3 mb-8 text-center text-brand-700">
+      <h2 className="text-h3 mb-8 text-center text-brand-700">
         Foire Aux Questions
       </h2>
       <dl className="grid grid-cols-1 gap-5 md:grid-cols-2">

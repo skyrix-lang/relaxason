@@ -65,7 +65,7 @@ function ItemCard({ item, roomy }: { item: Item; roomy?: boolean }) {
   return (
     <div className={cn("service-card gap-6", roomy ? "p-12" : "p-6")}>
       <div className="flex h-10 items-center text-brand-500">{item.icon}</div>
-      <h4 className="h4 text-brand-700">{item.title}</h4>
+      <h4 className="text-h3 text-brand-700">{item.title}</h4>
       <p className={cn("text-body", !roomy && "text-sm")}>{item.description}</p>
     </div>
   );
@@ -91,7 +91,7 @@ export function CollectiveSoundJourneySection() {
           écouter et vous laisser porter.
         </p>
 
-        <h3 className="h3 mb-8 text-center text-brand-700">
+        <h3 className="text-h3 mb-8 text-center text-brand-700">
           Les Instruments du Voyage
         </h3>
         <div className="mb-12 grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
@@ -100,7 +100,7 @@ export function CollectiveSoundJourneySection() {
           ))}
         </div>
 
-        <h3 className="h3 mb-8 text-center text-brand-700">
+        <h3 className="text-h3 mb-8 text-center text-brand-700">
           Bienfaits du Voyage Sonore
         </h3>
         <div className="grid grid-cols-1 gap-12 md:grid-cols-3">

@@ -39,26 +39,27 @@ All in `packages/theme-relaxason/src/theme.css` (what each one does:
 | Text        | `--foreground` black for titles, `--body` grey `#495057` for running text     | the previous site's greys (Open Color)                                 |
 | Accent      | `--accent` purple `#6a3de3`                                                   | the "precautions" notice only                                          |
 | Fonts       | Source Sans 3 for text and headings (`--font-heading: var(--font-sans)`)      | Josefin Sans (`--font-display`) is only the site's name in the navbar  |
-| Headings    | weight 700, no extra tracking                                                 | the previous site's headings                                           |
+| Headings    | weight 700, no extra tracking                                                 | firm titles in the body font                                           |
 | Radius      | `0.5rem`; cards and panels use `rounded-2xl`                                  | soft, rounded shapes                                                   |
 | Layout      | content 76rem, text 65ch, sections 6rem                                       | the previous site's 1152px column and 96px section spacing             |
 | Breakpoints | `xs` 576, `sm` 768, `md` 992, `lg` 1200, `xl` 1408                            | the previous site's                                                    |
 
 ## Type
 
-The site's pages keep the previous site's heading scale, the classes in
-`apps/web/src/styles.css`, not the kit's `text-h1`… (whose sizes differ):
+Headings use the kit's scale (`packages/ui/src/styles.css`), sized by role,
+not by tag:
 
-- `.h1` 34px: a page's title, through `<SectionTitle as="h1">`.
-- `.h2` 26px: section titles, through `<SectionTitle>` (teal, weight 600, a
-  gradient rule under its first 60%) or `<IconTitle>` (the same, with an icon
-  beside it).
-- `.h3` 22px and `.h4` 18px: titles inside a section, cards and panels, in
-  `text-brand-700`.
-- The home hero's `h1` is 40px (`text-[2.5rem]`), black with its second line
+- `text-h1` (30px, 48px from `sm`): the home hero's title (black, its second
+  line in `text-brand-700`) and the page titles of `/soins` and `/contact`,
+  through `<SectionTitle as="h1">`.
+- `text-h2` (24px, 30px from `sm`): section titles, through `<SectionTitle>`
+  (teal, a gradient rule under its first 60%) or `<IconTitle>` (the same, with
+  an icon beside it); the shorter page titles of `/sonotherapie`,
+  `/mon-parcours`, sign-in and the error pages.
+- `text-h3` (18px, 20px from `sm`): titles inside a section, cards and panels,
   in `text-brand-700`.
-- `text-h2` is used by the starter's screens (sign-in); `text-h1`… are for new
-  app screens.
+- No `text-display`: at its size the hero's title wraps badly in its half of
+  the hero.
 - Running text is `text-body`, often `text-lg` for intros; secondary notes
   `text-sm`.
 
@@ -76,9 +77,8 @@ The site's pages keep the previous site's heading scale, the classes in
   teal gradient (`bg-hero`) with the mountain line under it (`hero-wave`), the
   logo, and two buttons; a text-and-round-photo intro; four benefit cards on a
   wash (`bg-benefits`); two service cards; a testimonials carousel; a
-  dark-teal call to action (`bg-cta`) with a white button. The intro, services
-  and call to action span the full width on wide screens
-  (`[--content-width:none]`); the hero and benefits keep the column.
+  dark-teal call to action (`bg-cta`) with a white button. Every section keeps
+  its content in the one 1152px column; backgrounds span the full width.
 - **Treatment sections** (`apps/web/src/components/care/`, one per treatment,
   with its anchor): photo and text side by side from `md`, the text first on
   small screens; `IconTitle`; panels with a wash (`sono-section`, `bg-wash`,

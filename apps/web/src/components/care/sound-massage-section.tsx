@@ -57,7 +57,7 @@ export function SoundMassageSection() {
           </div>
         </div>
 
-        <h3 className="h3 mt-[59px] mb-6 text-brand-700">
+        <h3 className="text-h3 mt-[59px] mb-6 text-brand-700">
           Bienfaits du Massage Sonore
         </h3>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">

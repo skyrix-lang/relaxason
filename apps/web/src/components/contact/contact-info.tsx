@@ -26,7 +26,7 @@ function Detail({
 export function ContactInfo() {
   return (
     <div className="bg-wash-reverse flex h-full flex-col rounded-2xl border p-6 shadow-md sm:p-12">
-      <h2 className="h3 mb-12 text-brand-700">Informations de Contact</h2>
+      <h2 className="text-h3 mb-12 text-brand-700">Informations de Contact</h2>
 
       <div className="flex flex-col gap-8">
         <Detail

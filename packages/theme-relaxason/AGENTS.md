@@ -11,6 +11,5 @@ Besides colours, `src/theme.css` sets the type and layout tokens that
 Sans 3), `--heading-weight` (700), `--heading-tracking` (none),
 `--content-width` (76rem: the previous site's 1152px column plus the
 container's gutters), `--prose-width` (65ch) and `--section-space` (6rem).
-They are set to keep the previous site's look: change them only when asked,
-and update `docs/design.md`. `--font-display` (Josefin Sans) is only the
-site's name in the navbar.
+Change them only when asked, and update `docs/design.md`. `--font-display`
+(Josefin Sans) is only the site's name in the navbar.

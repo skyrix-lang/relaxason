@@ -116,7 +116,7 @@ export function BodyReconnectionSeminarSection() {
           </div>
 
           <div className="mt-12 rounded-md border bg-surface p-8">
-            <h3 className="h4 mb-6 text-brand-700">Vos intervenants</h3>
+            <h3 className="text-h3 mb-6 text-brand-700">Vos intervenants</h3>
 
             <div className="mb-3 flex items-center gap-3">
               <p className="font-semibold text-body">Laura RICCIARDELLI</p>

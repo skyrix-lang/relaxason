@@ -159,7 +159,7 @@ export function PricingSection() {
                     {card.icon}
                   </span>
                 </div>
-                <h3 className="h3 text-center text-[1.5rem] text-brand-700">
+                <h3 className="text-h3 text-center text-brand-700">
                   {card.title}
                 </h3>
               </div>
