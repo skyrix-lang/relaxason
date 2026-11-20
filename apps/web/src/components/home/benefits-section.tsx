@@ -29,8 +29,11 @@ const benefits: { icon: ReactNode; title: string; text: string }[] = [
 
 export function BenefitsSection() {
   return (
-    <Reveal id="benefits" className="bg-benefits -mx-6 scroll-mt-[100px] py-20">
-      <div className="mx-auto max-w-[1200px] px-6">
+    <Reveal
+      id="benefits"
+      className="bg-benefits page-section scroll-mt-[100px] [--section-space:5rem]"
+    >
+      <div className="page-container [--content-width:75rem] max-sm:px-6 lg:px-6">
         <div className="mb-12 text-center">
           <SectionTitle className="[--rule-left:20%]">
             Les Bienfaits

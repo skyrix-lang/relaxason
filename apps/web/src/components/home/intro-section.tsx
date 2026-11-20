@@ -7,8 +7,8 @@ import { SectionTitle } from "../section-title";
 
 export function IntroSection() {
   return (
-    <Reveal id="intro" className="scroll-mt-[100px] py-24">
-      <div className="grid grid-cols-1 items-center gap-[60px] md:grid-cols-2">
+    <Reveal id="intro" className="page-section scroll-mt-[100px]">
+      <div className="page-container grid grid-cols-1 items-center gap-[60px] [--content-width:none] max-sm:px-6 lg:px-6 md:grid-cols-2">
         <div className="hidden sm:block max-md:order-2">
           <img
             src={outils}

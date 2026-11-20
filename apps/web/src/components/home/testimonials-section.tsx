@@ -125,7 +125,7 @@ export function TestimonialsSection() {
       ref={ref}
       id="testimonials"
       data-visible={visible}
-      className="reveal scroll-mt-[90px]"
+      className="reveal page-container scroll-mt-[90px] max-sm:px-6"
     >
       <div className="testimonial-container mx-auto max-w-[960px] px-6 py-12">
         <div className="text-center">

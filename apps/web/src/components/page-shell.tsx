@@ -1,14 +1,15 @@
 import type { ReactNode } from "react";
 
-/** The frame of every page except the home page: a centred, padded column. */
+/**
+ * The column of every page except the home page, inside the route's
+ * `<section className="page-section sm:[--section-space:6.5rem]">` >
+ * `page-container`: the previous site's extra side space below 1200px, and
+ * its minimum height.
+ */
 export function PageShell({ children }: { children: ReactNode }) {
   return (
-    <div className="relative w-full py-[72px]">
-      <div className="relative z-[1] mx-auto flex min-h-[70vh] w-full max-w-[1320px] flex-col">
-        <div className="mx-auto w-full max-w-[1200px] bg-background px-4 py-6 sm:px-6 sm:py-8">
-          {children}
-        </div>
-      </div>
+    <div className="min-h-[calc(70vh-3rem)] px-6 sm:min-h-[calc(70vh-4rem)] lg:px-0">
+      {children}
     </div>
   );
 }
