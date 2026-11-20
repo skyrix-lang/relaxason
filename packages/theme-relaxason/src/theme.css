@@ -3,6 +3,8 @@
  * (packages/ui/src/styles.css) and the site's own (apps/web/src/styles.css).
  */
 :root {
+  /* Vertical space of a page-section: the previous site's 72px. */
+  --section-space: 4.5rem;
   --font-sans: "Source Sans 3", Helvetica, sans-serif;
   /* The site's name in the header. */
   --font-display: "Josefin Sans", sans-serif;

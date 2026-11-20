@@ -49,7 +49,7 @@ function SignInPage() {
       <div className="max-w-sm mx-auto py-8">
         <Card className="space-y-6">
           <div className="text-center">
-            <h1 className="text-2xl font-bold">{t("signIn.title")}</h1>
+            <h1 className="text-h2">{t("signIn.title")}</h1>
             <p className="text-sm text-muted-foreground mt-1">
               {t("signIn.text")}
             </p>
