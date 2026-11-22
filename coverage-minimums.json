@@ -1,1 +1,6 @@
-{ "statements": 45, "branches": 46, "functions": 34, "lines": 46 }
+{
+  "statements": 89,
+  "branches": 78,
+  "functions": 90,
+  "lines": 93
+}
