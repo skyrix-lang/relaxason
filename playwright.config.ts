@@ -2,6 +2,7 @@ import { resolve } from "node:path";
 import { defineConfig, devices } from "@playwright/test";
 import { SIGNED_IN_STATE } from "./e2e/auth-state";
 import { databaseNames, e2ePort } from "./scripts/checkout";
+import { BFF_DIR } from "./scripts/coverage-options";
 
 // Each checkout, such as an agent's git worktree, gets its own port and test
 // database, so test runs in different checkouts can happen at once.
@@ -57,6 +58,10 @@ const screens = {
   testIgnore: ["api.spec.ts", "auth.setup.ts"],
   dependencies: ["setup"],
 };
+
+// Set on the server's command only: on process.env, every Node process of
+// the run (Playwright, its workers, the build) would write coverage too.
+const coverEnv = process.env.E2E_COVERAGE ? `NODE_V8_COVERAGE=${BFF_DIR} ` : "";
 
 export default defineConfig({
   testDir: "./e2e",
@@ -118,11 +123,15 @@ export default defineConfig({
       reuseExistingServer: false,
     },
     {
-      command:
-        "yarn db:up && yarn keycloak:up && yarn tsx e2e/reset-database.ts && yarn build && yarn start",
+      // `yarn test:coverage`: the server, and only it, writes which of its
+      // code ran when it stops (scripts/coverage.ts merges it).
+      command: `yarn db:up && yarn keycloak:up && yarn tsx e2e/reset-database.ts && yarn build && ${coverEnv}yarn start`,
       url: `${BASE_URL}/api/health`,
       timeout: 240_000,
       reuseExistingServer: false,
+      // Stopped like Docker stops it, so it exits by itself (and writes its
+      // coverage under E2E_COVERAGE) instead of being killed.
+      gracefulShutdown: { signal: "SIGTERM", timeout: 10_000 },
     },
   ],
 });
