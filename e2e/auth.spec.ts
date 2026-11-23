@@ -81,8 +81,13 @@ test.describe("own session", () => {
     await page.goto("/auth/login");
     await logInOnKeycloak(page, KEYCLOAK_USERS.grace);
     await expect(page).toHaveURL("/");
+    // Loaded, so signing out doesn't interrupt the page as it starts.
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
 
-    // Signing out is a form post; no screen offers it yet.
+    // Signing out is a form post; no screen offers it yet. It goes through
+    // Keycloak and back to "/", where the page already is: wait for the new
+    // page, then for the app to have started on it.
+    const reloaded = page.waitForEvent("load");
     await page.evaluate(() => {
       const form = document.createElement("form");
       form.method = "post";
@@ -90,8 +95,10 @@ test.describe("own session", () => {
       document.body.append(form);
       form.submit();
     });
+    await reloaded;
 
     await expect(page).toHaveURL("/");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     const me = await (await page.request.get("/api/me")).json();
     expect(me).toEqual({ user: null });
     // Keycloak asks for the password again: its own session ended as well.

@@ -47,9 +47,8 @@ only logged by the BFF.
   BFF on its own port and database. A fake SMTP server (`e2e/smtp-stub.ts`) receives
   the emails, so the contact form is tested through to the email's content.
   Every test also fails on a browser console error, or on an axe accessibility
-  violation (WCAG 2.2 AA) on the page it ends on, colour contrast included (in
-  Chromium and WebKit: Firefox crashes under axe, see `docs/decisions.md`).
-  Most tests sign in by writing
+  violation (WCAG 2.2 AA) on the page it ends on, colour contrast included (in Chromium and WebKit:
+  Firefox crashes under axe, see `docs/decisions.md`). Most tests sign in by writing
   a session row; `e2e/auth.spec.ts` drives the real Keycloak login.
 
 ## CI
