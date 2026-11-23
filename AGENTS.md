@@ -126,7 +126,8 @@ databases.
   link.
 - Accessibility is a requirement (WCAG 2.2 AA, European Accessibility Act):
   labelled controls, one `h1`, no skipped heading levels, visible focus. Every
-  e2e test runs axe on the page it ends on, colour contrast included: teal
+  e2e test runs axe on the page it ends on (not in Firefox, which crashes
+  under it: `docs/decisions.md`), colour contrast included: teal
   text and anything under white text use `brand-700` or darker; the lighter
   teals are for decoration only.
 

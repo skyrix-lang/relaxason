@@ -87,8 +87,8 @@ export const test = base.extend<{
       // form field that had focus, the consent banner). chromium and webkit
       // check the same pages; see docs/decisions.md.
       if (browserName === "firefox") return;
-      // a colour or opacity still changing (a theme switch, a link just made
-      // active, a toast fading in) fails contrast midway: check once it ends.
+      // a colour or opacity still changing (a link just made active, a toast
+      // fading in) fails contrast midway: check once it ends.
       // endless ones (a spinner) never end, so they aren't waited for.
       await page.evaluate(() =>
         Promise.all(
