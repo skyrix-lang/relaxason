@@ -11,15 +11,18 @@ import {
 // apps/bff/src/users.ts: a user created ahead of their first sign-in (by
 // `yarn dev:session`, or by email in advance) is linked to their identity, but
 // only when the provider has verified the email. Each case uses its own
-// Keycloak user, and runs once: the first sign-in is the one that links.
+// Keycloak user, and runs once, in one browser (the nightly runs three): the
+// first sign-in is the one that links.
 test.describe.configure({ mode: "serial" });
 test.use(signedOut);
 
 test("a verified email links to the existing user", async ({
   page,
-  isMobile,
-}) => {
-  test.skip(isMobile, "the first sign-in links; run it once");
+}, testInfo) => {
+  test.skip(
+    testInfo.project.name !== "desktop",
+    "the first sign-in links; run it once",
+  );
   const { email } = KEYCLOAK_USERS.linus;
   await createUserWithoutIdentity(email);
 
@@ -34,9 +37,11 @@ test("a verified email links to the existing user", async ({
 
 test("an unverified email doesn't take over someone's account", async ({
   page,
-  isMobile,
-}) => {
-  test.skip(isMobile, "the first sign-in links; run it once");
+}, testInfo) => {
+  test.skip(
+    testInfo.project.name !== "desktop",
+    "the first sign-in links; run it once",
+  );
   const { email } = KEYCLOAK_USERS.mallory;
   await createUserWithoutIdentity(email);
 
