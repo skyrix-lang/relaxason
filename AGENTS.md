@@ -83,7 +83,8 @@ databases.
 - `yarn api:generate` after changing an API route. `yarn setup`, `yarn dev`,
   `yarn db:generate`, `yarn db:migrate`, `yarn dev:session` (sign in locally).
 - `yarn sync-from-starter` (in a project made from the starter) merges in
-  the starter's changes since `.starter.json`; Renovate updates versions. Run
+  the starter's changes since `.starter.json`, majors included; Renovate
+  updates the other versions. Run
   it only when asked, and see `docs/starter-sync.md`.
 - A new project from the starter (repository, secrets, auto-merge, Renovate):
   follow `docs/new-project.md`, stopping at each step marked **You**.
